@@ -1,57 +1,87 @@
-Myapp::Application.routes.draw do
-  get "home/index"
-  get "home/minor"
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+#   root to: 'home#index'
+#   get "home/index"
+#   get "home/minor"
 
-  # You can have the root of your site routed with "root"
-root to: 'home#index'
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+# Rails.application.routes.draw do
+Kribi::Application.routes.draw do
+  # Web
+  root({
+    to: 'static_pages#home',
+    as: :home
+  })
+  post 'register_web', {
+    to: 'static_pages#register_web',
+    as: :register_web
+  }
+  post 'login_web', {
+    to: 'static_pages#login_web',
+    as: :login_web
+  }
+  get 'logout_web', {
+    to: 'static_pages#logout_web',
+    as: :logout_web
+  }
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  # JSON
+  post 'register_json', {
+    to: 'static_pages#register_json',
+    as: :register_json
+  }
+  post 'login_json', {
+    to: 'static_pages#login_json',
+    as: :login_json
+  }
+  get 'logout_json', {
+    to: 'static_pages#logout_json',
+    as: :logout_json
+  }
 
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+  [
+    :engine_energy_readings_batch,
+    :chromatograph_readings_batch,
+    :feeder_readings_batch,
+    :transformer_readings_batch,
+    :substation_readings_batch,
+    :gas_pressure_reducing_station_readings_batch,
+    :engine_gas_readings_batch,
+    :plant_light_fuel_oil_readings_batch,
+    :engine_light_fuel_oil_readings_batch,
+    :weather_readings_batch,
+    :plant_gross_capacity_readings_batch,
+    :plant_reference_condition_readings_batch,
+    :plant_declared_capacity_readings_batch,
+    :gas_nomination_readings_batch,
+    :engine_emission_readings_batch,
+    :engine_running_time_readings_batch,
+    :engine_cooling_water_dispensing_events_batch
+  ].each do |resource_name|
+    resources resource_name do
+      collection do
+        get 'batch_show'
+        post 'batch_update'
+        post 'batch_elevate'
+      end
+    end
+  end
 
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+  [
+    :engine_cooling_water_dispensing_events,
+    :engine_start_events,
+    :engine_status_change_events,
+    :engine_trip_events,
+    :new_oil_tank_dispensing_events,
+    :new_oil_tank_receiving_events,
+    :service_oil_tank_dispensing_events,
+    :service_oil_tank_receiving_events
+  ].each do |resource_name|
+    resources resource_name do
+      collection do
+        get 'editor'
+        post 'editor'
+        # get 'metadata'
+        # get 'parents'
+        # get 'search'
+      end
+    end
+  end
 end
