@@ -13,7 +13,8 @@ class PlantGrossCapacityReadingsBatchController < AbstractBatchController
         builder: :text_field,
         attribute: :output_capacity,
         type: :numeric,
-        class: 'form-control'
+        class: 'form-control',
+        custom_name: ''
       }
     ]
   end

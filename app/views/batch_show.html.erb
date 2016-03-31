@@ -4,7 +4,7 @@
   <table class="table table-hover batch-readings">
     <thead>
       <tr>
-        <th>Hour</th>
+        <th>Time</th>
         <% parents.each do |parent| %>
           <th><%= parent.id %></th>
         <% end %>
@@ -13,11 +13,14 @@
     <tbody>
       <% if previous_day_children.any? %>
         <% previous_day_children.each_with_index do |child, index| %>
-          <% if child.target_datetime != children[index-1].target_datetime %>
+          <% start_of_row = (child.target_datetime != previous_day_children[index-1].target_datetime) || ((index == 0) && (previous_day_children.length == parents.length)) %>
+          <% end_of_row   = ((index % parents.length) == (parents.length-1)) %>
+
+          <% if start_of_row %>
             <tr>
               <th scope="row">
                 <div class='form-group'>
-                  <p><%= child.target_datetime.hour %></p>
+                  <p><%= child.target_datetime.strftime("%H:%M") %></p>
                 </div>
               </th>
           <% end %>
@@ -25,7 +28,7 @@
                 <div class="form-group">
                   <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
                     <% children_attributes.each do |options| %>
-                      <%= label_tag(options[:attribute]) %>
+                      <%= label_tag(options[:custom_name] || options[:attribute]) %>
                       <% options[:disabled] = child.APPROVED? %>
                       <% case options[:builder] %>
                       <% when :text_field %>
@@ -39,18 +42,21 @@
                   <% end %>
                 </div>
               </td>
-          <% if (((index+1) % parents.length) == (parents.length)) %>
+          <% if end_of_row%>
             </tr>
           <% end %>
         <% end %>
       <% end %>
 
       <% children.each_with_index do |child, index| %>
-        <% if child.target_datetime != children[index-1].target_datetime %>
+        <% start_of_row = (child.target_datetime != children[index-1].target_datetime) || ((index == 0) && (children.length == parents.length)) %>
+        <% end_of_row   = ((index % parents.length) == (parents.length-1)) %>
+
+        <% if start_of_row %>
           <tr>
             <th scope="row">
               <div class='form-group'>
-                <p><%= child.target_datetime.hour %></p>
+                <p><%= child.target_datetime.strftime("%H:%M") %></p>
               </div>
             </th>
         <% end %>
@@ -58,7 +64,7 @@
               <div class="form-group">
                 <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
                   <% children_attributes.each do |options| %>
-                    <%= label_tag(options[:attribute], nil, class: (options[:class] =~ /reset-toggleable/ ? 'reset-toggleable' : '')) %>
+                    <%= label_tag((options[:custom_name] || options[:attribute]), nil, class: (options[:class] =~ /reset-toggleable/ ? 'reset-toggleable' : '')) %>
                     <% options[:disabled] = child.APPROVED? %>
                     <% case options[:builder] %>
                     <% when :text_field %>
@@ -72,7 +78,7 @@
                 <% end %>
               </div>
             </td>
-        <% if (((index+1) % parents.length) == (parents.length)) %>
+        <% if end_of_row %>
           </tr>
         <% end %>
       <% end %>

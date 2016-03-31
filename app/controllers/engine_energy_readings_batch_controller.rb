@@ -13,7 +13,8 @@ class EngineEnergyReadingsBatchController < AbstractBatchController
         builder: :text_field,
         attribute: :counter_value,
         type: :numeric,
-        class: 'form-control'
+        class: 'form-control',
+        custom_name: ''
       },
       {
         builder: :text_field,

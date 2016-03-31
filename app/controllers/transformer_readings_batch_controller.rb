@@ -14,6 +14,7 @@ class TransformerReadingsBatchController < AbstractBatchController
         attribute: :transmitting_counter_value,
         type: :numeric,
         class: 'form-control',
+        custom_name: :transmitting
       },
       {
         builder: :text_field,
@@ -33,6 +34,7 @@ class TransformerReadingsBatchController < AbstractBatchController
         attribute: :receiving_counter_value,
         type: :numeric,
         class: 'form-control',
+        custom_name: :receiving
       },
       {
         builder: :text_field,

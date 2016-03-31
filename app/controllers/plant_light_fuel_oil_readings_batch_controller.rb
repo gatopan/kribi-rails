@@ -13,7 +13,8 @@ class PlantLightFuelOilReadingsBatchController < AbstractBatchController
         builder: :text_field,
         attribute: :inlet_hall_a_counter_value,
         type: :numeric,
-        class: 'form-control'
+        class: 'form-control',
+        custom_name: :inlet_hall_a
       },
       {
         builder: :text_field,
@@ -32,7 +33,8 @@ class PlantLightFuelOilReadingsBatchController < AbstractBatchController
         builder: :text_field,
         attribute: :inlet_hall_b_counter_value,
         type: :numeric,
-        class: 'form-control'
+        class: 'form-control',
+        custom_name: :inlet_hall_b
       },
       {
         builder: :text_field,
@@ -51,7 +53,8 @@ class PlantLightFuelOilReadingsBatchController < AbstractBatchController
         builder: :text_field,
         attribute: :outlet_counter_value,
         type: :numeric,
-        class: 'form-control'
+        class: 'form-control',
+        custom_name: :outlet
       },
       {
         builder: :text_field,

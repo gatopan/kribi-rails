@@ -14,6 +14,7 @@ class EngineRunningTimeReadingsBatchController < AbstractBatchController
         attribute: :counter_value,
         type: :numeric,
         class: 'form-control',
+        custom_name: ''
       },
       {
         builder: :text_field,
