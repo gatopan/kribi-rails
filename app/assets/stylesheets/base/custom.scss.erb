@@ -1,0 +1,43 @@
+/* Only demo */
+@media (max-width: 1000px) {
+  .welcome-message {
+    display: none;
+  }
+}
+
+#page-wrapper {
+  overflow: scroll;
+}
+
+.heart {
+  display: inline-block;
+  margin-top: 3px;
+  margin-right: 2px;
+  width: 11px;
+  height: 11px;
+  vertical-align: top;
+  background-size: 11px 11px;
+  background-repeat: no-repeat;
+  background-image:url(<%= asset_data_uri 'heart@2x.png' %>);
+  transition-property: all!important;
+  transition-duration: .3s!important;
+}
+
+.form-group {
+  label {
+    display: block;
+    text-align: right;
+    clear:both;
+  }
+  input {
+    max-width: 400px;
+    float:right;
+    clear:both;
+  }
+  .form-control {
+    padding: 7px !important;
+    font-size: 11px !important;
+    text-align: right;
+  }
+}
+

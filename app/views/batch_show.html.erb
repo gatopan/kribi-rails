@@ -1,0 +1,98 @@
+<h5>Show reset/offset options: <input type="checkbox" name="showResetOptions" id="toggle-reset"></h5>
+
+<%= form_tag(controller: params[:controller], action: 'batch_update') do %>
+  <table class="table table-hover batch-readings">
+    <thead>
+      <tr>
+        <th>Hour</th>
+        <% parents.each do |parent| %>
+          <th><%= parent.id %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% if previous_day_children.any? %>
+        <% previous_day_children.each_with_index do |child, index| %>
+          <% if child.target_datetime != children[index-1].target_datetime %>
+            <tr>
+              <th scope="row">
+                <div class='form-group'>
+                  <p><%= child.target_datetime.hour %></p>
+                </div>
+              </th>
+          <% end %>
+              <td>
+                <div class="form-group">
+                  <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
+                    <% children_attributes.each do |options| %>
+                      <%= label_tag(options[:attribute]) %>
+                      <% options[:disabled] = child.APPROVED? %>
+                      <% case options[:builder] %>
+                      <% when :text_field %>
+                        <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.merge(disabled: :disabled)) %>
+                      <% when :select %>
+                        <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.delete(:possible_values), options.merge(disabled: :disabled)) %>
+                      <% else %>
+                        <% raise StandardError.new('Builder type for form not implemented') %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </td>
+          <% if (((index+1) % parents.length) == (parents.length)) %>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% children.each_with_index do |child, index| %>
+        <% if child.target_datetime != children[index-1].target_datetime %>
+          <tr>
+            <th scope="row">
+              <div class='form-group'>
+                <p><%= child.target_datetime.hour %></p>
+              </div>
+            </th>
+        <% end %>
+            <td>
+              <div class="form-group">
+                <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
+                  <% children_attributes.each do |options| %>
+                    <%= label_tag(options[:attribute], nil, class: (options[:class] =~ /reset-toggleable/ ? 'reset-toggleable' : '')) %>
+                    <% options[:disabled] = child.APPROVED? %>
+                    <% case options[:builder] %>
+                    <% when :text_field %>
+                      <%= child_form.send(options.delete(:builder), options.delete(:attribute), options) %>
+                    <% when :select %>
+                      <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.delete(:possible_values), options) %>
+                    <% else %>
+                      <% raise StandardError.new('Builder type for form not implemented') %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </div>
+            </td>
+        <% if (((index+1) % parents.length) == (parents.length)) %>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  <p>Current statuses: <b><%= @children.map(&:status).uniq %></b></p>
+  <p>Current role: <b><%= current_person.role %></b></p>
+  <p>Target day: <b><%= target_day.strftime("%Y-%m-%d") %></b></p>
+  <p><%= submit_tag("Update") %></p>
+<% end %>
+
+<%= form_tag(controller: params[:controller], action: 'batch_elevate') do |form| %>
+  <%= select_tag(:status, options_for_select(current_person.allowed_statuses)) %>
+  <p><%= submit_tag('Change Status') %></p>
+<% end %>
+
+<script>
+  $(".reset-toggleable").toggle();
+
+  $( "#toggle-reset" ).on("click", {}, function(){
+      $(".reset-toggleable").toggle();
+  });
+</script>

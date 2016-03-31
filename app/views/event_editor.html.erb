@@ -1,0 +1,214 @@
+<ul class="nav nav-tabs parents" style="text-align: center">
+  <% @parents.each do |parent| %>
+    <li class="parent <%= (@current_parent == parent) ? 'active' : '' %>" role="presentation">
+      <a href="?<%= @metadata.fetch(:parent_column_name) %>=<%= parent.id %>&offset=0&limit=<%= @metadata.fetch(:pagination_upper_limit) %>&sort_order=desc&sort_by=id"><%= parent.id %></a>
+    </li>
+  <% end %>
+</ul>
+<br>
+<div class="children row">
+  <% if @children.any? %>
+    <h3>Update existing records</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <% @metadata.fetch(:attributes).each do |attribute| %>
+            <th><%= attribute.fetch(:name) %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <!--   ng&#45;change="update(child, element)" -->
+      <tbody>
+        <% @children.each do |previous_child| %>
+          <tr>
+            <% @metadata.fetch(:attributes).each do |attribute| %>
+              <td>
+                <!-- Input Builder -->
+                <!-- TODO: migrate to directive -->
+                <div
+                  class="input-group input-group-sm <%=(attribute.fetch(:type) === 'datetime') ? 'date' : ''%>"
+                >
+                  <% case attribute.fetch(:type) %>
+                  <% when :integer %>
+                    <!-- ng-model="child[attribute.name]" -->
+                    <!-- TODO: move style out of here -->
+                    <input
+                      <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                      style='min-width: 45px;'
+                      type='text'
+                      class='form-control'
+                      value='<%= previous_child.send(attribute.fetch(:name)) %>'
+                    />
+                  <% when :enum %>
+                    <!-- ng-model="child[attribute.name]" -->
+                    <select
+                      <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                    >
+                      <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
+                        <option
+                          <%= previous_child.send(attribute.fetch(:name)) == possible_value ? 'selected' : '' %>
+                        ><%= possible_value %></option>
+                      <% end %>
+                    </select>
+                  <% when :belongs_to %>
+                    <!-- ng-model="child[attribute.name]" -->
+                    <select
+                      <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                    >
+                      <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
+                        <option
+                          <%= previous_child.send(attribute.fetch(:name)) == possible_value ? 'selected' : '' %>
+                        ><%= possible_value %></option>
+                      <% end %>
+                    </select>
+                  <% when :float %>
+                    <!-- ng-model="child[attribute.name]" -->
+                    <!-- ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" -->
+                    <!-- smart-float -->
+                    <input
+                      <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                      type="number"
+                      class="form-control"
+                      placeholder="Enter value"
+                      step="0.01"
+                      value="<%= previous_child.send(attribute.fetch(:name)) %>"
+                    />
+                  <% when :text %>
+                    <!-- ng-model="child[attribute.name]" -->
+                    <textarea
+                      <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                      class="form-control"
+                      rows="20"
+                    ><%= previous_child.send(attribute.fetch(:name)) %></textarea>
+                  <% when :datetime %>
+                    <!-- ng-model="child[attribute.name]" -->
+                    <!-- datetimepicker-initializer -->
+                    <input
+                      <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                      type='text'
+                      class="form-control"
+                      value="<%= previous_child.send(attribute.fetch(:name)) %>"
+                    />
+                    <span
+                      class="input-group-addon"
+                      >
+                      <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  <% else %>
+                    <% raise StandardError.new("Unrecognized input type: #{attribute.fetch(:type)}") %></p>
+                  <% end %>
+                </div>
+              </td>
+            <% end %>
+            <td>
+              <!-- <button ng-click="save(child)"> -->
+              <button>Create</button>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+  <h3>Create new record</h3>
+  <form action="<% request.path %>" method="POST" >
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <% @metadata.fetch(:attributes).each do |attribute| %>
+            <th><%= attribute.fetch(:name) %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <% @metadata.fetch(:attributes).each do |attribute| %>
+            <td>
+              <!-- Input Builder -->
+              <!-- TODO: migrate to directive -->
+              <div class="input-group input-group-sm">
+                <% case attribute.fetch(:type) %>
+                <% when :integer %>
+                  <!-- ng-model="child[attribute.name]" -->
+                  <!-- TODO: move style out of here -->
+                  <input
+                    <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                    value='<%= @children_instance.send(attribute.fetch(:name)) %>'
+                    name="<%= attribute.fetch(:name) %>"
+                    style='min-width: 45px;'
+                    type='text'
+                    class='form-control'
+                  />
+                <% when :enum %>
+                  <!-- ng-model="child[attribute.name]" -->
+                  <select
+                    <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                    name="<%= attribute.fetch(:name) %>"
+                  >
+                    <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
+                      <option
+                      <%= (possible_value == @children_instance.send(attribute.fetch(:name))) ? 'selected' : '' %>
+                      ><%= possible_value %></option>
+                    <% end %>
+                  </select>
+                <% when :belongs_to %>
+                  <!-- ng-model="child[attribute.name]" -->
+                  <select
+                    <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                    name="<%= attribute.fetch(:name) %>"
+                  >
+                    <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
+                      <option
+                      <%= (possible_value == @children_instance.send(attribute.fetch(:name))) ? 'selected' : '' %>
+                      ><%= possible_value %></option>
+                    <% end %>
+                  </select>
+                <% when :float %>
+                  <!-- ng-model="child[attribute.name]" -->
+                  <!-- ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" -->
+                  <!-- smart-float -->
+                  <input
+                    <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                    name="<%= attribute.fetch(:name) %>"
+                    value='<%= @children_instance.send(attribute.fetch(:name)) %>'
+                    type="number"
+                    class="form-control"
+                    placeholder="Enter value"
+                    step="0.01"
+                  />
+                <% when :text %>
+                  <!-- ng-model="child[attribute.name]" -->
+                  <textarea
+                    <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                    name="<%= attribute.fetch(:name) %>"
+                    class="form-control"
+                    rows="20"
+                  >
+                    <%= @children_instance.send(attribute.fetch(:name)) %>
+                  </textarea>
+                <% when :datetime %>
+                  <!-- ng-model="child[attribute.name]" -->
+                  <!-- datetimepicker-initializer -->
+                  <input
+                    <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                    name="<%= attribute.fetch(:name) %>"
+                    value='<%= @children_instance.send(attribute.fetch(:name)) %>'
+                    type='text'
+                    class="form-control"
+                  />
+                  <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+                <% else %>
+                  <% raise StandardError.new("Unrecognized input type: #{attribute.fetch(:type)}") %></p>
+                <% end %>
+              </div>
+            </td>
+          <% end %>
+          <td>
+            <button>Create</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>

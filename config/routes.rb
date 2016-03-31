@@ -23,18 +23,18 @@ Kribi::Application.routes.draw do
   }
 
   # JSON
-  post 'register_json', {
-    to: 'static_pages#register_json',
-    as: :register_json
-  }
-  post 'login_json', {
-    to: 'static_pages#login_json',
-    as: :login_json
-  }
-  get 'logout_json', {
-    to: 'static_pages#logout_json',
-    as: :logout_json
-  }
+  # post 'register_json', {
+  #   to: 'static_pages#register_json',
+  #   as: :register_json
+  # }
+  # post 'login_json', {
+  #   to: 'static_pages#login_json',
+  #   as: :login_json
+  # }
+  # get 'logout_json', {
+  #   to: 'static_pages#logout_json',
+  #   as: :logout_json
+  # }
 
   [
     :engine_energy_readings_batch,
@@ -52,8 +52,7 @@ Kribi::Application.routes.draw do
     :plant_declared_capacity_readings_batch,
     :gas_nomination_readings_batch,
     :engine_emission_readings_batch,
-    :engine_running_time_readings_batch,
-    :engine_cooling_water_dispensing_events_batch
+    :engine_running_time_readings_batch
   ].each do |resource_name|
     resources resource_name do
       collection do
