@@ -6,7 +6,7 @@
       <tr>
         <th>Time</th>
         <% parents.each do |parent| %>
-          <th><%= parent.id %></th>
+          <th><%= "#{parent_model.to_s.humanize} #{parent.id}" %></th>
         <% end %>
       </tr>
     </thead>
