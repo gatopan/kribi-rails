@@ -1,99 +1,114 @@
-<h5>Show reset/offset options: <input type="checkbox" name="showResetOptions" id="toggle-reset"></h5>
+<div class='row'>
+  <div class='col-md-4 text-left'>
+    <h2><%= children_model.table_name.titleize %></h2>
+  </div>
+  <div class='col-md-4 text-center'>
+    <h2><%= target_day.strftime("%d/%B/%Y") %></h2>
+  </div>
+  <div class='col-md-4 text-right'>
+    <br/>
+    <h4>Show reset/offset options: <input type="checkbox" name="showResetOptions" id="toggle-reset"></h4>
+  </div>
+  <div class='col-md-12'>
+    <br />
+  </div>
+  <div class='col-md-12'>
+    <%= form_tag(controller: params[:controller], action: 'batch_update') do %>
+      <table class="table table-hover batch-readings">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <% parents.each do |parent| %>
+              <th><%= "#{parent_model.to_s.humanize} #{parent.id}" %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% if previous_day_children.any? %>
+            <% previous_day_children.each_with_index do |child, index| %>
+              <% start_of_row = (child.target_datetime != previous_day_children[index-1].target_datetime) || ((index == 0) && (previous_day_children.length == parents.length)) %>
+              <% end_of_row   = ((index % parents.length) == (parents.length-1)) %>
 
-<%= form_tag(controller: params[:controller], action: 'batch_update') do %>
-  <table class="table table-hover batch-readings">
-    <thead>
-      <tr>
-        <th>Time</th>
-        <% parents.each do |parent| %>
-          <th><%= "#{parent_model.to_s.humanize} #{parent.id}" %></th>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody>
-      <% if previous_day_children.any? %>
-        <% previous_day_children.each_with_index do |child, index| %>
-          <% start_of_row = (child.target_datetime != previous_day_children[index-1].target_datetime) || ((index == 0) && (previous_day_children.length == parents.length)) %>
-          <% end_of_row   = ((index % parents.length) == (parents.length-1)) %>
-
-          <% if start_of_row %>
-            <tr>
-              <th scope="row">
-                <div class='form-group'>
-                  <p><%= child.target_datetime.strftime("%H:%M") %></p>
-                </div>
-              </th>
+              <% if start_of_row %>
+                <tr>
+                  <th scope="row">
+                    <div class='form-group'>
+                      <p><%= child.target_datetime.strftime("%H:%M") %></p>
+                    </div>
+                  </th>
+              <% end %>
+                  <td>
+                    <div class="form-group">
+                      <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
+                        <% children_attributes.each do |options| %>
+                          <%= label_tag(options[:custom_name] || options[:attribute]) %>
+                          <% options[:disabled] = child.APPROVED? %>
+                          <% case options[:builder] %>
+                          <% when :text_field %>
+                            <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.merge(disabled: :disabled)) %>
+                          <% when :select %>
+                            <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.delete(:possible_values), options.merge(disabled: :disabled)) %>
+                          <% else %>
+                            <% raise StandardError.new('Builder type for form not implemented') %>
+                          <% end %>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </td>
+              <% if end_of_row%>
+                </tr>
+              <% end %>
+            <% end %>
           <% end %>
-              <td>
-                <div class="form-group">
-                  <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
-                    <% children_attributes.each do |options| %>
-                      <%= label_tag(options[:custom_name] || options[:attribute]) %>
-                      <% options[:disabled] = child.APPROVED? %>
-                      <% case options[:builder] %>
-                      <% when :text_field %>
-                        <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.merge(disabled: :disabled)) %>
-                      <% when :select %>
-                        <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.delete(:possible_values), options.merge(disabled: :disabled)) %>
-                      <% else %>
-                        <% raise StandardError.new('Builder type for form not implemented') %>
+
+          <% children.each_with_index do |child, index| %>
+            <% start_of_row = (child.target_datetime != children[index-1].target_datetime) || ((index == 0) && (children.length == parents.length)) %>
+            <% end_of_row   = ((index % parents.length) == (parents.length-1)) %>
+
+            <% if start_of_row %>
+              <tr>
+                <th scope="row">
+                  <div class='form-group'>
+                    <p><%= child.target_datetime.strftime("%H:%M") %></p>
+                  </div>
+                </th>
+            <% end %>
+                <td>
+                  <div class="form-group">
+                    <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
+                      <% children_attributes.each do |options| %>
+                        <%= label_tag((options[:custom_name] || options[:attribute]), nil, class: (options[:class] =~ /reset-toggleable/ ? 'reset-toggleable' : '')) %>
+                        <% options[:disabled] = child.APPROVED? %>
+                        <% case options[:builder] %>
+                        <% when :text_field %>
+                          <%= child_form.send(options.delete(:builder), options.delete(:attribute), options) %>
+                        <% when :select %>
+                          <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.delete(:possible_values), options) %>
+                        <% else %>
+                          <% raise StandardError.new('Builder type for form not implemented') %>
+                        <% end %>
                       <% end %>
                     <% end %>
-                  <% end %>
-                </div>
-              </td>
-          <% if end_of_row%>
-            </tr>
+                  </div>
+                </td>
+            <% if end_of_row %>
+              </tr>
+            <% end %>
           <% end %>
-        <% end %>
-      <% end %>
+        </tbody>
+      </table>
+      <p>Current statuses: <b><%= @children.map(&:status).uniq %></b></p>
+      <p>Current role: <b><%= current_person.role %></b></p>
+      <p>Target day: <b><%= target_day.strftime("%Y-%m-%d") %></b></p>
+      <p><%= submit_tag("Update") %></p>
+    <% end %>
 
-      <% children.each_with_index do |child, index| %>
-        <% start_of_row = (child.target_datetime != children[index-1].target_datetime) || ((index == 0) && (children.length == parents.length)) %>
-        <% end_of_row   = ((index % parents.length) == (parents.length-1)) %>
-
-        <% if start_of_row %>
-          <tr>
-            <th scope="row">
-              <div class='form-group'>
-                <p><%= child.target_datetime.strftime("%H:%M") %></p>
-              </div>
-            </th>
-        <% end %>
-            <td>
-              <div class="form-group">
-                <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
-                  <% children_attributes.each do |options| %>
-                    <%= label_tag((options[:custom_name] || options[:attribute]), nil, class: (options[:class] =~ /reset-toggleable/ ? 'reset-toggleable' : '')) %>
-                    <% options[:disabled] = child.APPROVED? %>
-                    <% case options[:builder] %>
-                    <% when :text_field %>
-                      <%= child_form.send(options.delete(:builder), options.delete(:attribute), options) %>
-                    <% when :select %>
-                      <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.delete(:possible_values), options) %>
-                    <% else %>
-                      <% raise StandardError.new('Builder type for form not implemented') %>
-                    <% end %>
-                  <% end %>
-                <% end %>
-              </div>
-            </td>
-        <% if end_of_row %>
-          </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
-  <p>Current statuses: <b><%= @children.map(&:status).uniq %></b></p>
-  <p>Current role: <b><%= current_person.role %></b></p>
-  <p>Target day: <b><%= target_day.strftime("%Y-%m-%d") %></b></p>
-  <p><%= submit_tag("Update") %></p>
-<% end %>
-
-<%= form_tag(controller: params[:controller], action: 'batch_elevate') do |form| %>
-  <%= select_tag(:status, options_for_select(current_person.allowed_statuses)) %>
-  <p><%= submit_tag('Change Status') %></p>
-<% end %>
+    <%= form_tag(controller: params[:controller], action: 'batch_elevate') do |form| %>
+      <%= select_tag(:status, options_for_select(current_person.allowed_statuses)) %>
+      <p><%= submit_tag('Change Status') %></p>
+    <% end %>
+  </div>
+</div>
 
 <script>
   $(".reset-toggleable").toggle();
