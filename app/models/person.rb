@@ -1,5 +1,6 @@
 class Person < ActiveRecord::Base
   has_secure_password validations: false
+  mount_uploader(:avatar, AvatarUploader)
 
   enum role: {
     GUEST: 0,

@@ -17,7 +17,8 @@
     email_confirmation: 'approver@kribi.com',
     password: 'password',
     biography: 'approver',
-    role: :APPROVER
+    role: :APPROVER,
+    avatar: File.open("./test/fixtures/sample_avatar.png")
   },
   {
     first_name: 'reviewer',
@@ -26,7 +27,8 @@
     email_confirmation: 'reviewer@kribi.com',
     password: 'password',
     biography: 'reviewer',
-    role: :REVIEWER
+    role: :REVIEWER,
+    avatar: File.open("./test/fixtures/sample_avatar.png")
   },
   {
     first_name: 'clerk',
@@ -35,7 +37,8 @@
     email_confirmation: 'clerk@kribi.com',
     password: 'password',
     biography: 'clerk',
-    role: :CLERK
+    role: :CLERK,
+    avatar: File.open("./test/fixtures/sample_avatar.png")
   }
 ].each do |attribute_set|
   Person.create!(attribute_set)

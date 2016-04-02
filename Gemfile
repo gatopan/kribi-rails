@@ -13,6 +13,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'thin'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 gem 'request_store', '1.2.0'
+gem 'carrierwave'
+gem "mini_magick"
 
 group :development, :test do
   gem 'pry-rails'
