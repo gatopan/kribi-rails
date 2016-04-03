@@ -4,7 +4,6 @@ class AbstractBatchController < ApplicationController
     :children_model,
     :children_attributes,
     :children_model_datetime_column,
-    :target_day,
     :association_name,
     :parents,
     :previous_day_target_datetimes,
@@ -34,39 +33,37 @@ class AbstractBatchController < ApplicationController
   end
 
   def batch_elevate
+    unless intended_status = params[:intended_status]
+      render_bad_request('Must submit a intended status')
+    end
+
+    unless children_model.statuses.keys.include?(intended_status)
+      render_bad_request('Must submit a valid intended status')
+    end
+
     normal_validation_result = children.all?{|child| child.valid?}
     extra_validation_result = children.all?{|child| child.valid?(:congruence)}
 
     if normal_validation_result && extra_validation_result
-      update_result = children.all? do |child|
-        child.update!(status: params[:status])
+      ActiveRecord::Base.transaction do
+        children.each do |child|
+          child.update!(status: intended_status)
+        end
       end
-    end
 
-    if update_result
-      flash[:success] = "Sucessfully updated status to #{params[:status].downcase} on all records."
+      if intended_status = 'APPROVED'
+        `rm ./public/*.xml`
+        service = Kribi::Exporter::Performer.new(:all)
+        service.perform
+      end
+
+      flash[:success] = "Sucessfully updated status to #{intended_status.downcase} on all records."
     else
       flash[:warning] = 'Some records have not yet passed validations.'
     end
 
     flash.keep
     redirect_to self.send("batch_show_#{controller_name}_index_url")
-  end
-
-  def target_day
-    return @target_day if @target_day
-    intended_day =
-      children_model.PENDING.last.try(children_model_datetime_column) ||
-      children_model.REVIEWED.last.try(children_model_datetime_column) ||
-      children_model.APPROVED.last.try(children_model_datetime_column).try(:+, 1.day) ||
-      DateTime.now
-
-    # prevent future dates
-    if intended_day > 1.day.from_now.beginning_of_day
-      children_model.APPROVED.last.try(children_model_datetime_column) || StandardError.new('There has been a problem generating the target day. Please contact support.')
-    else
-      @target_day = intended_day
-    end
   end
 
   def previous_day_target_datetimes
@@ -88,7 +85,14 @@ class AbstractBatchController < ApplicationController
       minute_number = children_model::INTERVAL_IN_MINUTES * iteration_number
       hour = minute_number / 60
       minute = minute_number % 60
-      Time.zone.local(target_day.year, target_day.month, target_day.day, hour, minute).to_datetime
+
+      Time.zone.local(
+        children_model.target_day.year,
+        children_model.target_day.month,
+        children_model.target_day.day,
+        hour,
+        minute
+      ).to_datetime
     end
   end
 

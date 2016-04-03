@@ -1,0 +1,87 @@
+<div class='export'>
+  <h2>Reports</h2>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Link</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Key Performance Indicators</td>
+        <td><%= DateTime.now.strftime("%Y-%m-%d") %></td>
+        <td class='export-button-group' >
+          <div class='btn-group btn-group-justified' role='group'>
+            <a href="<%= 'kpp_kpi_report' %>" class='btn btn-primary'>Download</a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+  <h2>Dumps</h2>
+  <hr>
+  <h3>Batches</h3>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Last Approved Date</th>
+        <th>Links</th>
+      </tr>
+    </thead>
+    <% @interval_models.each do |interval_model| %>
+      <tbody>
+        <tr>
+          <td><%= interval_model.table_name.titleize %></td>
+          <td><%= interval_model.target_day.strftime("%Y-%m-%d") %></td>
+          <td class='export-button-group' >
+            <div class='btn-group btn-group-justified' role='group'>
+              <% interval_model::EXPORTER_CONFIG.fetch(:mappings).each do |mapping| %>
+                <% type = mapping.fetch(:query).fetch(:type) %>
+                <% filename_prefix = mapping.fetch(:destination).fetch(:filename_prefix) %>
+                <% next if filename_prefix == 'kpp_kpi_report' %>
+                <% formatted_timestamp = interval_model.target_day.strftime("%Y-%m-%d") %>
+                <% filename = "#{filename_prefix}_#{formatted_timestamp}.xml" %>
+                <a href="<%= filename %>" class='btn btn-primary'>Download</a>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    <% end %>
+  </table>
+  <hr>
+  <h3>Events</h3>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Last Approved Date</th>
+        <th>Links</th>
+      </tr>
+    </thead>
+    <% @event_models.each do |event_model| %>
+      <tbody>
+        <tr>
+          <td><%= event_model.table_name.titleize %></td>
+          <td><%= event_model.target_day.strftime("%Y-%m-%d") %></td>
+          <td class='export-button-group' >
+            <div class='btn-group btn-group-justified' role='group'>
+              <% event_model::EXPORTER_CONFIG.fetch(:mappings).each do |mapping| %>
+                <% type = mapping.fetch(:query).fetch(:type) %>
+                <% filename_prefix = mapping.fetch(:destination).fetch(:filename_prefix) %>
+                <% next if filename_prefix == 'kpp_kpi_report' %>
+                <% formatted_timestamp = event_model.target_day.strftime("%Y-%m-%d") %>
+                <% filename = "#{filename_prefix}_#{formatted_timestamp}.xml" %>
+                <a href="<%= filename %>" class='btn btn-primary'>Download</a>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    <% end %>
+  </table>
+</div>

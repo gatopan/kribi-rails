@@ -4,21 +4,15 @@ module Kribi
       attr_accessor(
         :models,
         :middle_record_models,
-        :destination_type
+        :destination_type,
+        :full_paths
       )
 
-      def initialize(models = :all, destination_type = :excel)
-        self.models = (models == :all) ? all_models : models
+      def initialize(model, destination_type = :excel)
+        self.models = (model == :all) ? AbstractModel.all_children : [model]
         @middle_record_models = []
         @destination_type = destination_type
-      end
-
-      # TODO: move to root module (Kribi)
-      def all_models
-        all_models = AbstractModel.descendants
-        all_models.reject!{|model| model.abstract_class}
-        all_models.reject!{|model| model.to_s =~ /Export/}
-        all_models
+        @full_paths = []
       end
 
       def destroy_middle_records
@@ -130,7 +124,7 @@ module Kribi
                 # create empty workbook
                 # save workbook into target unless it already exists
                 filename_prefix = destination.fetch(:filename_prefix)
-                formatted_timestamp = DateTime.now.strftime("%Y-%m-%d")
+                formatted_timestamp = model.target_day.strftime("%Y-%m-%d")
                 filename = "#{filename_prefix}_#{formatted_timestamp}.xml"
                 path = "/public/"
                 full_path = "#{Rails.root}#{path}#{filename}"
@@ -196,6 +190,8 @@ module Kribi
               File.open(full_path, 'w') do |file|
                 file.write(document.to_s)
               end
+
+              full_paths << full_path
             end
           else
             raise StandardError.new("Destination type: #{destination_type} not implemented.")
@@ -203,12 +199,9 @@ module Kribi
         end
 
         destroy_middle_records()
-        puts "Finished export yay :D"
+
+        return full_paths
       end
-
-      private
-
     end
   end
 end
-

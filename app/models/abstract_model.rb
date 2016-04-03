@@ -5,6 +5,17 @@ class AbstractModel < ActiveRecord::Base
 
   include MatchKeyGenerators
 
+  def self.target_day
+    raise StandardError.new('Must implement')
+  end
+
+  def self.all_children
+    all_children = self.descendants
+    all_children.reject!{|model| model.abstract_class}
+    all_children.reject!{|model| model.to_s =~ /Export/}
+    all_children
+  end
+
   def self.parent_model_string
     self::PARENT_MODEL.to_s.underscore
   end

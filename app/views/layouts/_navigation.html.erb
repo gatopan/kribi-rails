@@ -28,7 +28,7 @@
         </div>
       </li>
 
-      <li class="<%= is_active_controller('static_pages') %>">
+      <li class="<%= is_active_controller('static_pages') && is_active_action('home') %>">
         <a href="/"><i class="fa fa-th-large"></i> <span class="nav-label" data-i18n="nav.dashboard">Home</span> <span class="fa arrow"></span></a>
       </li>
 
@@ -48,6 +48,10 @@
             <li class="<%= is_active_route(event_route) %>"><%= link_to event_route.fetch(:resource_name), event_route.fetch(:resource_path) %></li>
           <% end %>
         </ul>
+      </li>
+
+      <li class="<%= is_active_controller('static_pages') && is_active_action('export') %>">
+        <a href="/export"><i class="fa fa-th-large"></i> <span class="nav-label" data-i18n="nav.dashboard">Export</span> <span class="fa arrow"></span></a>
       </li>
     </ul>
   </div>

@@ -44,6 +44,25 @@ class AbstractIntervalModel < AbstractModel
 
 
   ## HELPERS
+  def self.target_day
+    return @target_day if @target_day
+
+    intended_day =
+      self.PENDING.last.try(DATETIME_COLUMN) ||
+      self.REVIEWED.last.try(DATETIME_COLUMN) ||
+      self.APPROVED.last.try(DATETIME_COLUMN).try(:+, 1.day) ||
+      DateTime.now
+
+    # prevent future dates
+    @target_day =
+      if intended_day > 1.day.from_now.beginning_of_day
+        self.APPROVED.last.try(DATETIME_COLUMN) || StandardError.new('There has been a problem generating the target day. Please contact support.')
+      else
+        intended_day
+      end
+
+    return @target_day
+  end
 
   ## INITIALIZER
 

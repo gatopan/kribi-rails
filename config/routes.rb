@@ -22,6 +22,11 @@ Kribi::Application.routes.draw do
     as: :logout_web
   }
 
+  get 'export', {
+    to: 'static_pages#export',
+    as: :export
+  }
+
   # JSON
   # post 'register_json', {
   #   to: 'static_pages#register_json',

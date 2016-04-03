@@ -89,6 +89,11 @@ class StaticPagesController < ApplicationController
   #   render_server_ok('Successfully logged out')
   # end
 
+  def export
+    @interval_models = AbstractIntervalModel.descendants
+    @event_models = AbstractEventModel.descendants
+  end
+
   private
 
   def registration_params

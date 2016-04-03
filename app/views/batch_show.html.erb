@@ -3,7 +3,7 @@
     <h2><%= children_model.table_name.titleize %></h2>
   </div>
   <div class='col-md-4 text-center'>
-    <h2><%= target_day.strftime("%d/%B/%Y") %></h2>
+    <h2><%= children_model.target_day.strftime("%d/%B/%Y") %></h2>
   </div>
   <div class='col-md-4 text-right'>
     <br/>
@@ -99,12 +99,12 @@
       </table>
       <p>Current statuses: <b><%= @children.map(&:status).uniq %></b></p>
       <p>Current role: <b><%= current_person.role %></b></p>
-      <p>Target day: <b><%= target_day.strftime("%Y-%m-%d") %></b></p>
+      <p>Target day: <b><%= children_model.target_day.strftime("%Y-%m-%d") %></b></p>
       <p><%= submit_tag("Update") %></p>
     <% end %>
 
     <%= form_tag(controller: params[:controller], action: 'batch_elevate') do |form| %>
-      <%= select_tag(:status, options_for_select(current_person.allowed_statuses)) %>
+      <%= select_tag(:intended_status, options_for_select(current_person.allowed_statuses)) %>
       <p><%= submit_tag('Change Status') %></p>
     <% end %>
   </div>

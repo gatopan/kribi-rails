@@ -5,4 +5,8 @@ class AbstractEventModel < AbstractModel
     return if self.abstract_class
     super
   end
+
+  def self.target_day
+    self.APPROVED.last.try(:target_datetime) || DateTime.now
+  end
 end

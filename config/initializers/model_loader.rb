@@ -6,7 +6,7 @@
 #   app = instance
 # end
 
-# `ls app/models | grep rb`.lines.each do |line|
-#   model_name = line.split('.').first
-#   model_name.camelize.constantize
-# end
+`ls app/models | grep rb`.lines.each do |line|
+  model_name = line.split('.').first
+  model_name.camelize.constantize
+end
