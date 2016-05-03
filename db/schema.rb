@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160402063511) do
+ActiveRecord::Schema.define(version: 20160421022447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -802,6 +802,18 @@ ActiveRecord::Schema.define(version: 20160402063511) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "tokens", force: :cascade do |t|
+    t.integer  "reedemed"
+    t.integer  "type"
+    t.string   "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "tokens", ["reedemed"], name: "index_tokens_on_reedemed", using: :btree
+  add_index "tokens", ["token"], name: "index_tokens_on_token", using: :btree
+  add_index "tokens", ["type"], name: "index_tokens_on_type", using: :btree
 
   create_table "transformer_readings", force: :cascade do |t|
     t.integer  "transformer_id"

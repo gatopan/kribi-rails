@@ -45,7 +45,7 @@
                 <% next if filename_prefix == 'kpp_kpi_report' %>
                 <% formatted_timestamp = interval_model.target_day.strftime("%Y-%m-%d") %>
                 <% filename = "#{filename_prefix}_#{formatted_timestamp}.xml" %>
-                <a href="<%= filename %>" class='btn btn-primary'>Download</a>
+                <a href="<%= filename %>" class='btn btn-primary' download>Download</a>
               <% end %>
             </div>
           </td>

@@ -30,7 +30,7 @@ class Person < ActiveRecord::Base
   }
   validates :password, {
     presence: true,
-    on: :create # Explicit context fixes validations during update, conflicts with has_secure_password
+    on: :create # NOTE Explicit context fixes validations during update, conflicts with has_secure_password
   }
   validates :role, {
     presence: true

@@ -34,36 +34,37 @@ class AbstractBatchController < ApplicationController
 
   def batch_elevate
     unless intended_status = params[:intended_status]
-      render_bad_request('Must submit a intended status')
+      return render_bad_request('Must submit a intended status')
     end
 
     unless children_model.statuses.keys.include?(intended_status)
-      render_bad_request('Must submit a valid intended status')
+      return render_bad_request('Must submit a valid intended status')
     end
 
     normal_validation_result = children.all?{|child| child.valid?}
     extra_validation_result = children.all?{|child| child.valid?(:congruence)}
 
-    if normal_validation_result && extra_validation_result
-      ActiveRecord::Base.transaction do
-        children.each do |child|
-          child.update!(status: intended_status)
-        end
-      end
-
-      if intended_status = 'APPROVED'
-        `rm ./public/*.xml`
-        service = Kribi::Exporter::Performer.new(:all)
-        service.perform
-      end
-
-      flash[:success] = "Sucessfully updated status to #{intended_status.downcase} on all records."
-    else
+    unless normal_validation_result && extra_validation_result
       flash[:warning] = 'Some records have not yet passed validations.'
+      flash.keep
+      return redirect_to self.send("batch_show_#{controller_name}_index_url")
     end
 
+    ActiveRecord::Base.transaction do
+      children.each do |child|
+        child.update!(status: intended_status)
+      end
+    end
+
+    if intended_status == 'APPROVED'
+      `rm ./public/*.xml`
+      service = Kribi::Exporter::Performer.new(:all)
+      service.perform
+    end
+
+    flash[:success] = "Sucessfully updated status to #{intended_status.downcase} on all records."
     flash.keep
-    redirect_to self.send("batch_show_#{controller_name}_index_url")
+    return redirect_to self.send("batch_show_#{controller_name}_index_url")
   end
 
   def previous_day_target_datetimes

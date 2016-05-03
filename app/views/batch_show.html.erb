@@ -100,13 +100,26 @@
       <p>Current statuses: <b><%= @children.map(&:status).uniq %></b></p>
       <p>Current role: <b><%= current_person.role %></b></p>
       <p>Target day: <b><%= children_model.target_day.strftime("%Y-%m-%d") %></b></p>
-      <p><%= submit_tag("Update") %></p>
+      <p><%= submit_tag('Update') %></p>
     <% end %>
 
-    <%= form_tag(controller: params[:controller], action: 'batch_elevate') do |form| %>
-      <%= select_tag(:intended_status, options_for_select(current_person.allowed_statuses)) %>
-      <p><%= submit_tag('Change Status') %></p>
-    <% end %>
+    <!-- ELEVATE -->
+    <form action="<%= self.send("batch_elevate_#{children_model.table_name}_batch_index_path") %>" method="POST" >
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <td>
+        <div class="input-group input-group-sm">
+          <select name="intended_status">
+            <% ['PENDING', 'REVIEWED', 'APPROVED'].each do |status| %>
+              <option
+                <%= status == @children.map(&:status).uniq.first ? 'SELECTED' : '' %>
+                <%= current_person.allowed_statuses.include?(status) ? '' : 'DISABLED' %>
+              ><%= status %></option>
+            <% end %>
+          </select>
+        </div>
+      </td>
+      <td><button>Elevate</button></td>
+    </form>
   </div>
 </div>
 

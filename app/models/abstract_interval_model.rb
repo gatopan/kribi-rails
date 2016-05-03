@@ -33,7 +33,6 @@ class AbstractIntervalModel < AbstractModel
       self.send("#{real_value_column_name}=", real_value)
 
       absolute_value = difference(real_value_column_name)
-      # binding.pry if (self.id == 3) && (self.engine_id == 1)
       self.send("#{absolute_value_column_name}=", absolute_value)
     end
   end

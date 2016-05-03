@@ -8,7 +8,41 @@
 <br>
 <div class="children row">
   <% if @children.any? %>
-    <h3>Update existing records</h3>
+    <div class='col-md-6'>
+      <h3>Update existing records</h3>
+    </div>
+    <div class='col-md-6'>
+      <nav>
+        <ul class="pagination pull-right">
+          <li>
+            <a href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <% parent_column_name = @metadata.fetch(:parent_column_name) %>
+          <% size = @children.count %>
+          <% limit = params[:limit].to_i if params[:limit] %>
+          <% limit ||= @metadata.fetch(:pagination_upper_limit) %>
+          <% pages = size / limit %>
+          <% sort_order = params[:sort_order] || :asc%>
+          <% sort_by = params[:sort_by] || :id %>
+          <% parent_id = @current_parent.id %>
+          <% (0..pages).each do |page| %>
+            <% offset = page * limit %>
+            <% if offset == params[:offset].try(:to_i) %>
+              <li class='active'><a href="<%= "?#{parent_column_name}=#{parent_id}&offset=#{offset}&limit=#{limit}&sort_order=#{sort_order}&sort_by=#{sort_by}" %>"><bold><%= page + 1 %></bold></a></li>
+            <% else %>
+              <li><a href="<%= "?#{parent_column_name}=#{parent_id}&offset=#{offset}&limit=#{limit}&sort_order=#{sort_order}&sort_by=#{sort_by}" %>"><%= page + 1 %></a></li>
+            <% end %>
+          <% end %>
+          <li>
+            <a href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -17,83 +51,261 @@
           <% end %>
         </tr>
       </thead>
-      <!--   ng&#45;change="update(child, element)" -->
       <tbody>
         <% @children.each do |previous_child| %>
           <tr>
+            <!-- UPDATE -->
+            <form action="<%= self.send("editor_update_#{@children_model.table_name}_path") %>" method="POST" >
+              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+              <% @metadata.fetch(:attributes).each do |attribute| %>
+                <td>
+                  <!-- Input Builder -->
+                  <div
+                    class="input-group input-group-sm <%=(attribute.fetch(:type) === 'datetime') ? 'date' : ''%>"
+                    <% if attribute.fetch(:type) == :datetime %>
+                      <% datetime_picker_id = SecureRandom.hex %>
+                      id="datetime-picker-<%= datetime_picker_id %>"
+                    <% end %>
+                  >
+                    <% case attribute.fetch(:type) %>
+                    <% when :integer %>
+                      <!-- TODO: move style out of here -->
+                      <input
+                        <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                        <%= previous_child.APPROVED? ? 'READONLY' : '' %>
+                        name="<%= attribute.fetch(:name) %>"
+                        value='<%= previous_child.send(attribute.fetch(:name)) %>'
+                        style='min-width: 45px;'
+                        type='text'
+                        class='form-control'
+                      />
+                    <% when :enum %>
+                      <select
+                        <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                        <%= previous_child.APPROVED? ? 'READONLY' : '' %>
+                        name="<%= attribute.fetch(:name) %>"
+                      >
+                        <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
+                          <option
+                            <%= previous_child.send(attribute.fetch(:name)) == possible_value ? 'selected' : '' %>
+                          ><%= possible_value %></option>
+                        <% end %>
+                      </select>
+                    <% when :belongs_to %>
+                      <select
+                        <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                        <%= previous_child.APPROVED? ? 'READONLY' : '' %>
+                        name="<%= attribute.fetch(:name) %>"
+                      >
+                        <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
+                          <option
+                            <%= previous_child.send(attribute.fetch(:name)) == possible_value ? 'selected' : '' %>
+                          ><%= possible_value %></option>
+                        <% end %>
+                      </select>
+                    <% when :float %>
+                      <input
+                        <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                        <%= previous_child.APPROVED? ? 'READONLY' : '' %>
+                        name="<%= attribute.fetch(:name) %>"
+                        value="<%= previous_child.send(attribute.fetch(:name)) %>"
+                        type="number"
+                        class="form-control"
+                        placeholder="Enter value"
+                        step="0.01"
+                      />
+                    <% when :text %>
+                      <textarea
+                        <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                        <%= previous_child.APPROVED? ? 'READONLY' : '' %>
+                        name="<%= attribute.fetch(:name) %>"
+                        class="form-control"
+                      >
+                        <%= previous_child.send(attribute.fetch(:name)) %>
+                      </textarea>
+                    <% # NOTE: date overrides, must convert to d/m/y %>
+                    <% when :datetime %>
+                      <input
+                        <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                        <%= previous_child.APPROVED? ? 'READONLY' : '' %>
+                        name="<%= attribute.fetch(:name) %>"
+                        value="<%= previous_child.send(attribute.fetch(:name)).strftime("%m/%d/%Y %l:%M %p") %>"
+                        type='text'
+                        class="form-control"
+                      />
+                      <span class="input-group-addon" >
+                        <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                      <script type="text/javascript">
+                        $(function () {
+                          $('<%= "#datetime-picker-#{datetime_picker_id}" %>').datetimepicker();
+                        });
+                      </script>
+                    <% else %>
+                      <% raise StandardError.new("Unrecognized input type: #{attribute.fetch(:type)}") %></p>
+                    <% end %>
+                  </div>
+                </td>
+              <% end %>
+              <td>
+                <button>Update</button>
+              </td>
+            </form>
+
+            <!-- ELEVATE -->
+            <form action="<%= self.send("editor_elevate_#{@children_model.table_name}_path") %>" method="POST" >
+              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+              <input type="hidden" name="id" value="<%= previous_child.id %>">
+              <td>
+                <div class="input-group input-group-sm">
+                  <select name="intended_status">
+                    <% ['PENDING', 'REVIEWED', 'APPROVED'].each do |status| %>
+                      <option
+                        <%= status == previous_child.status ? 'SELECTED' : '' %>
+                        <%= current_person.allowed_statuses.include?(status) ? '' : 'DISABLED' %>
+                      ><%= status %></option>
+                    <% end %>
+                  </select>
+                </div>
+              </td>
+              <td><button>Elevate</button></td>
+            </form>
+
+            <!-- DELETE -->
+            <form action="<%= self.send("editor_destroy_#{@children_model.table_name}_path") %>" method="POST" >
+              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+              <input type="hidden" name="id" value="<%= previous_child.id %>">
+              <td><button>Delete</button></td>
+            </form>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class='col-md-6 col-md-offset-6'>
+      <nav>
+        <ul class="pagination pull-right">
+          <li>
+            <a href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <% parent_column_name = @metadata.fetch(:parent_column_name) %>
+          <% size = @children.count %>
+          <% limit = params[:limit].to_i if params[:limit] %>
+          <% limit ||= @metadata.fetch(:pagination_upper_limit) %>
+          <% pages = size / limit %>
+          <% sort_order = params[:sort_order] || :asc%>
+          <% sort_by = params[:sort_by] || :id %>
+          <% parent_id = @current_parent.id %>
+          <% (0..pages).each do |page| %>
+            <% offset = page * limit %>
+            <% if offset == params[:offset].try(:to_i) %>
+              <li class='active'><a href="<%= "?#{parent_column_name}=#{parent_id}&offset=#{offset}&limit=#{limit}&sort_order=#{sort_order}&sort_by=#{sort_by}" %>"><bold><%= page + 1 %></bold></a></li>
+            <% else %>
+              <li><a href="<%= "?#{parent_column_name}=#{parent_id}&offset=#{offset}&limit=#{limit}&sort_order=#{sort_order}&sort_by=#{sort_by}" %>"><%= page + 1 %></a></li>
+            <% end %>
+          <% end %>
+          <li>
+            <a href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  <% end %>
+  <% if @current_parent %>
+    <h3>Create new record</h3>
+    <!-- CREATE -->
+    <form action="<%= self.send("editor_create_#{@children_model.table_name}_path") %>" method="POST" >
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <% @metadata.fetch(:attributes).each do |attribute| %>
+              <th><%= attribute.fetch(:name) %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <input type="hidden" name="<%= @metadata.fetch(:parent_column_name) %>" value="<%= @current_parent.id %>">
             <% @metadata.fetch(:attributes).each do |attribute| %>
               <td>
                 <!-- Input Builder -->
-                <!-- TODO: migrate to directive -->
                 <div
                   class="input-group input-group-sm <%=(attribute.fetch(:type) === 'datetime') ? 'date' : ''%>"
+                  <% if attribute.fetch(:type) == :datetime %>
+                    <% datetime_picker_id = SecureRandom.hex %>
+                    id="datetime-picker-<%= datetime_picker_id  %>"
+                  <% end %>
                 >
                   <% case attribute.fetch(:type) %>
                   <% when :integer %>
-                    <!-- ng-model="child[attribute.name]" -->
-                    <!-- TODO: move style out of here -->
                     <input
-                      <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                      name="<%= attribute.fetch(:name) %>"
+                      value='<%= @new_child.send(attribute.fetch(:name)) %>'
                       style='min-width: 45px;'
                       type='text'
                       class='form-control'
-                      value='<%= previous_child.send(attribute.fetch(:name)) %>'
                     />
                   <% when :enum %>
-                    <!-- ng-model="child[attribute.name]" -->
                     <select
-                      <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                      name="<%= attribute.fetch(:name) %>"
                     >
                       <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
                         <option
-                          <%= previous_child.send(attribute.fetch(:name)) == possible_value ? 'selected' : '' %>
+                        <%= (possible_value == @new_child.send(attribute.fetch(:name))) ? 'selected' : '' %>
                         ><%= possible_value %></option>
                       <% end %>
                     </select>
                   <% when :belongs_to %>
-                    <!-- ng-model="child[attribute.name]" -->
                     <select
-                      <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                      name="<%= attribute.fetch(:name) %>"
                     >
                       <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
                         <option
-                          <%= previous_child.send(attribute.fetch(:name)) == possible_value ? 'selected' : '' %>
+                        <%= (possible_value == @new_child.send(attribute.fetch(:name))) ? 'selected' : '' %>
                         ><%= possible_value %></option>
                       <% end %>
                     </select>
                   <% when :float %>
-                    <!-- ng-model="child[attribute.name]" -->
-                    <!-- ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" -->
-                    <!-- smart-float -->
                     <input
-                      <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                      name="<%= attribute.fetch(:name) %>"
+                      value='<%= @new_child.send(attribute.fetch(:name)) %>'
                       type="number"
                       class="form-control"
                       placeholder="Enter value"
                       step="0.01"
-                      value="<%= previous_child.send(attribute.fetch(:name)) %>"
                     />
                   <% when :text %>
-                    <!-- ng-model="child[attribute.name]" -->
                     <textarea
-                      <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                      name="<%= attribute.fetch(:name) %>"
                       class="form-control"
-                      rows="20"
-                    ><%= previous_child.send(attribute.fetch(:name)) %></textarea>
+                    >
+                      <%= @new_child.send(attribute.fetch(:name)) %>
+                    </textarea>
+                  <% # NOTE: date overrides, must convert to d/m/y %>
                   <% when :datetime %>
-                    <!-- ng-model="child[attribute.name]" -->
-                    <!-- datetimepicker-initializer -->
                     <input
-                      <%= attribute.fetch(:editable) ? '' : 'disabled' %>
+                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                      name="<%= attribute.fetch(:name) %>"
                       type='text'
                       class="form-control"
-                      value="<%= previous_child.send(attribute.fetch(:name)) %>"
                     />
-                    <span
-                      class="input-group-addon"
-                      >
+                    <span class="input-group-addon">
                       <span class="glyphicon glyphicon-calendar"></span>
                     </span>
+                    <script type="text/javascript">
+                      $(function () {
+                        $('<%= "#datetime-picker-#{datetime_picker_id}" %>').datetimepicker();
+                      });
+                    </script>
                   <% else %>
                     <% raise StandardError.new("Unrecognized input type: #{attribute.fetch(:type)}") %></p>
                   <% end %>
@@ -101,114 +313,11 @@
               </td>
             <% end %>
             <td>
-              <!-- <button ng-click="save(child)"> -->
               <button>Create</button>
             </td>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </form>
   <% end %>
-  <h3>Create new record</h3>
-  <form action="<% request.path %>" method="POST" >
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <% @metadata.fetch(:attributes).each do |attribute| %>
-            <th><%= attribute.fetch(:name) %></th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <% @metadata.fetch(:attributes).each do |attribute| %>
-            <td>
-              <!-- Input Builder -->
-              <!-- TODO: migrate to directive -->
-              <div class="input-group input-group-sm">
-                <% case attribute.fetch(:type) %>
-                <% when :integer %>
-                  <!-- ng-model="child[attribute.name]" -->
-                  <!-- TODO: move style out of here -->
-                  <input
-                    <%= attribute.fetch(:editable) ? '' : 'disabled' %>
-                    value='<%= @children_instance.send(attribute.fetch(:name)) %>'
-                    name="<%= attribute.fetch(:name) %>"
-                    style='min-width: 45px;'
-                    type='text'
-                    class='form-control'
-                  />
-                <% when :enum %>
-                  <!-- ng-model="child[attribute.name]" -->
-                  <select
-                    <%= attribute.fetch(:editable) ? '' : 'disabled' %>
-                    name="<%= attribute.fetch(:name) %>"
-                  >
-                    <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
-                      <option
-                      <%= (possible_value == @children_instance.send(attribute.fetch(:name))) ? 'selected' : '' %>
-                      ><%= possible_value %></option>
-                    <% end %>
-                  </select>
-                <% when :belongs_to %>
-                  <!-- ng-model="child[attribute.name]" -->
-                  <select
-                    <%= attribute.fetch(:editable) ? '' : 'disabled' %>
-                    name="<%= attribute.fetch(:name) %>"
-                  >
-                    <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
-                      <option
-                      <%= (possible_value == @children_instance.send(attribute.fetch(:name))) ? 'selected' : '' %>
-                      ><%= possible_value %></option>
-                    <% end %>
-                  </select>
-                <% when :float %>
-                  <!-- ng-model="child[attribute.name]" -->
-                  <!-- ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" -->
-                  <!-- smart-float -->
-                  <input
-                    <%= attribute.fetch(:editable) ? '' : 'disabled' %>
-                    name="<%= attribute.fetch(:name) %>"
-                    value='<%= @children_instance.send(attribute.fetch(:name)) %>'
-                    type="number"
-                    class="form-control"
-                    placeholder="Enter value"
-                    step="0.01"
-                  />
-                <% when :text %>
-                  <!-- ng-model="child[attribute.name]" -->
-                  <textarea
-                    <%= attribute.fetch(:editable) ? '' : 'disabled' %>
-                    name="<%= attribute.fetch(:name) %>"
-                    class="form-control"
-                    rows="20"
-                  >
-                    <%= @children_instance.send(attribute.fetch(:name)) %>
-                  </textarea>
-                <% when :datetime %>
-                  <!-- ng-model="child[attribute.name]" -->
-                  <!-- datetimepicker-initializer -->
-                  <input
-                    <%= attribute.fetch(:editable) ? '' : 'disabled' %>
-                    name="<%= attribute.fetch(:name) %>"
-                    value='<%= @children_instance.send(attribute.fetch(:name)) %>'
-                    type='text'
-                    class="form-control"
-                  />
-                  <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-                <% else %>
-                  <% raise StandardError.new("Unrecognized input type: #{attribute.fetch(:type)}") %></p>
-                <% end %>
-              </div>
-            </td>
-          <% end %>
-          <td>
-            <button>Create</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </form>
 </div>

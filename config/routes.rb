@@ -1,14 +1,10 @@
-#   root to: 'home#index'
-#   get "home/index"
-#   get "home/minor"
-
-# Rails.application.routes.draw do
 Kribi::Application.routes.draw do
   # Web
   root({
     to: 'static_pages#home',
     as: :home
   })
+
   post 'register_web', {
     to: 'static_pages#register_web',
     as: :register_web
@@ -68,6 +64,22 @@ Kribi::Application.routes.draw do
     end
   end
 
+  # NOTE: New proposal, must fix model loader
+  # AbstractEventModel
+  #   .descendants
+  #   .map(&:table_name)
+  #   .each do |resource_name|
+  #     resources resource_name do
+  #       collection do
+  #         # TODO: Figure out cleaner way of creating editor routes
+  #         get 'editor'
+  #         post 'editor/create', action: 'editor_create'
+  #         post 'editor/update', action: 'editor_update'
+  #         post 'editor/destroy', action: 'editor_destroy'
+  #         post 'editor/elevate', action: 'editor_elevate'
+  #       end
+  #     end
+  #   end
   [
     :engine_cooling_water_dispensing_events,
     :engine_start_events,
@@ -80,11 +92,12 @@ Kribi::Application.routes.draw do
   ].each do |resource_name|
     resources resource_name do
       collection do
+        # TODO: Figure out cleaner way of creating editor routes
         get 'editor'
-        post 'editor'
-        # get 'metadata'
-        # get 'parents'
-        # get 'search'
+        post 'editor/create', action: 'editor_create'
+        post 'editor/update', action: 'editor_update'
+        post 'editor/destroy', action: 'editor_destroy'
+        post 'editor/elevate', action: 'editor_elevate'
       end
     end
   end

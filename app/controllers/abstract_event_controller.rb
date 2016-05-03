@@ -1,93 +1,104 @@
+# NOTE: Currently has CRUD methods commented, only editor methods enabled,
+# perhaps split into two controllers?
 class AbstractEventController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  before_action :cast_datetimes
 
-  # TODO: update old records
+  # TODO: convert to use filters scope
+  # TODO figure out how to not need the flash clear
   def editor
-    if request.post?
-      @children_instance = children_model.create(editor_params)
+    @metadata = calculated_metadata
+    @parents = calculated_parents
+    @children = paginated_children_model.where(parent_model_column => current_parent_id)
+    @current_parent = current_parent
+    @new_child = children_model.new
 
-      if @children_instance.save
-        flash[:success] = 'Sucessfully created new record'
-      else
-        error_messages = @children_instance.errors.messages.map{|k,v| "#{k.to_s.humanize}: #{v.join(", ")}"}
-
-        flash[:warning] = [
-          "Could not created new record:",
-          *error_messages
-        ].join("<br/>").html_safe
-      end
+    unless @current_parent
+      flash[:warning] = "Please select a #{parent_model.to_s.titleize}"
     end
-
-    @children_instance ||= children_model.new
-
-    params[:offset] ||= children_model.count - Kribi::PAGINATION_UPPER_LIMIT
-    params[:offset] = 0 if params[:offset].to_i < 1 # NOTE: Prevents negative offsets
-
-    current_parent_id = params[parent_model_column] || 1
-    @current_parent = parent_model.find(current_parent_id)
-
-    @parents = parents
-    @children =
-      paginated_children_model
-      .where(parent_model_column => current_parent_id) # TODO: convert to use filters scope
-    @metadata = metadata
 
     render './event_editor.html.erb'
   end
 
+  def editor_create
+    @member = children_model.new(final_params)
+
+    if @member.save
+      flash[:success] = 'Sucessfully created record'
+    else
+      flash[:warning] = 'Could not create record'
+    end
+
+    flash.keep
+    redirect_to request.referrer
+  end
+
+  def editor_update
+    @member = children_model.find(params[:id])
+
+    if @member.update(final_params)
+      flash[:success] = 'Sucessfully updated record'
+    else
+      flash[:warning] = 'Could not update record'
+    end
+
+    flash.keep
+    redirect_to request.referrer
+  end
+
+  def editor_destroy
+    @member = children_model.find(params[:id])
+
+    if @member.destroy
+      flash[:success] = 'Sucessfully deleted record'
+    else
+      flash[:warning] = 'Could not delete record'
+    end
+
+    flash.keep
+    redirect_to request.referrer
+  end
+
+  def editor_elevate
+    @member = children_model.find(params[:id])
+
+    unless intended_status = params[:intended_status]
+      return render_bad_request('Must submit a intended_status')
+    end
+
+    unless current_person.allowed_statuses.include? intended_status
+      return render_bad_request('Submitted status is forbidden for current person')
+    end
+
+    if @member.valid? && @member.valid?(:congruence)
+      if @member.update(status: intended_status)
+        if intended_status == 'APPROVED'
+          `rm ./public/*.xml`
+          service = Kribi::Exporter::Performer.new(:all)
+          service.perform
+        end
+
+        flash[:success] = "Sucessfully updated intented_status to #{intended_status.downcase} on selected record."
+      else
+        flash[:warning] = 'Error while updating status on selected resource'
+      end
+    else
+      flash[:warning] = "Selected record has not passed all validations: #{@member.errors.messages}"
+    end
+
+    flash.keep
+    redirect_to request.referrer
+  end
+
   private
 
-  # def index
-  #   @event = paginated_children_model.all
-  #   render json: @event
-  # end
-
-  # def show
-  #   @event = children_model.find(params[:id])
-  #   render json: @event
-  # end
-
-  # def create
-  #   @event = children_model.new(permitted_params)
-  #
-  #   if @event.save
-  #     render json: @event
-  #   else
-  #     render json: {
-  #       message: 'Could not create record', errors: @event.errors.messages }, status: 400
-  #   end
-  # end
-
-  # def update
-  #   @event = children_model.find(params[:id])
-  #
-  #   if @event.update(permitted_params)
-  #     render json: @event
-  #   else
-  #     render json: { message: 'Could not update record', errors: @event.errors.messages }, status: 400
-  #   end
-  # end
-
-  # TODO: Implement this
-  # def destroy
-  #   raise StandardError.new("Not implemented")
-  # end
-
   # TODO: move this to abstract model
-  def metadata
-    @metadata ||=
-      {
-      total_records_count: children_model.count,
-      pagination_records_counters: children_model.group(parent_model_column).count,
-      pagination_upper_limit: Kribi::PAGINATION_UPPER_LIMIT,
-      table_name: children_model.table_name,
-      human_name: children_model.to_s.underscore.humanize,
-      parent_column_name: parent_model_column,
-      attributes: whitelisted_columns
-        .select do |column| # NOTE: Converted parent model column to implicit
-          column.name != parent_model_column
-        end.map do |column|
-        # TODO: Implement enum explicit UI names
+  # NOTE: Converted parent model column to implicit
+  # TODO: Implement enum explicit UI names
+  def calculated_attribute_metadata
+    whitelisted_columns
+      .select do |column|
+        column.name != parent_model_column
+      end.map do |column|
         type = column.type
 
         case column.name
@@ -114,40 +125,35 @@ class AbstractEventController < ApplicationController
           editable: ['id', *children_model::CALCULATED_FIELD_NAMES].exclude?(column.name)
         }
       end
+  end
+
+  # TODO: move this to abstract model
+  def calculated_metadata
+    {
+      total_records_count: children_model.count,
+      pagination_records_counters: children_model.group(parent_model_column).count,
+      pagination_upper_limit: Kribi::PAGINATION_UPPER_LIMIT,
+      table_name: children_model.table_name,
+      human_name: children_model.to_s.underscore.humanize,
+      parent_column_name: parent_model_column,
+      attributes: calculated_attribute_metadata
     }
   end
 
-  def parents
-    @parents = parent_model.all
+  def calculated_parents
+    parent_model.all
   end
 
-  def editor_params
-    params.permit(
-      :equipment,
-      :bank,
-      :cylinder,
-      :alarm,
-      :type,
-      :context,
-      :owner,
-      :light_fuel_oil_consumption_type,
-      :mean_load,
-      :observations,
-      :target_datetime,
-      :target_ending_datetime,
-      :engine_id
-    )
+  # NOTE: For use in editor
+  def current_parent_id
+    params[parent_model_column] || 0
   end
 
-  def children_model
-    raise StandardError.new("No children model specified in controller: #{self.class}")
+  # NOTE: For use in editor
+  def current_parent
+    parent_model.find_by(id: current_parent_id)
   end
 
-  def permitted_params
-    params.permit(whitelisted_column_names)
-  end
-
-  # Uses regex filtering
   def whitelisted_columns
     children_model.columns.reject do |column|
       column.name =~ /#{Kribi::BLACKLISTED_COLUMN_NAMES.join('|')}/
@@ -158,8 +164,44 @@ class AbstractEventController < ApplicationController
     whitelisted_columns.map(&:name)
   end
 
+  def permitted_params
+    params.permit(whitelisted_column_names)
+  end
+
+  # TODO: smells
+  # TODO: merge this with permitted_params
+  def final_params
+    return @final_params if @final_params
+    @final_params = params.permit!.dup
+
+    # internal params
+    @final_params.delete('controller')
+    @final_params.delete('action')
+
+    # pagination params
+    @final_params.delete('offset')
+    @final_params.delete('limit')
+    @final_params.delete('sort_order')
+    @final_params.delete('sort_by')
+
+    @final_params
+  end
+
+  def parent_model
+    @parent_model ||= children_model::PARENT_MODEL
+  end
+
+  def parent_model_column
+    @parent_model_column ||= children_model.parent_model_column
+  end
+
+  def children_model
+    raise StandardError.new("No children model specified in controller: #{self.class}")
+  end
+
   def paginated_children_model
-    offset      = params[:offset].to_i
+    offset      = params[:offset] ? params[:offset].to_i : (children_model.count - Kribi::PAGINATION_UPPER_LIMIT) # NOTE: if no offset, show latest records
+    offset = offset < 0 ? 0 : offset # NOTE: Prevents negative offsets
     limit       = params[:limit].to_i
     sort_by     = params[:sort_by] || :id
     sort_order  = params[:sort_order] || :asc
@@ -172,11 +214,74 @@ class AbstractEventController < ApplicationController
       .order(sort_by => sort_order)
   end
 
-  def parent_model_column
-    @parent_model_column ||= children_model.parent_model_column
-  end
-
-  def parent_model
-    @parent_model ||= children_model::PARENT_MODEL
+  # NOTE: Due to datepicker sending different date format
+  # TODO: must convert to d/m/y
+  def cast_datetimes
+    params[:target_datetime] = DateTime.strptime(params[:target_datetime], "%m/%d/%Y %l:%M %p") if params[:target_datetime] && params[:target_datetime].present?
+    params[:target_ending_datetime] = DateTime.strptime(params[:target_ending_datetime], "%m/%d/%Y %l:%M %p") if params[:target_ending_datetime] && params[:target_ending_datetime].present?
   end
 end
+
+
+# error_messages = @children_instance.errors.messages.map{|k,v| "#{k.to_s.humanize}: #{v.join(", ")}"}
+# flash[:warning] = "Could not create new record: #{error_messages.join('; ')}".html_safe
+#
+  # TODO: enable this
+  # def new
+  #   render_server_ok(children_model.new)
+  # end
+
+  # TODO: enable this
+  # def index
+  #   @collection = paginated_children_model.all
+  #   render_server_ok(@collection)
+  # end
+
+  # TODO: enable this
+  # def show
+  #   @member = children_model.find(params[:id])
+  #   render_server_ok(@member)
+  # end
+
+  # TODO: enable this
+  # def create
+  #   @member = children_model.new(final_params)
+  #
+  #   if @member.save
+  #     render_server_ok(@member)
+  #   else
+  #     render_bad_request(message: 'Could not create record', errors: @member.errors.messages)
+  #   end
+  # end
+
+  # TODO: enable this
+  # def update
+  #   @member = children_model.find(params[:id])
+  #
+  #   if @member.update(final_params)
+  #     render_server_ok(@member)
+  #   else
+  #     render_bad_request(message: 'Could not update record', errors: @member.errors.messages)
+  #   end
+  # end
+
+  # TODO: enable this
+  # def destroy
+  #   @member = children_model.find(params[:id])
+  #
+  #   if @member.destroy
+  #     render_server_ok('Successfully deleted record')
+  #   else
+  #     render_bad_request(message: 'Could not delete record', errors: @member.errors.messages)
+  #   end
+  # end
+
+  # TODO: enable this
+  # def metadata
+  #   render_server_ok(calculated_metadata)
+  # end
+
+  # TODO: enable this
+  # def parents
+  #   render_server_ok(calculated_parents)
+  # end

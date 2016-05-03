@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
     @batch_routes.sort_by!{|route| route.fetch(:resource_name)}
     @event_routes ||= routes
       .select{|route_name, route_object| (route_name =~ /editor_/) && (route_name =~/_events/)}
+      .reject{|route_name, route_object| (route_name =~ /_create_|_elevate_|_update_|_destroy_/)} # TODO: Figure out cleaner way of creating editor routes
       .map{|route_name, route_object|
         resource_name_array = route_name.to_s.split("_")
         resource_name = resource_name_array[1..(resource_name_array.length - 2)].join(' ').humanize
