@@ -41,6 +41,8 @@ class AbstractBatchController < ApplicationController
       return render_bad_request('Must submit a valid intended status')
     end
 
+    # TODO: Add approver locks
+
     normal_validation_result = children.all?{|child| child.valid?}
     extra_validation_result = children.all?{|child| child.valid?(:congruence)}
 
@@ -57,7 +59,6 @@ class AbstractBatchController < ApplicationController
     end
 
     if intended_status == 'APPROVED'
-      `rm ./public/*.xml`
       service = Kribi::Exporter::Performer.new(:all)
       service.perform
     end

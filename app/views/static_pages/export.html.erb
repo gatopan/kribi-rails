@@ -14,7 +14,7 @@
         <td><%= DateTime.now.strftime("%Y-%m-%d") %></td>
         <td class='export-button-group' >
           <div class='btn-group btn-group-justified' role='group'>
-            <a href="<%= 'kpp_kpi_report' %>" class='btn btn-primary'>Download</a>
+            <a href="<%= '/kpp_kpi_report.xml' %>" class='btn btn-primary'>Download</a>
           </div>
         </td>
       </tr>
@@ -43,8 +43,7 @@
                 <% type = mapping.fetch(:query).fetch(:type) %>
                 <% filename_prefix = mapping.fetch(:destination).fetch(:filename_prefix) %>
                 <% next if filename_prefix == 'kpp_kpi_report' %>
-                <% formatted_timestamp = interval_model.target_day.strftime("%Y-%m-%d") %>
-                <% filename = "#{filename_prefix}_#{formatted_timestamp}.xml" %>
+                <% filename = "#{filename_prefix}.xml" %>
                 <a href="<%= filename %>" class='btn btn-primary' download>Download</a>
               <% end %>
             </div>
@@ -74,8 +73,7 @@
                 <% type = mapping.fetch(:query).fetch(:type) %>
                 <% filename_prefix = mapping.fetch(:destination).fetch(:filename_prefix) %>
                 <% next if filename_prefix == 'kpp_kpi_report' %>
-                <% formatted_timestamp = event_model.target_day.strftime("%Y-%m-%d") %>
-                <% filename = "#{filename_prefix}_#{formatted_timestamp}.xml" %>
+                <% filename = "#{filename_prefix}.xml" %>
                 <a href="<%= filename %>" class='btn btn-primary'>Download</a>
               <% end %>
             </div>

@@ -90,6 +90,11 @@ class StaticPagesController < ApplicationController
   # end
 
   def export
+    # NOTE: MODEL_LOADER
+    Dir.glob("./app/models/*.rb").map{|path| path.sub("./app/models/", '')}.each do |line|
+      model_name = line.split('.').first
+      model_name.camelize.constantize
+    end
     @interval_models = AbstractIntervalModel.descendants
     @event_models = AbstractEventModel.descendants
   end

@@ -9,6 +9,11 @@ module Kribi
       )
 
       def initialize(model, destination_type = :excel)
+        Dir.glob("./app/models/*.rb").map{|path| path.sub("./app/models/", '')}.each do |line|
+          model_name = line.split('.').first
+          model_name.camelize.constantize
+        end
+
         self.models = (model == :all) ? AbstractModel.all_children : [model]
         @middle_record_models = []
         @destination_type = destination_type
@@ -50,9 +55,11 @@ module Kribi
       end
 
       def perform
+        FileUtils.rm_f Dir.glob("./public/*.xml")
+
         generate_middle_records()
 
-        models.each do |model|
+        models.uniq.each do |model| # TODO: Figure out why there are multiple models
           relation                = model.APPROVED
           match_key_column_names  = model.match_key_column_names
           mappings                = model::EXPORTER_CONFIG.fetch(:mappings)
@@ -124,11 +131,15 @@ module Kribi
                 # create empty workbook
                 # save workbook into target unless it already exists
                 filename_prefix = destination.fetch(:filename_prefix)
-                formatted_timestamp = model.target_day.strftime("%Y-%m-%d")
-                filename = "#{filename_prefix}_#{formatted_timestamp}.xml"
+
+                # NOTE: deprecated due to to dates being handled by timestamps
+                # formatted_timestamp = model.target_day.strftime("%Y-%m-%d") #
+                # filename = "#{filename_prefix}_#{formatted_timestamp}.xml"
+                filename = "#{filename_prefix}.xml"
                 path = "/public/"
                 full_path = "#{Rails.root}#{path}#{filename}"
 
+                # TODO: Investigate duplicate worksheet names
                 unless File.file?(full_path)
                   workbook_namespaces = {
                     'xmlns' => 'urn:schemas-microsoft-com:office:spreadsheet',
@@ -188,7 +199,8 @@ module Kribi
               end
 
               File.open(full_path, 'w') do |file|
-                file.write(document.to_s)
+                output = Nokogiri::XML(document.to_s, &:noblanks).to_xml # NOTE: pretty formats output
+                file.write(output)
               end
 
               full_paths << full_path

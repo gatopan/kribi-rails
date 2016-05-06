@@ -20,7 +20,7 @@
             </a>
           </li>
           <% parent_column_name = @metadata.fetch(:parent_column_name) %>
-          <% size = @children.count %>
+          <% size = @unpaginated_children.count %>
           <% limit = params[:limit].to_i if params[:limit] %>
           <% limit ||= @metadata.fetch(:pagination_upper_limit) %>
           <% pages = size / limit %>

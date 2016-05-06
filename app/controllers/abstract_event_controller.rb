@@ -6,6 +6,7 @@ class AbstractEventController < ApplicationController
   # TODO: convert to use filters scope
   # TODO figure out how to not need the flash clear
   def editor
+    @unpaginated_children = children_model.where(parent_model_column => current_parent_id)
     @metadata = calculated_metadata
     @parents = calculated_parents
     @children = paginated_children_model.where(parent_model_column => current_parent_id)
@@ -25,7 +26,7 @@ class AbstractEventController < ApplicationController
     if @member.save
       flash[:success] = 'Sucessfully created record'
     else
-      flash[:warning] = 'Could not create record'
+      flash[:warning] = "Could not create record: #{@member.errors.messages}"
     end
 
     flash.keep
@@ -35,10 +36,14 @@ class AbstractEventController < ApplicationController
   def editor_update
     @member = children_model.find(params[:id])
 
+    if (@member.status == 'APPROVED') && (current_person.allowed_statuses.exclude? 'APPROVED')
+      return render_bad_request('Record is already approved. Request a change from your Approver')
+    end
+
     if @member.update(final_params)
       flash[:success] = 'Sucessfully updated record'
     else
-      flash[:warning] = 'Could not update record'
+      flash[:warning] = "Could not update record: #{@member.errors.messages}"
     end
 
     flash.keep
@@ -48,10 +53,14 @@ class AbstractEventController < ApplicationController
   def editor_destroy
     @member = children_model.find(params[:id])
 
+    if (@member.status == 'APPROVED') && (current_person.allowed_statuses.exclude? 'APPROVED')
+      return render_bad_request('Record is already approved. Request a change from your Approver')
+    end
+
     if @member.destroy
       flash[:success] = 'Sucessfully deleted record'
     else
-      flash[:warning] = 'Could not delete record'
+      flash[:warning] = "Could not delete record: #{@member.errors.messages}"
     end
 
     flash.keep
@@ -66,13 +75,19 @@ class AbstractEventController < ApplicationController
     end
 
     unless current_person.allowed_statuses.include? intended_status
-      return render_bad_request('Submitted status is forbidden for current person')
+      return render_bad_request('Submitted status is forbidden for current person or record has already been approved')
     end
+
+    if (@member.status == 'APPROVED') && (current_person.allowed_statuses.exclude? 'APPROVED')
+      return render_bad_request('Record is already approved. Request a change from your Approver')
+    end
+
+    # TODO: Add approver locks
 
     if @member.valid? && @member.valid?(:congruence)
       if @member.update(status: intended_status)
+
         if intended_status == 'APPROVED'
-          `rm ./public/*.xml`
           service = Kribi::Exporter::Performer.new(:all)
           service.perform
         end
@@ -177,6 +192,7 @@ class AbstractEventController < ApplicationController
     # internal params
     @final_params.delete('controller')
     @final_params.delete('action')
+    @final_params.delete('authenticity_token')
 
     # pagination params
     @final_params.delete('offset')
