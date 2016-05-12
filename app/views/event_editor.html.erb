@@ -111,7 +111,9 @@
                         value="<%= previous_child.send(attribute.fetch(:name)) %>"
                         type="number"
                         class="form-control"
-                        placeholder="Enter value"
+                        <% if attribute.fetch(:editable) %>
+                          placeholder="Enter value"
+                        <% end %>
                         step="0.01"
                       />
                     <% when :text %>
@@ -279,7 +281,9 @@
                       value='<%= @new_child.send(attribute.fetch(:name)) %>'
                       type="number"
                       class="form-control"
-                      placeholder="Enter value"
+                      <% if attribute.fetch(:editable) %>
+                        placeholder="Enter value"
+                      <% end %>
                       step="0.01"
                     />
                   <% when :text %>
