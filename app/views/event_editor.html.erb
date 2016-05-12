@@ -122,9 +122,8 @@
                         <%= previous_child.APPROVED? ? 'READONLY' : '' %>
                         name="<%= attribute.fetch(:name) %>"
                         class="form-control"
-                      >
-                        <%= previous_child.send(attribute.fetch(:name)) %>
-                      </textarea>
+                        rows=1
+                      ><%= previous_child.send(attribute.fetch(:name)) %></textarea>
                     <% # NOTE: date overrides, must convert to d/m/y %>
                     <% when :datetime %>
                       <input
@@ -293,9 +292,8 @@
                       <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
                       name="<%= attribute.fetch(:name) %>"
                       class="form-control"
-                    >
-                      <%= @new_child.send(attribute.fetch(:name)) %>
-                    </textarea>
+                      rows=1
+                    ><%= @new_child.send(attribute.fetch(:name)) %></textarea>
                   <% # NOTE: date overrides, must convert to d/m/y %>
                   <% when :datetime %>
                     <input
