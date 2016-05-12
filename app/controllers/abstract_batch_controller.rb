@@ -27,7 +27,7 @@ class AbstractBatchController < ApplicationController
     @target_datetimes = target_datetimes
     perform_update_with_groupings
     check_extra_children_validity
-    flash[:success] = "Sucessfully updated children values"
+    flash[:success] = "Sucessfully updated #{children_model.table_name.titleize} values"
     flash.keep
     redirect_to self.send("batch_show_#{controller_name}_index_url")
   end
