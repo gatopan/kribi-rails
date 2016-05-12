@@ -7,6 +7,113 @@
 </ul>
 <br>
 <div class="children row">
+  <% if @current_parent %>
+    <h3>Create new record</h3>
+    <!-- CREATE -->
+    <form action="<%= self.send("editor_create_#{@children_model.table_name}_path") %>" method="POST" >
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <% @metadata.fetch(:attributes).each do |attribute| %>
+              <th><%= attribute.fetch(:name) %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <input type="hidden" name="<%= @metadata.fetch(:parent_column_name) %>" value="<%= @current_parent.id %>">
+            <% @metadata.fetch(:attributes).each do |attribute| %>
+              <td>
+                <!-- Input Builder -->
+                <div
+                  class="input-group input-group-sm <%=(attribute.fetch(:type) === 'datetime') ? 'date' : ''%>"
+                  <% if attribute.fetch(:type) == :datetime %>
+                    <% datetime_picker_id = SecureRandom.hex %>
+                    id="datetime-picker-<%= datetime_picker_id  %>"
+                  <% end %>
+                >
+                  <% case attribute.fetch(:type) %>
+                  <% when :integer %>
+                    <input
+                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                      name="<%= attribute.fetch(:name) %>"
+                      value='<%= @new_child.send(attribute.fetch(:name)) %>'
+                      style='min-width: 45px;'
+                      type='text'
+                      class='form-control'
+                    />
+                  <% when :enum %>
+                    <select
+                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                      name="<%= attribute.fetch(:name) %>"
+                    >
+                      <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
+                        <option
+                        <%= (possible_value == @new_child.send(attribute.fetch(:name))) ? 'selected' : '' %>
+                        ><%= possible_value %></option>
+                      <% end %>
+                    </select>
+                  <% when :belongs_to %>
+                    <select
+                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                      name="<%= attribute.fetch(:name) %>"
+                    >
+                      <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
+                        <option
+                        <%= (possible_value == @new_child.send(attribute.fetch(:name))) ? 'selected' : '' %>
+                        ><%= possible_value %></option>
+                      <% end %>
+                    </select>
+                  <% when :float %>
+                    <input
+                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                      name="<%= attribute.fetch(:name) %>"
+                      value='<%= @new_child.send(attribute.fetch(:name)) %>'
+                      type="number"
+                      class="form-control"
+                      <% if attribute.fetch(:editable) %>
+                        placeholder="Enter value"
+                      <% end %>
+                      step="0.01"
+                    />
+                  <% when :text %>
+                    <textarea
+                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                      name="<%= attribute.fetch(:name) %>"
+                      class="form-control"
+                      rows=1
+                    ><%= @new_child.send(attribute.fetch(:name)) %></textarea>
+                  <% # NOTE: date overrides, must convert to d/m/y %>
+                  <% when :datetime %>
+                    <input
+                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
+                      name="<%= attribute.fetch(:name) %>"
+                      type='text'
+                      class="form-control"
+                    />
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    <script type="text/javascript">
+                      $(function () {
+                        $('<%= "#datetime-picker-#{datetime_picker_id}" %>').datetimepicker();
+                      });
+                    </script>
+                  <% else %>
+                    <% raise StandardError.new("Unrecognized input type: #{attribute.fetch(:type)}") %></p>
+                  <% end %>
+                </div>
+              </td>
+            <% end %>
+            <td>
+              <button>Create</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  <% end %>
   <% if @children.any? %>
     <div class='col-md-6'>
       <h3>Update existing records</h3>
@@ -216,112 +323,5 @@
         </ul>
       </nav>
     </div>
-  <% end %>
-  <% if @current_parent %>
-    <h3>Create new record</h3>
-    <!-- CREATE -->
-    <form action="<%= self.send("editor_create_#{@children_model.table_name}_path") %>" method="POST" >
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <% @metadata.fetch(:attributes).each do |attribute| %>
-              <th><%= attribute.fetch(:name) %></th>
-            <% end %>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <input type="hidden" name="<%= @metadata.fetch(:parent_column_name) %>" value="<%= @current_parent.id %>">
-            <% @metadata.fetch(:attributes).each do |attribute| %>
-              <td>
-                <!-- Input Builder -->
-                <div
-                  class="input-group input-group-sm <%=(attribute.fetch(:type) === 'datetime') ? 'date' : ''%>"
-                  <% if attribute.fetch(:type) == :datetime %>
-                    <% datetime_picker_id = SecureRandom.hex %>
-                    id="datetime-picker-<%= datetime_picker_id  %>"
-                  <% end %>
-                >
-                  <% case attribute.fetch(:type) %>
-                  <% when :integer %>
-                    <input
-                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
-                      name="<%= attribute.fetch(:name) %>"
-                      value='<%= @new_child.send(attribute.fetch(:name)) %>'
-                      style='min-width: 45px;'
-                      type='text'
-                      class='form-control'
-                    />
-                  <% when :enum %>
-                    <select
-                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
-                      name="<%= attribute.fetch(:name) %>"
-                    >
-                      <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
-                        <option
-                        <%= (possible_value == @new_child.send(attribute.fetch(:name))) ? 'selected' : '' %>
-                        ><%= possible_value %></option>
-                      <% end %>
-                    </select>
-                  <% when :belongs_to %>
-                    <select
-                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
-                      name="<%= attribute.fetch(:name) %>"
-                    >
-                      <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
-                        <option
-                        <%= (possible_value == @new_child.send(attribute.fetch(:name))) ? 'selected' : '' %>
-                        ><%= possible_value %></option>
-                      <% end %>
-                    </select>
-                  <% when :float %>
-                    <input
-                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
-                      name="<%= attribute.fetch(:name) %>"
-                      value='<%= @new_child.send(attribute.fetch(:name)) %>'
-                      type="number"
-                      class="form-control"
-                      <% if attribute.fetch(:editable) %>
-                        placeholder="Enter value"
-                      <% end %>
-                      step="0.01"
-                    />
-                  <% when :text %>
-                    <textarea
-                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
-                      name="<%= attribute.fetch(:name) %>"
-                      class="form-control"
-                      rows=1
-                    ><%= @new_child.send(attribute.fetch(:name)) %></textarea>
-                  <% # NOTE: date overrides, must convert to d/m/y %>
-                  <% when :datetime %>
-                    <input
-                      <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
-                      name="<%= attribute.fetch(:name) %>"
-                      type='text'
-                      class="form-control"
-                    />
-                    <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                    <script type="text/javascript">
-                      $(function () {
-                        $('<%= "#datetime-picker-#{datetime_picker_id}" %>').datetimepicker();
-                      });
-                    </script>
-                  <% else %>
-                    <% raise StandardError.new("Unrecognized input type: #{attribute.fetch(:type)}") %></p>
-                  <% end %>
-                </div>
-              </td>
-            <% end %>
-            <td>
-              <button>Create</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </form>
   <% end %>
 </div>
