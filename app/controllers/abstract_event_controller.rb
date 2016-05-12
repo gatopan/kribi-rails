@@ -11,7 +11,7 @@ class AbstractEventController < ApplicationController
     @parents = calculated_parents
     @children = paginated_children_model.where(parent_model_column => current_parent_id)
     @current_parent = current_parent
-    @new_child = children_model.new
+    @new_child = session.delete(:pending_member) || children_model.new
 
     unless @current_parent
       flash[:warning] = "Please select a #{parent_model.to_s.titleize}"
@@ -27,6 +27,7 @@ class AbstractEventController < ApplicationController
       flash[:success] = 'Sucessfully created record'
     else
       flash[:warning] = "Could not create record: #{@member.errors.messages}"
+      session[:pending_member] = @member
     end
 
     flash.keep
