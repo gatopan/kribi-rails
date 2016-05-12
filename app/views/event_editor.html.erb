@@ -82,7 +82,7 @@
                     <% when :enum %>
                       <select
                         <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
-                        <%= previous_child.APPROVED? ? 'READONLY' : '' %>
+                        <%= previous_child.APPROVED? ? 'DISABLED' : '' %>
                         name="<%= attribute.fetch(:name) %>"
                       >
                         <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
@@ -94,7 +94,7 @@
                     <% when :belongs_to %>
                       <select
                         <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
-                        <%= previous_child.APPROVED? ? 'READONLY' : '' %>
+                        <%= previous_child.APPROVED? ? 'DISABLED' : '' %>
                         name="<%= attribute.fetch(:name) %>"
                       >
                         <% attribute.fetch(:possible_values).each_with_index do |possible_value, index| %>
@@ -150,7 +150,9 @@
                 </td>
               <% end %>
               <td>
-                <button>Update</button>
+                <button
+                  <%= previous_child.APPROVED? ? 'DISABLED' : '' %>
+                >Update</button>
               </td>
             </form>
 
