@@ -153,6 +153,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
+          <th></th>
           <% @metadata.fetch(:attributes).each do |attribute| %>
             <th><%= attribute.fetch(:name) %></th>
           <% end %>
@@ -164,6 +165,13 @@
             <!-- UPDATE -->
             <form action="<%= self.send("editor_update_#{@children_model.table_name}_path") %>" method="POST" >
               <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+              <td>
+                <div class="input-group input-group-sm">
+                  <label class="checkbox-inline">
+                    <input class='collection_selected_id' name="<%= previous_child.id %>"type="checkbox" value="">
+                  </label>
+                </div>
+              </td>
               <% @metadata.fetch(:attributes).each do |attribute| %>
                 <td>
                   <!-- Input Builder -->
@@ -291,7 +299,29 @@
         <% end %>
       </tbody>
     </table>
-    <div class='col-md-6 col-md-offset-6'>
+    <div class='col-md-6'>
+      Collection actions:
+      <form id='collection_elevate' action="<%= self.send("editor_collection_elevate_#{@children_model.table_name}_path") %>" method="POST" >
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input id="ids" type="hidden" name="ids" value="">
+        <select name="intended_status">
+          <% ['PENDING', 'REVIEWED', 'APPROVED'].each do |status| %>
+            <option><%= status %></option>
+          <% end %>
+        </select>
+        <button>Elevate</button>
+      </form>
+      <script>
+        $(document).ready(function() {
+          $( "#collection_elevate" ).submit(function( event ) {
+            var selected_ids = $(".collection_selected_id:checked");
+            var ids = _.map(selected_ids, function(e) { return parseInt(e.name) });
+            $(this).find("#ids").val(ids);
+          });
+        });
+      </script>
+    </div>
+    <div class='col-md-6'>
       <nav>
         <ul class="pagination pull-right">
           <li>
@@ -325,3 +355,4 @@
     </div>
   <% end %>
 </div>
+<br/>

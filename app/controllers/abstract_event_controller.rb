@@ -68,6 +68,25 @@ class AbstractEventController < ApplicationController
     redirect_to request.referrer
   end
 
+  def editor_collection_elevate
+    ids = params[:ids].split(',').map{|id| id.to_i}
+    @members = children_model.where(id: ids)
+
+    begin
+      ActiveRecord::Base.transaction do
+        @members.each do |member|
+          member.update!(status: params[:intended_status])
+        end
+      end
+      flash[:success] = 'Sucessfully updated selected records'
+    rescue
+      flash[:warning] = 'Could not update selected records'
+    end
+
+    flash.keep
+    redirect_to request.referrer
+  end
+
   def editor_elevate
     @member = children_model.find(params[:id])
 
