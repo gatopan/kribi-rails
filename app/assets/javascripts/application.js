@@ -17,4 +17,5 @@
 //= require slimscroll/jquery.slimscroll.min.js
 //= require moment
 //= require bootstrap-datetimepicker
+//= require lodash.min.js
 //= require_tree .

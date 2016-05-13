@@ -98,6 +98,7 @@ Kribi::Application.routes.draw do
         post 'editor/update', action: 'editor_update'
         post 'editor/destroy', action: 'editor_destroy'
         post 'editor/elevate', action: 'editor_elevate'
+        post 'editor/collection_elevate', action: 'editor_collection_elevate'
       end
     end
   end
