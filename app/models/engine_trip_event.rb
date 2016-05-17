@@ -146,15 +146,6 @@ class EngineTripEvent < AbstractEventModel
     GAS_SUPPLY_FAILURE: 70
   }
 
-  before_validation do
-    CALCULATED_FIELD_NAMES.each do |calculated_field_name|
-      result = self.send("calculated_#{calculated_field_name}")
-      self.send("#{calculated_field_name}=", result)
-    end
-  end
-
-  validates :target_ending_datetime, presence: true
-  validate :target_ending_datetime_congruence
   validates :equipment, presence: true
   validates :bank, presence: true
   validates :cylinder, {
@@ -169,13 +160,6 @@ class EngineTripEvent < AbstractEventModel
   validates :context, presence: true
   validates :owner, presence: true
   validates :light_fuel_oil_consumption_type, presence: true
-  validates :power_generated_during_light_fuel_oil_consumption, {
-    presence: true,
-    numericality: {
-      greater_than_or_equal_to: 0,
-      less_than_or_equal_to: 9999 # TODO: figure out this
-    }
-  }
   validates :mean_load, {
     presence: true,
     numericality: {
@@ -183,26 +167,23 @@ class EngineTripEvent < AbstractEventModel
       less_than_or_equal_to: 20
     }
   }
+  after_save :set_previous_record_data
 
   private
 
-  def target_ending_datetime_congruence
-    return unless target_datetime
-    return unless target_ending_datetime
-    if target_datetime >= target_ending_datetime
-      errors.add :target_ending_datetime, 'must be after target_datetime'
-    end
+  def set_previous_record_data
+    return unless previous_record
+
+    duration_in_hours = (target_datetime.to_datetime - previous_record.target_datetime.to_datetime).to_f * 24
+    previous_record.update(duration_in_hours: duration_in_hours)
+
+    power_generated_during_light_fuel_oil_consumption = previous_record.duration_in_hours * previous_record.mean_load
+    previous_record.update(power_generated_during_light_fuel_oil_consumption: power_generated_during_light_fuel_oil_consumption)
   end
 
-  def calculated_duration_in_hours
-    return unless target_datetime
-    return unless target_ending_datetime
-    (target_ending_datetime.to_datetime - target_datetime.to_datetime).to_f * 24
-  end
-
-  def calculated_power_generated_during_light_fuel_oil_consumption
-    return unless duration_in_hours
-    return unless mean_load
-    duration_in_hours * mean_load
-  end
+  # NOTE: This calculated field does not apply to current record, only previous
+  # record
+  # def calculated_duration_in_hours
+  #   raise StandardError.new('Do not enable')
+  # end
 end

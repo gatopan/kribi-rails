@@ -71,13 +71,16 @@ class AbstractEventController < ApplicationController
   def editor_collection_elevate
     ids = params[:ids].split(',').map{|id| id.to_i}
     @members = children_model.where(id: ids)
+    intended_status = params[:intended_status]
 
     begin
       ActiveRecord::Base.transaction do
         @members.each do |member|
-          member.update!(status: params[:intended_status])
+          member.update!(status: intended_status)
         end
       end
+      service = Kribi::Exporter::Performer.new(:all)
+      service.perform
       flash[:success] = 'Sucessfully updated selected records'
     rescue
       flash[:warning] = 'Could not update selected records'
@@ -106,13 +109,9 @@ class AbstractEventController < ApplicationController
 
     if @member.valid? && @member.valid?(:congruence)
       if @member.update(status: intended_status)
-
-        if intended_status == 'APPROVED'
-          service = Kribi::Exporter::Performer.new(:all)
-          service.perform
-        end
-
-        flash[:success] = "Sucessfully updated intented_status to #{intended_status.downcase} on selected record."
+        service = Kribi::Exporter::Performer.new(:all)
+        service.perform
+        flash[:success] = "Sucessfully updated intended_status to #{intended_status.downcase} on selected record."
       else
         flash[:warning] = 'Error while updating status on selected resource'
       end
@@ -254,7 +253,6 @@ class AbstractEventController < ApplicationController
   # TODO: must convert to d/m/y
   def cast_datetimes
     params[:target_datetime] = DateTime.strptime(params[:target_datetime], "%m/%d/%Y %l:%M %p") if params[:target_datetime] && params[:target_datetime].present?
-    params[:target_ending_datetime] = DateTime.strptime(params[:target_ending_datetime], "%m/%d/%Y %l:%M %p") if params[:target_ending_datetime] && params[:target_ending_datetime].present?
   end
 end
 

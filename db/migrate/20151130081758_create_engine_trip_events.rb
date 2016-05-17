@@ -14,7 +14,6 @@ class CreateEngineTripEvents < Kribi::Migration
       t.float :mean_load, default: 0.0
       t.text :observations
       t.datetime :target_datetime
-      t.datetime :target_ending_datetime
       t.float :duration_in_hours
       t.integer :status, default: 0
       [

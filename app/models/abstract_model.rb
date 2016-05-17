@@ -34,7 +34,6 @@ class AbstractModel < ActiveRecord::Base
   end
 
   def previous_records
-    @previous_records ||=
     if persisted?
       parent_children_records.where("id < (?)", self.id).order(:id)
       # .limit((1440 / self.class::INTERVAL_IN_MINUTES) * 2) # last 2 days
@@ -44,7 +43,7 @@ class AbstractModel < ActiveRecord::Base
   end
 
   def previous_record
-    @previous_record ||= previous_records.last
+    previous_records.last
   end
 
   def remove_seconds_from_datetime_column

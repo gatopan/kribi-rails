@@ -343,7 +343,6 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.float    "mean_load",                                         default: 0.0
     t.text     "observations"
     t.datetime "target_datetime"
-    t.datetime "target_ending_datetime"
     t.float    "duration_in_hours"
     t.integer  "status",                                            default: 0
     t.string   "match_key_standard_daily"
@@ -378,7 +377,6 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.float    "mean_load",                                         default: 0.0
     t.text     "observations"
     t.datetime "target_datetime"
-    t.datetime "target_ending_datetime"
     t.float    "duration_in_hours"
     t.integer  "status",                                            default: 0
     t.string   "match_key_standard_daily"

@@ -166,7 +166,6 @@ class EngineTripExportEvent < AbstractEventModel
     end
   end
 
-  validates :target_ending_datetime, presence: true
   validates :equipment, presence: true
   validates :bank, presence: true
   validates :cylinder, {
@@ -198,11 +197,11 @@ class EngineTripExportEvent < AbstractEventModel
 
   private
 
-  def calculated_duration_in_hours
-    return unless target_datetime
-    return unless target_ending_datetime
-    (target_ending_datetime.to_datetime - target_datetime.to_datetime).to_f * 24
-  end
+  # NOTE: This calculated field does not apply to current record, only previous
+  # record
+  # def calculated_duration_in_hours
+  #   raise StandardError.new('Do not enable')
+  # end
 
   def calculated_power_generated_during_light_fuel_oil_consumption
     return unless duration_in_hours
