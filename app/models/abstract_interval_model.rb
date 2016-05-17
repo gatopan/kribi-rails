@@ -17,6 +17,7 @@ class AbstractIntervalModel < AbstractModel
     self.send(column_name) - previous_record.send(column_name)
   end
 
+  # NOTE: Column convention is hardcoded below
   def calculate_relative_logic
     self.class.relative_counter_value_columns.each do |column|
       counter_value_column_name = column.fetch(:counter_value_column_name)
@@ -24,13 +25,13 @@ class AbstractIntervalModel < AbstractModel
       real_value_column_name = counter_value_column_name.to_s.sub('counter', 'real').to_sym
       counter_offset_column_name = counter_value_column_name.to_s.sub('value', 'offset').to_sym
 
-      real_value = [
-        previous_record ? previous_record.send(real_value_column_name) : 0.0,
-        self.send(counter_value_column_name),
-        self.send(counter_offset_column_name)
-      ].sum
+      previous_record_counter_value = previous_record ? previous_record.send(counter_value_column_name) : 0.0
+      current_record_counter_value = self.send(counter_value_column_name)
+      current_record_counter_offset = self.send(counter_offset_column_name)
 
-      self.send("#{real_value_column_name}=", real_value)
+      current_record_real_value = current_record_counter_value + current_record_counter_offset - previous_record_counter_value
+
+      self.send("#{real_value_column_name}=", current_record_real_value)
 
       absolute_value = difference(real_value_column_name)
       self.send("#{absolute_value_column_name}=", absolute_value)
@@ -130,14 +131,17 @@ class AbstractIntervalModel < AbstractModel
       maximum_interval_difference = counter_value_column.fetch(:maximum_interval_difference)
       minimum_interval_difference = counter_value_column.fetch(:minimum_interval_difference)
 
+      # TODO Should adapt to reset logic
       if self.send(column_name) < previous_records.maximum(column_name)
         errors.add column_name, 'must be equal or greater than previous records'
       end
 
+      # TODO Should adapt to reset logic
       if difference(column_name) > maximum_interval_difference
         errors.add column_name, 'is above the maximum allowed difference.'
       end
 
+      # TODO Should adapt to reset logic
       if difference(column_name) < minimum_interval_difference
         errors.add column_name, 'is below the minimum allowed difference.'
       end
