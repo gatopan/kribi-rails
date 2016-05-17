@@ -10,40 +10,6 @@ class AbstractIntervalModel < AbstractModel
   ]
 
   ## CALCULATED FIELDS
-
-  def difference(column_name)
-    # return unless counter_value_exist?(real_value_column_name)
-    return 0.0 unless previous_record
-    self.send(column_name) - previous_record.send(column_name)
-  end
-
-  # NOTE: Column convention is hardcoded below
-  def calculate_relative_logic
-    self.class.relative_counter_value_columns.each do |column|
-      counter_value_column_name = column.fetch(:counter_value_column_name)
-      absolute_value_column_name = column.fetch(:absolute_value_column_name)
-      real_value_column_name = counter_value_column_name.to_s.sub('counter', 'real').to_sym
-      counter_offset_column_name = counter_value_column_name.to_s.sub('value', 'offset').to_sym
-
-      previous_record_counter_value = previous_record ? previous_record.send(counter_value_column_name) : 0.0
-      current_record_counter_value = self.send(counter_value_column_name)
-      current_record_counter_offset = self.send(counter_offset_column_name)
-
-      current_record_real_value = current_record_counter_value + current_record_counter_offset - previous_record_counter_value
-
-      self.send("#{real_value_column_name}=", current_record_real_value)
-
-      absolute_value = difference(real_value_column_name)
-      self.send("#{absolute_value_column_name}=", absolute_value)
-    end
-  end
-
-  ## VALIDATORS
-
-
-
-
-  ## HELPERS
   def self.target_day
     intended_day =
       self.PENDING.last.try(DATETIME_COLUMN) ||
@@ -57,6 +23,64 @@ class AbstractIntervalModel < AbstractModel
     else
       intended_day
     end
+  end
+
+
+  # CALLBACKS
+
+  # NOTE: Column convention is hardcoded below
+  def calculate_relative_logic
+    self.class.relative_counter_value_columns.each do |column|
+      counter_value_column_name = column.fetch(:counter_value_column_name)
+      real_value_column_name = counter_value_column_name.to_s.sub('counter', 'real').to_sym
+      absolute_value_column_name = column.fetch(:absolute_value_column_name)
+
+      current_record_real_value = calculated_real_value_for(column)
+
+      self.send("#{real_value_column_name}=", current_record_real_value)
+      self.send("#{absolute_value_column_name}=", current_record_real_value)
+    end
+  end
+
+  ## VALIDATORS
+
+  def congruence
+    return unless previous_record
+    self.class::relative_counter_value_columns.each do |column|
+      counter_value_column_name = column.fetch(:counter_value_column_name)
+      maximum_interval_difference = column.fetch(:maximum_interval_difference)
+      minimum_interval_difference = column.fetch(:minimum_interval_difference)
+
+      current_record_real_value = calculated_real_value_for(column)
+
+      if current_record_real_value > maximum_interval_difference
+        errors.add counter_value_column_name, 'is above the maximum allowed difference.'
+      end
+
+      if current_record_real_value < minimum_interval_difference
+        errors.add counter_value_column_name, 'is below the minimum allowed difference.'
+      end
+    end
+  end
+
+  ## HELPERS
+
+  # NOTE: Column convention is hardcoded below
+  def calculated_real_value_for(column)
+    counter_value_column_name = column.fetch(:counter_value_column_name)
+    counter_offset_column_name = counter_value_column_name.to_s.sub('value', 'offset').to_sym
+
+    previous_record_counter_value = previous_record ? previous_record.send(counter_value_column_name) : 0.0
+    current_record_counter_value = self.send(counter_value_column_name)
+    current_record_counter_offset = self.send(counter_offset_column_name)
+
+    current_record_counter_value + current_record_counter_offset - previous_record_counter_value
+  end
+
+  # TODO rename this and plant oil refs
+  def difference(column_name)
+    return 0.0 unless previous_record
+    self.send(column_name) - previous_record.send(column_name)
   end
 
   ## INITIALIZER
@@ -111,40 +135,5 @@ class AbstractIntervalModel < AbstractModel
     validate :congruence, on: :congruence
     before_save :calculate_relative_logic
     super
-  end
-
-
-  # def counter_value_exist?(counter_value)
-  #   begin
-  #     !!(self.send(counter_value))
-  #   rescue
-  #     raise StandardError.new('self.class::COUNTER_VALUES_COLUMNS is misconfigured')
-  #   end
-  # end
-  #
-
-  def congruence
-    return unless previous_records.any?
-
-    self.class::relative_counter_value_columns.each do |counter_value_column|
-      column_name = counter_value_column.fetch(:counter_value_column_name)
-      maximum_interval_difference = counter_value_column.fetch(:maximum_interval_difference)
-      minimum_interval_difference = counter_value_column.fetch(:minimum_interval_difference)
-
-      # TODO Should adapt to reset logic
-      if self.send(column_name) < previous_records.maximum(column_name)
-        errors.add column_name, 'must be equal or greater than previous records'
-      end
-
-      # TODO Should adapt to reset logic
-      if difference(column_name) > maximum_interval_difference
-        errors.add column_name, 'is above the maximum allowed difference.'
-      end
-
-      # TODO Should adapt to reset logic
-      if difference(column_name) < minimum_interval_difference
-        errors.add column_name, 'is below the minimum allowed difference.'
-      end
-    end
   end
 end

@@ -83,6 +83,7 @@ class EngineLightFuelOilReading < AbstractIntervalModel
 
   private
 
+  # TODO: Smells
   def calculated_consumption
     return unless inlet_counter_value
     return unless outlet_counter_value
