@@ -58,10 +58,8 @@ class AbstractBatchController < ApplicationController
       end
     end
 
-    if intended_status == 'APPROVED'
-      service = Kribi::Exporter::Performer.new(:all)
-      service.perform
-    end
+    service = Kribi::Exporter::Performer.new(:all)
+    service.perform
 
     flash[:success] = "Sucessfully updated status to #{intended_status.downcase} on all records."
     flash.keep

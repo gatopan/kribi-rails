@@ -75,23 +75,32 @@ module Kribi
         when "EngineTripEvent"
           model::PARENT_MODEL.all.each do |parent_model|
             parent_id = parent_model.id
-            children = model.where(model.parent_model_column => parent_id).order(:id)
+            children = model.where(model.parent_model_column => parent_id).order(:id).to_a
+            next unless children.any?
+
+            # Select first child to ease data handling
+            previous_child = children.first
+
+            # Create last child to ease data handling
+            final_child = generate_final_child(model, parent_id)
+            children.push(final_child)
 
             children.each_with_index do |current_child, index|
-              initial_day = days_since_y2k(current_child.target_datetime)
-              ending_day = days_since_y2k(current_child.target_ending_datetime)
+              next if index == 0
 
+              previous_child_day = days_since_y2k(previous_child.target_datetime)
+              current_child_day = days_since_y2k(current_child.target_datetime)
 
-              (initial_day..ending_day).each do |block_day|
+              (previous_child_day..current_child_day).each do |block_day|
                 block_day_date = y2k_days_to_date(block_day)
 
                 duration_in_hours =
-                  if ending_day == initial_day
-                    ( current_child.target_ending_datetime.to_datetime - current_child.target_datetime.to_datetime ) / (60 * 60)
-                  elsif initial_day == block_day
-                    (24.hours + ((block_day_date.to_datetime.to_f - current_child.target_datetime.to_f)/(60*60)).hours)/ (60*60)
-                  elsif ending_day == block_day
-                    -((block_day_date.to_datetime.to_f - current_child.target_ending_datetime.to_f) / (60*60))
+                  if current_child_day == previous_child_day # if starts and ends on same day
+                    ( current_child.target_datetime - previous_child.target_datetime)/(60 * 60)
+                  elsif previous_child_day == block_day # if first day
+                    24 + (block_day_date - previous_child.target_datetime)/(60 * 60)
+                  elsif current_child_day == block_day # if last day
+                    (current_child.target_datetime - block_day_date)/(60 * 60)
                   else
                     24
                   end
@@ -99,8 +108,8 @@ module Kribi
                 middle_record_source                  = current_child.dup
                 middle_record                         = EngineTripExportEvent.new
                 middle_record.attributes              = middle_record_source.attributes
+                middle_record.duration_in_hours       = duration_in_hours
                 middle_record.target_datetime         = block_day_date
-                middle_record.target_ending_datetime  = block_day_date + duration_in_hours.hours
                 middle_record.APPROVED!
 
                 unless middle_record.save
@@ -109,13 +118,13 @@ module Kribi
 
                 middle_records.push(middle_record)
               end
-            end
-          end
-        else
-          raise StandardError.new("Not implemented")
-        end
 
-        return middle_records
+              previous_child = current_child
+            end
+
+            middle_records.last.destroy! # remove final record to prevent record with empty duratin to show in the report
+          end
+        end
       end
 
       private
