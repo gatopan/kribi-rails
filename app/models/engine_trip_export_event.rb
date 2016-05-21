@@ -159,13 +159,6 @@ class EngineTripExportEvent < AbstractEventModel
     GAS_SUPPLY_FAILURE: 70
   }
 
-  before_validation do
-    CALCULATED_FIELD_NAMES.each do |calculated_field_name|
-      result = self.send("calculated_#{calculated_field_name}")
-      self.send("#{calculated_field_name}=", result)
-    end
-  end
-
   validates :equipment, presence: true
   validates :bank, presence: true
   validates :cylinder, {
