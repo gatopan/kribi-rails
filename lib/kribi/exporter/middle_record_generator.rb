@@ -137,6 +137,11 @@ module Kribi
             engine_mode: model.engine_modes.values.sample,
             target_datetime: remove_hours(Time.now.utc)
           )
+        when "EngineTripEvent"
+          model.new(
+            model.parent_model_column => parent_id,
+            target_datetime: remove_hours(Time.now.utc)
+          )
         else
           raise StandardError.new("Model not implemented for middle records: #{model}")
         end

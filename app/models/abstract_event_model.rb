@@ -9,6 +9,7 @@ class AbstractEventModel < AbstractModel
 
   def target_datetime_congruence
     return unless previous_record
+    return unless target_datetime
 
     if self.target_datetime < previous_record.target_datetime
       errors.add :target_datetime, "must be equal or later than previous record's"

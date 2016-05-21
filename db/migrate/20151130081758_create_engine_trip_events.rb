@@ -2,6 +2,8 @@ class CreateEngineTripEvents < Kribi::Migration
   def change
     create_table :engine_trip_events do |t|
       t.belongs_to :engine, index: true, foreign_key: true
+      t.datetime :target_datetime
+      t.float :duration_in_hours
       t.integer :equipment
       t.integer :bank
       t.integer :cylinder
@@ -13,8 +15,6 @@ class CreateEngineTripEvents < Kribi::Migration
       t.float :power_generated_during_light_fuel_oil_consumption
       t.float :mean_load, default: 0.0
       t.text :observations
-      t.datetime :target_datetime
-      t.float :duration_in_hours
       t.integer :status, default: 0
       [
         :standard_daily,

@@ -331,6 +331,8 @@ ActiveRecord::Schema.define(version: 20160512034926) do
 
   create_table "engine_trip_events", force: :cascade do |t|
     t.integer  "engine_id"
+    t.datetime "target_datetime"
+    t.float    "duration_in_hours"
     t.integer  "equipment"
     t.integer  "bank"
     t.integer  "cylinder"
@@ -342,8 +344,6 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.float    "power_generated_during_light_fuel_oil_consumption"
     t.float    "mean_load",                                         default: 0.0
     t.text     "observations"
-    t.datetime "target_datetime"
-    t.float    "duration_in_hours"
     t.integer  "status",                                            default: 0
     t.string   "match_key_standard_daily"
     t.string   "match_key_standard_weekly"
