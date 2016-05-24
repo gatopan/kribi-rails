@@ -1,7 +1,7 @@
 class NewOilTankDispensingEvent < AbstractEventModel
   PARENT_MODEL = NewOilTank
-EXPORTER_CONFIG = {
-    match_key_types_fragments: [],
+  EXPORTER_CONFIG = {
+    match_key_types_fragments: [:engine_id],
     mappings: [
       {
         query: {
