@@ -99,6 +99,19 @@ class StaticPagesController < ApplicationController
     @event_models = AbstractEventModel.descendants
   end
 
+  #TODO: Refactor, my eyes!
+  def all_dumps
+    pwd = Dir.pwd
+    Dir.chdir(Rails.root + './public')
+    target = './dumps.zip'
+    rule = './*.xml'
+    FileUtils.rm_f(target)
+    `zip -r #{target} #{rule}`
+    Dir.chdir(pwd)
+    file = File.open(Rails.root + './public' + target)
+    send_file(file)
+  end
+
   private
 
   def registration_params

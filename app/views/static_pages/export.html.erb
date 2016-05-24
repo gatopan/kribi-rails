@@ -1,5 +1,5 @@
 <div class='export'>
-  <h2>Reports</h2>
+  <h2>Aggregates and Dumps</h2>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -10,7 +10,16 @@
     </thead>
     <tbody>
       <tr>
-        <td>Key Performance Indicators</td>
+        <td>All Dumps</td>
+        <td><%= DateTime.now.strftime("%Y-%m-%d") %></td>
+        <td class='export-button-group' >
+          <div class='btn-group btn-group-justified' role='group'>
+            <a href="<%= '/all_dumps.zip' %>" class='btn btn-primary'>Download</a>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Aggregates</td>
         <td><%= DateTime.now.strftime("%Y-%m-%d") %></td>
         <td class='export-button-group' >
           <div class='btn-group btn-group-justified' role='group'>

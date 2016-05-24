@@ -23,6 +23,8 @@ Kribi::Application.routes.draw do
     as: :export
   }
 
+  get '/all_dumps.zip', to: 'static_pages#all_dumps'
+
   # JSON
   # post 'register_json', {
   #   to: 'static_pages#register_json',
