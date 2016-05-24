@@ -89,24 +89,24 @@ class EngineStatusChangeExportEvent < AbstractEventModel
 
   def outage?
     return unless engine_mode
-    [:SCHEDULED_OUTAGE, :MANUAL_FORCED_OUTAGE, :AUTOMATIC_FORCED_OUTAGE].include? engine_mode
+    ['SCHEDULED_OUTAGE', 'MANUAL_FORCED_OUTAGE', 'AUTOMATIC_FORCED_OUTAGE'].include? engine_mode
   end
 
   def derating?
     return unless derating_mode
-    derating_mode != :NO_DERATING
+    derating_mode != 'NO_DERATING'
   end
 
   def derating_congruence
     return unless derating_mode
     return unless engine_mode
-    if outage? && derating_mode != :NO_DERATING
+    if outage? && derating?
       errors.add :derating_mode, 'cannot be derating because engine is already unavailable'
     end
-    if (engine_mode == :RESERVED) && [:PLANNED_DERATING, :FORCED_DERATING].include?(derating_mode)
+    if (engine_mode == 'RESERVED') && ['PLANNED_DERATING', 'FORCED_DERATING'].include?(derating_mode)
       errors.add :derating_mode, 'cannot be planned or forced because engine is in reserve'
     end
-    if (engine_mode == :IN_SERVICE) && [:RESERVED_DERATING].include?(derating_mode)
+    if (engine_mode == 'IN_SERVICE') && ['RESERVED_DERATING'].include?(derating_mode)
       errors.add :derating_mode, 'cannot be reserved because engine is in service'
     end
   end
