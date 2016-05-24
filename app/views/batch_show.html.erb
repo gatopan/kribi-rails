@@ -7,7 +7,9 @@
   </div>
   <div class='col-md-4 text-right'>
     <br/>
-    <h4>Show reset/offset options: <input type="checkbox" name="showResetOptions" id="toggle-reset"></h4>
+    <% if children_model.is_resettable? %>
+      <h4>Show reset/offset options: <input type="checkbox" name="showResetOptions" id="toggle-reset"></h4>
+    <% end %>
   </div>
   <div class='col-md-12'>
     <br />
@@ -118,7 +120,7 @@
           </select>
         </div>
       </td>
-      <td><button>Elevate</button></td>
+      <td><button>Change Status</button></td>
     </form>
   </div>
 </div>

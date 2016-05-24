@@ -65,6 +65,10 @@ class AbstractIntervalModel < AbstractModel
 
   ## HELPERS
 
+  def self.is_resettable?
+    column_names.any?{|name| name =~ /offset/ }
+  end
+
   # NOTE: Column convention is hardcoded below
   def calculated_real_value_for(column)
     counter_value_column_name = column.fetch(:counter_value_column_name)

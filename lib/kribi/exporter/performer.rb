@@ -107,8 +107,12 @@ module Kribi
                 end
               when :dump
                 relation.order(:id).each_with_index do |record, index|
-                  permitted_attributes = record.attributes.select do |key, value|
-                    ALLOWED_MIDDLE_RECORD_MODELS.exclude?(record.class) || !(key =~ /created_at|updated_at|match_key/)
+                  permitted_attributes = record.attributes.reject do |key, value|
+                    ALLOWED_MIDDLE_RECORD_MODELS.include?(record.class)
+                  end
+
+                  permitted_attributes = permitted_attributes.reject do |key, value|
+                    key =~ /created_at|updated_at|match_key|status/
                   end
 
                   query_output << permitted_attributes.keys if index == 0 # inject header
