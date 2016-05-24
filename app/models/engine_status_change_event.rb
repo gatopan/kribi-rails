@@ -17,17 +17,10 @@ class EngineStatusChangeEvent < AbstractEventModel
       }
     ]
   }
-  # TODO: hide duration in hours from UI
   CALCULATED_FIELD_NAMES = [
     'duration_in_hours'
   ]
   abstract_bootloader()
-
-  # NOTE: This calculated field does not apply to current record, only previous
-  # record
-  # def calculated_duration_in_hours
-  #   raise StandardError.new('Do not enable')
-  # end
 
   enum type: {
     INTERNAL: 0,
@@ -63,15 +56,6 @@ class EngineStatusChangeEvent < AbstractEventModel
     MECHANICAL_MAINTENANCE_AND_CONTRACTORS: 9,
     ELECTRICAL_MAINTENANCE_AND_CONTRACTORS: 10,
   }
-
-  # NOTE: This calculated field does not apply to current record, only previous
-  # record
-  # before_validation do
-  #   CALCULATED_FIELD_NAMES.each do |calculated_field_name|
-  #     result = self.send("calculated_#{calculated_field_name}")
-  #     self.send("#{calculated_field_name}=", result)
-  #   end
-  # end
 
   validates :type, presence: true
   validates :engine_mode, presence: true

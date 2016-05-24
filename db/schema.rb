@@ -341,6 +341,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.integer  "context"
     t.integer  "owner"
     t.integer  "light_fuel_oil_consumption_type"
+    t.float    "light_fuel_oil_estimation_in_kilograms"
     t.float    "power_generated_during_light_fuel_oil_consumption"
     t.float    "mean_load",                                         default: 0.0
     t.text     "observations"
@@ -373,6 +374,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.integer  "context"
     t.integer  "owner"
     t.integer  "light_fuel_oil_consumption_type"
+    t.float    "light_fuel_oil_estimation_in_kilograms"
     t.float    "power_generated_during_light_fuel_oil_consumption"
     t.float    "mean_load",                                         default: 0.0
     t.text     "observations"

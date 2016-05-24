@@ -109,10 +109,13 @@ module Kribi
                 middle_record                         = EngineTripExportEvent.new
                 middle_record.attributes              = middle_record_source.attributes
                 middle_record.duration_in_hours       = duration_in_hours
+                middle_record.power_generated_during_light_fuel_oil_consumption =  middle_record.calculated_power_generated_during_light_fuel_oil_consumption
+                middle_record.light_fuel_oil_estimation_in_kilograms =  middle_record.calculated_light_fuel_oil_estimation_in_kilograms
                 middle_record.target_datetime         = block_day_date
-                middle_record.APPROVED!
+                middle_record.status                  = :APPROVED
 
                 unless middle_record.save
+                  binding.pry
                   raise StandardError.new('Unable to save middle record')
                 end
 
@@ -138,10 +141,9 @@ module Kribi
             target_datetime: remove_hours(Time.now.utc)
           )
         when "EngineTripEvent"
-          model.new(
-            model.parent_model_column => parent_id,
-            target_datetime: remove_hours(Time.now.utc)
-          )
+          final_child = model.where(model.parent_model_column => parent_id).last.dup
+          final_child.target_datetime = remove_hours(Time.now.utc)
+          final_child
         else
           raise StandardError.new("Model not implemented for middle records: #{model}")
         end

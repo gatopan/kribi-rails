@@ -2,7 +2,10 @@ class EngineTripEvent < AbstractEventModel
   self.inheritance_column = nil
   PARENT_MODEL = Engine
   EXPORTER_CONFIG = {
-    match_key_types_fragments: [],
+    match_key_types_fragments: [
+      :light_fuel_oil_consumption_type,
+      :type
+    ],
     mappings: [
       {
         query: {
@@ -19,7 +22,8 @@ class EngineTripEvent < AbstractEventModel
   }
   CALCULATED_FIELD_NAMES = [
     'duration_in_hours',
-    'power_generated_during_light_fuel_oil_consumption'
+    'power_generated_during_light_fuel_oil_consumption',
+    'light_fuel_oil_estimation_in_kilograms'
   ]
   abstract_bootloader()
 
@@ -167,23 +171,35 @@ class EngineTripEvent < AbstractEventModel
       less_than_or_equal_to: 20
     }
   }
-  after_save :set_previous_record_data
+
+  after_save :set_previous_record_data!
+
+  def calculated_power_generated_during_light_fuel_oil_consumption
+    return unless duration_in_hours
+    return unless mean_load
+    duration_in_hours * mean_load
+  end
+
+  def calculated_light_fuel_oil_estimation_in_kilograms
+    return unless mean_load
+    return unless duration_in_hours
+
+    if mean_load < ( 16.537 / 2 )
+      duration_in_hours * 200 * 16.537 / 2
+    else
+      duration_in_hours * 200 * mean_load * 1.025
+    end
+  end
 
   private
 
-  def set_previous_record_data
+  def set_previous_record_data!
     return unless previous_record
 
     duration_in_hours = (target_datetime.to_datetime - previous_record.target_datetime.to_datetime).to_f * 24
     previous_record.update(duration_in_hours: duration_in_hours)
 
-    power_generated_during_light_fuel_oil_consumption = previous_record.duration_in_hours * previous_record.mean_load
-    previous_record.update(power_generated_during_light_fuel_oil_consumption: power_generated_during_light_fuel_oil_consumption)
+    previous_record.update(power_generated_during_light_fuel_oil_consumption: previous_record.calculated_power_generated_during_light_fuel_oil_consumption)
+    previous_record.update(light_fuel_oil_estimation_in_kilograms: previous_record.calculated_light_fuel_oil_estimation_in_kilograms)
   end
-
-  # NOTE: This calculated field does not apply to current record, only previous
-  # record
-  # def calculated_duration_in_hours
-  #   raise StandardError.new('Do not enable')
-  # end
 end

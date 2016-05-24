@@ -73,19 +73,16 @@ class AbstractEventController < ApplicationController
     @members = children_model.where(id: ids)
     intended_status = params[:intended_status]
 
-    begin
-      ActiveRecord::Base.transaction do
-        @members.each do |member|
-          member.update!(status: intended_status)
-        end
+    ActiveRecord::Base.transaction do
+      @members.each do |member|
+        member.update!(status: intended_status)
       end
-      service = Kribi::Exporter::Performer.new(:all)
-      service.perform
-      flash[:success] = 'Sucessfully updated selected records'
-    rescue
-      flash[:warning] = 'Could not update selected records'
     end
 
+    service = Kribi::Exporter::Performer.new(:all)
+    service.perform
+
+    flash[:success] = 'Sucessfully updated selected records'
     flash.keep
     redirect_to request.referrer
   end

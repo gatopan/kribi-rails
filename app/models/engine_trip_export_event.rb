@@ -1,14 +1,19 @@
-# NOTE: Middle class model, only used during export
 class EngineTripExportEvent < AbstractEventModel
   self.inheritance_column = nil
   PARENT_MODEL = Engine
   EXPORTER_CONFIG = {
-    match_key_types_fragments: [],
+    match_key_types_fragments: [
+      :light_fuel_oil_consumption_type,
+      :type
+    ],
     mappings: [
       {
         query: {
           type: :aggregate,
-          fragment: 'sum(duration_in_hours) as duration_in_hours_sum'
+          fragment: 'sum(duration_in_hours) as duration_in_hours_sum, '\
+                    'count(id) as trip_count, '\
+                    'sum(power_generated_during_light_fuel_oil_consumption) as power_during_lfo_consumption_sum, '\
+                    'sum(light_fuel_oil_estimation_in_kilograms) as light_fuel_oil_estimation_in_kilograms_sum'
         },
         destination: {
           type: :excel,
@@ -32,7 +37,8 @@ class EngineTripExportEvent < AbstractEventModel
   }
   CALCULATED_FIELD_NAMES = [
     'duration_in_hours',
-    'power_generated_during_light_fuel_oil_consumption'
+    'power_generated_during_light_fuel_oil_consumption',
+    'light_fuel_oil_estimation_in_kilograms'
   ]
   abstract_bootloader()
 
@@ -173,13 +179,6 @@ class EngineTripExportEvent < AbstractEventModel
   validates :context, presence: true
   validates :owner, presence: true
   validates :light_fuel_oil_consumption_type, presence: true
-  validates :power_generated_during_light_fuel_oil_consumption, {
-    presence: true,
-    numericality: {
-      greater_than_or_equal_to: 0,
-      less_than_or_equal_to: 9999 # TODO: figure out this
-    }
-  }
   validates :mean_load, {
     presence: true,
     numericality: {
@@ -188,18 +187,20 @@ class EngineTripExportEvent < AbstractEventModel
     }
   }
 
-  private
-
-  # NOTE: This calculated field does not apply to current record, only previous
-  # record
-  # def calculated_duration_in_hours
-  #   raise StandardError.new('Do not enable')
-  # end
-
   def calculated_power_generated_during_light_fuel_oil_consumption
     return unless duration_in_hours
     return unless mean_load
     duration_in_hours * mean_load
   end
-end
 
+  def calculated_light_fuel_oil_estimation_in_kilograms
+    return unless mean_load
+    return unless duration_in_hours
+
+    if mean_load < ( 16.537 / 2 )
+      duration_in_hours * 200 * 16.537 / 2
+    else
+      duration_in_hours * 200 * mean_load * 1.025
+    end
+  end
+end

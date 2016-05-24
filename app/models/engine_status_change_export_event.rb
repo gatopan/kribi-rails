@@ -1,4 +1,3 @@
-# NOTE: Middle class model, only used during export
 class EngineStatusChangeExportEvent < AbstractEventModel
   self.inheritance_column = nil
   PARENT_MODEL = Engine
@@ -30,8 +29,6 @@ class EngineStatusChangeExportEvent < AbstractEventModel
       }
     ]
   }
-  CALCULATED_FIELD_NAMES = [
-  ]
   abstract_bootloader()
 
   enum type: {
@@ -68,13 +65,6 @@ class EngineStatusChangeExportEvent < AbstractEventModel
     MECHANICAL_MAINTENANCE_AND_CONTRACTORS: 9,
     ELECTRICAL_MAINTENANCE_AND_CONTRACTORS: 10,
   }
-
-  before_validation do
-    CALCULATED_FIELD_NAMES.each do |calculated_field_name|
-      result = self.send("calculated_#{calculated_field_name}")
-      self.send("#{calculated_field_name}=", result)
-    end
-  end
 
   validates :type, presence: true
   validates :engine_mode, presence: true
