@@ -3,13 +3,13 @@ class AbstractBatchController < ApplicationController
     :parent_model,
     :children_model,
     :children_attributes,
-    :children_model_datetime_column,
     :association_name,
     :parents,
     :previous_day_target_datetimes,
     :previous_day_children,
     :target_datetimes,
     :children,
+    :target_day
   )
 
   def batch_show
@@ -78,6 +78,7 @@ class AbstractBatchController < ApplicationController
   end
 
   def target_datetimes
+    return [] unless target_day
     return @target_datetimes if @target_datetimes
     frequency = 1440 / children_model::INTERVAL_IN_MINUTES
 
@@ -87,12 +88,20 @@ class AbstractBatchController < ApplicationController
       minute = minute_number % 60
 
       Time.zone.local(
-        children_model.target_day.year,
-        children_model.target_day.month,
-        children_model.target_day.day,
+        target_day.year,
+        target_day.month,
+        target_day.day,
         hour,
         minute
       ).to_datetime
+    end
+  end
+
+  def target_day
+    if params[:target_day]
+      params[:target_day].to_datetime
+    else
+      children_model.target_day
     end
   end
 
