@@ -139,8 +139,6 @@
           </tbody>
         </table>
         <p>Current statuses: <b><%= @children.map(&:status).uniq %></b></p>
-        <p>Current role: <b><%= current_person.role %></b></p>
-        <p>Target day: <b><%= children_model.target_day.utc.strftime("%Y-%m-%d") %></b></p>
         <p><%= submit_tag('Update') %></p>
       <% end %>
 
