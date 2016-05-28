@@ -29,14 +29,17 @@
           <span><button>Change</button></span>
           <script type="text/javascript">
             $(function () {
-                $('<%= "#datetime-picker-#{datetime_picker_id}" %>').datetimepicker({
-                  format: 'DD/MM/YYYY',
-                  minDate: new Date('<%= (children_model.first.target_datetime).utc.strftime("%Y-%m-%d") %>T00:00:00Z'),
-                  maxDate: new Date('<%= (children_model.target_day+1.day).utc.strftime("%Y-%m-%d") %>T00:00:00Z'),
-                  disabledDates: [new Date('<%= (children_model.first.target_datetime).utc.strftime("%Y-%m-%d") %>T00:00:00Z')]
-                });
+              var target_element = $('<%= "#datetime-picker-#{datetime_picker_id}" %>');
+
+              target_element.datetimepicker({
+                format: "DD/MM/YYYY",
+                useCurrent: false,
+                minDate: new Date('<%= children_model.first.target_datetime.utc.strftime("%Y-%m-%d") %>T00:00:00Z'),
+                maxDate: new Date('<%= (children_model.target_day.utc+1.day).strftime("%Y-%m-%d") %>T00:00:00Z'),
+                disabledDates: [new Date('<%= children_model.first.target_datetime.utc.strftime("%Y-%m-%d") %>T00:00:00Z')],
+                defaultDate: new Date('<%= (children_model.target_day.utc).utc.strftime("%Y-%m-%d") %>T00:00:00Z')
+              });
             });
-            <%# TODO: remove ugly hack that fixes internal datepicker bug  (disabledDates) %>
           </script>
         </div>
       </form>

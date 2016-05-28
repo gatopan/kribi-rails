@@ -98,11 +98,25 @@ class AbstractBatchController < ApplicationController
   end
 
   def target_day
-    if params[:target_day]
-      params[:target_day].to_datetime
-    else
-      children_model.target_day
+    unless params[:target_day]
+      return children_model.target_day
     end
+
+    target_day_datetime = params[:target_day].to_datetime
+
+    if target_day_datetime >= DateTime.now
+      raise StandardError.new("Target Day cannot be in the future.")
+    end
+
+    unless children_model.any?
+      return target_day_datetime
+    end
+
+    if target_day_datetime < children_model.first.target_datetime
+      raise StandardError.new("Target Day cannot be before first record.")
+    end
+
+    return target_day_datetime
   end
 
   def association_name(model, type)
