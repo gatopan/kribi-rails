@@ -71,6 +71,8 @@
                 <% end_of_row   = ((index % parents.length) == (parents.length-1)) %>
 
                 <% if start_of_row %>
+                  <%# NOTE: Date comment assumes assumes only one previous day children record %>
+                  <tr><td colspan=<%= parents.count + 1 %>><p>Previous Date Last Record (<%= child.target_datetime.utc.strftime("%d/%m/%Y") %>)</p></td></tr>
                   <tr>
                     <th scope="row">
                       <div class='form-group'>
@@ -107,6 +109,9 @@
               <% end_of_row   = ((index % parents.length) == (parents.length-1)) %>
 
               <% if start_of_row %>
+                <% if index == 0 %>
+                  <tr><td colspan=<%= parents.count + 1 %>><p>Target Date Records (<%= child.target_datetime.utc.strftime("%d/%m/%Y") %>)</p></td></tr>
+                <% end %>
                 <tr>
                   <th scope="row">
                     <div class='form-group'>
