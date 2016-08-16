@@ -308,7 +308,10 @@
         <input id="ids" type="hidden" name="ids" value="">
         <select name="intended_status">
           <% ['PENDING', 'REVIEWED', 'APPROVED'].each do |status| %>
-            <option><%= status %></option>
+            <option
+              <%= status == @children.map(&:status).uniq.first ? 'SELECTED' : '' %>
+              <%= current_person.allowed_statuses.include?(status) ? '' : 'DISABLED' %>
+            ><%= status %></option>
           <% end %>
         </select>
         <button>Change Status</button>

@@ -3,13 +3,11 @@ body {
   background-color: #2f4050;
   font-size: 13px;
   color: $text-color;
-  overflow-x: hidden;
-
+  overflow-x: scroll;
 }
 
 html, body {
   height: 100%;
-
 }
 
 body.full-height-layout #wrapper,
@@ -19,6 +17,8 @@ body.full-height-layout #page-wrapper {
 
 #page-wrapper {
   min-height: auto;
+  display: inline-block;
+  width: auto;
 }
 
 body.boxed-layout {
@@ -174,7 +174,7 @@ video {
 
 #wrapper {
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: visible;
 }
 
 .wrapper {

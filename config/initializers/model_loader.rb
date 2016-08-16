@@ -6,7 +6,7 @@
 
 # NOTE: Comment below while recreating database
 # bundle exec rake db:drop db:create db:migrate db:seed
-# Dir.glob("./app/models/*.rb").map{|path| path.sub("./app/models/", '')}.each do |line|
-#   model_name = line.split('.').first
-#   model_name.camelize.constantize
-# end
+Dir.glob("./app/models/*.rb").map{|path| path.sub("./app/models/", '')}.each do |line|
+  model_name = line.split('.').first
+  model_name.camelize.constantize
+end
