@@ -14,7 +14,7 @@
         <td><%= DateTime.now.strftime("%Y-%m-%d") %></td>
         <td class='export-button-group' >
           <div class='btn-group btn-group-justified' role='group'>
-            <a href="<%= '/all_dumps.zip' %>" class='btn btn-primary'>Download</a>
+            <a href="<%= '/all_dumps.zip' %>" class='btn btn-primary' download>Download</a>
           </div>
         </td>
       </tr>
@@ -23,7 +23,7 @@
         <td><%= DateTime.now.strftime("%Y-%m-%d") %></td>
         <td class='export-button-group' >
           <div class='btn-group btn-group-justified' role='group'>
-            <a href="<%= '/kpp_kpi_report.xml' %>" class='btn btn-primary'>Download</a>
+            <a href="<%= '/kpp_kpi_report.xml' %>" class='btn btn-primary' download>Download</a>
           </div>
         </td>
       </tr>
@@ -85,7 +85,7 @@
                 <% filename_prefix = mapping.fetch(:destination).fetch(:filename_prefix) %>
                 <% next if filename_prefix == 'kpp_kpi_report' %>
                 <% filename = "#{filename_prefix}.xml" %>
-                <a href="<%= filename %>" class='btn btn-primary'>Download</a>
+                <a href="<%= filename %>" class='btn btn-primary' download>Download</a>
               <% end %>
             </div>
           </td>
