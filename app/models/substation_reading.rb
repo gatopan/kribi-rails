@@ -46,14 +46,14 @@ class SubstationReading < AbstractIntervalModel
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
 
   validates :counter_value, {
     numericality: {
       greater_than_or_equal_to: 0,
-      less_than_or_equal_to: 99999.999
+      less_than_or_equal_to: 999999.999
     },
     on: :congruence
   }

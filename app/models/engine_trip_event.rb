@@ -27,6 +27,19 @@ class EngineTripEvent < AbstractEventModel
   ]
   abstract_bootloader()
 
+  enum cylinder: {
+    'NONE' => 0,
+    '1' => 1,
+    '2' => 2,
+    '3' => 3,
+    '4' => 4,
+    '5' => 5,
+    '6' => 6,
+    '7' => 7,
+    '8' => 8,
+    '9' => 9
+  }
+
   enum equipment: {
     EQUIPMENT_NONE: 0,
     AVR: 5,
@@ -55,6 +68,7 @@ class EngineTripEvent < AbstractEventModel
   }
 
   enum bank: {
+    BANK_NONE: 0,
     BANK_A: 10,
     BANK_B: 20
   }
@@ -152,13 +166,6 @@ class EngineTripEvent < AbstractEventModel
 
   validates :equipment, presence: true
   validates :bank, presence: true
-  validates :cylinder, {
-    presence: true,
-    numericality: {
-      greater_than_or_equal_to: 1,
-      less_than_or_equal_to: 9
-    }
-  }
   validates :alarm, presence: true
   validates :type, presence: true
   validates :context, presence: true
