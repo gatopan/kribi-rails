@@ -624,9 +624,9 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.integer  "gas_pressure_reducing_station_id"
     t.datetime "target_datetime"
     t.float    "nomination",                       default: 0.0
-    t.float    "delivery",                         default: 0.0
+    t.float    "delivery_on_specification",        default: 0.0
+    t.float    "delivery_off_specification",       default: 0.0
     t.float    "high_heating_value",               default: 0.0
-    t.integer  "quality"
     t.integer  "status",                           default: 0
     t.string   "match_key_standard_daily"
     t.string   "match_key_standard_weekly"
@@ -639,12 +639,12 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   end
 
   add_index "gas_nomination_readings", ["gas_pressure_reducing_station_id"], name: "index_gprs_gas_nomination_readings", using: :btree
-  add_index "gas_nomination_readings", ["match_key_customer_monthly"], name: "index_gas_nomination_readings_on_match_key_customer_monthly", using: :btree
-  add_index "gas_nomination_readings", ["match_key_standard_daily"], name: "index_gas_nomination_readings_on_match_key_standard_daily", using: :btree
-  add_index "gas_nomination_readings", ["match_key_standard_monthly"], name: "index_gas_nomination_readings_on_match_key_standard_monthly", using: :btree
-  add_index "gas_nomination_readings", ["match_key_standard_quarter"], name: "index_gas_nomination_readings_on_match_key_standard_quarter", using: :btree
-  add_index "gas_nomination_readings", ["match_key_standard_weekly"], name: "index_gas_nomination_readings_on_match_key_standard_weekly", using: :btree
-  add_index "gas_nomination_readings", ["match_key_standard_yearly"], name: "index_gas_nomination_readings_on_match_key_standard_yearly", using: :btree
+  add_index "gas_nomination_readings", ["match_key_customer_monthly"], name: "index_4ebab052d39307a19fcbec70bc_in_616f7243843d82c3a74b64a061", using: :btree
+  add_index "gas_nomination_readings", ["match_key_standard_daily"], name: "index_4ebab052d39307a19fcbec70bc_in_779a6901c31df79c3bf55687f6", using: :btree
+  add_index "gas_nomination_readings", ["match_key_standard_monthly"], name: "index_4ebab052d39307a19fcbec70bc_in_3bc6e6d395cde11b555bc478fc", using: :btree
+  add_index "gas_nomination_readings", ["match_key_standard_quarter"], name: "index_4ebab052d39307a19fcbec70bc_in_4a51978869deb3180e78dabcbe", using: :btree
+  add_index "gas_nomination_readings", ["match_key_standard_weekly"], name: "index_4ebab052d39307a19fcbec70bc_in_dea340e5b463fa21e8cb939498", using: :btree
+  add_index "gas_nomination_readings", ["match_key_standard_yearly"], name: "index_4ebab052d39307a19fcbec70bc_in_4ed0f540897767e0886152da37", using: :btree
 
   create_table "gas_pressure_reducing_station_daily_readings", force: :cascade do |t|
     t.integer  "gas_pressure_reducing_station_id"

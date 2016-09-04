@@ -4,20 +4,11 @@ class CreateGasNominationReadings < Kribi::Migration
       t.references :gas_pressure_reducing_station, index: false, foreign_key: true
       t.datetime :target_datetime
       t.float :nomination, default: 0.0
-      t.float :delivery, default: 0.0
+      t.float :delivery_on_specification, default: 0.0
+      t.float :delivery_off_specification, default: 0.0
       t.float :high_heating_value, default: 0.0
-      t.integer :quality
       t.integer :status, default: 0
-      [
-        :standard_daily,
-        :standard_weekly,
-        :standard_monthly,
-        :standard_quarter,
-        :standard_yearly,
-        :customer_monthly
-      ].each do |match_key_type|
-        t.send(:string, "match_key_#{match_key_type}", index: true)
-      end
+      create_match_keys_for(t)
 
       t.timestamps null: false
     end

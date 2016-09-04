@@ -6,7 +6,11 @@ class GasNominationReading < AbstractIntervalModel
      type: :absolute,
     },
     {
-     name: :delivery,
+     name: :delivery_on_specification,
+     type: :absolute,
+    },
+    {
+     name: :delivery_off_specification,
      type: :absolute,
     },
     {
@@ -22,7 +26,8 @@ class GasNominationReading < AbstractIntervalModel
         query: {
           type: :aggregate,
           fragment: 'sum(nomination) as nomination_sum,'\
-                    'sum(delivery) as delivery_sum'
+                    'sum(delivery_on_specification) as delivery_on_specification_sum,'\
+                    'sum(delivery_off_specification) as delivery_off_specification_sum'
         },
         destination: {
           type: :excel,
@@ -47,15 +52,6 @@ class GasNominationReading < AbstractIntervalModel
 
   abstract_bootloader()
 
-  enum quality: {
-    ON_SPECIFICATION: 0,
-    OFF_SPECIFICATION: 1
-  }
-
-  before_validation do
-    self.quality = calculated_quality
-  end
-
   validates :nomination, {
     presence: true,
     numericality: {
@@ -64,10 +60,10 @@ class GasNominationReading < AbstractIntervalModel
     },
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
-  validates :delivery, {
+  validates :delivery_on_specification, {
     presence: true,
     numericality: {
       greater_than_or_equal_to: 0,
@@ -75,7 +71,18 @@ class GasNominationReading < AbstractIntervalModel
     },
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
+    }
+  }
+  validates :delivery_off_specification, {
+    presence: true,
+    numericality: {
+      greater_than_or_equal_to: 0,
+      less_than_or_equal_to: 45000
+    },
+    format: {
+      with: /\A[0-9]+\.[0-9]{1,3}\Z/,
+      message: 'must contain up to three decimal places'
     }
   }
   validates :high_heating_value, {
@@ -86,18 +93,7 @@ class GasNominationReading < AbstractIntervalModel
     },
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
-
-  private
-
-  def calculated_quality
-    return unless high_heating_value
-    if (1000..1185).include? high_heating_value
-      :ON_SPECIFICATION
-    else
-      :OFF_SPECIFICATION
-    end
-  end
 end
