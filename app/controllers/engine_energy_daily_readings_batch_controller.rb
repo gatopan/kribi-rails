@@ -1,10 +1,10 @@
-class EngineGasReadingsBatchController < AbstractBatchController
+class EngineEnergyDailyReadingsBatchController < AbstractBatchController
   def parent_model
     Engine
   end
 
   def children_model
-    EngineGasReading
+    EngineEnergyDailyReading
   end
 
   def children_attributes
@@ -20,14 +20,14 @@ class EngineGasReadingsBatchController < AbstractBatchController
         builder: :text_field,
         attribute: :counter_offset,
         class: 'form-control reset-toggleable',
-        type: :numeric,
+        type: :numeric
       },
       {
         builder: :text_field,
         attribute: :real_value,
         class: 'form-control reset-toggleable',
         type: :numeric,
-        editable: false,
+        editable: false
       }
     ]
   end

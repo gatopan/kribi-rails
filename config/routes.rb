@@ -40,24 +40,33 @@ Kribi::Application.routes.draw do
   # }
 
   [
-    :engine_energy_readings_batch,
-    :chromatograph_readings_batch,
-    :feeder_readings_batch,
-    :transformer_readings_batch,
-    :substation_readings_batch,
-    :gas_pressure_reducing_station_readings_batch,
-    :engine_gas_readings_batch,
-    :plant_light_fuel_oil_readings_batch,
-    :engine_light_fuel_oil_readings_batch,
-    :weather_readings_batch,
-    :plant_gross_capacity_readings_batch,
-    :plant_reference_condition_readings_batch,
-    :plant_declared_capacity_readings_batch,
-    :gas_nomination_readings_batch,
-    :engine_emission_readings_batch,
-    :engine_running_time_readings_batch
+    :engine_energy_daily_readings,
+    :engine_energy_hourly_readings,
+    :chromatograph_readings,
+    :feeder_readings,
+    :transformer_readings,
+    :substation_readings,
+    :gas_pressure_reducing_station_hourly_readings,
+    :gas_pressure_reducing_station_daily_readings,
+    :engine_gas_hourly_readings,
+    :engine_gas_daily_readings,
+    :plant_light_fuel_oil_readings,
+    :engine_light_fuel_oil_readings,
+    :weather_readings,
+    :plant_gross_capacity_readings,
+    :plant_reference_condition_readings,
+    :plant_declared_capacity_readings,
+    :gas_nomination_readings,
+    :engine_emission_nitrous_oxides_in_light_fuel_oil_mode_hourly_readings,
+    :engine_emission_nitrous_oxides_in_light_fuel_oil_mode_daily_readings,
+    :engine_emission_nitrous_oxides_in_gas_mode_hourly_readings,
+    :engine_emission_nitrous_oxides_in_gas_mode_daily_readings,
+    :engine_emission_dioxygen_hourly_readings,
+    :engine_emission_dioxygen_daily_readings,
+    :engine_running_time_readings
   ].each do |resource_name|
-    resources resource_name do
+    batch_resource_name = "#{resource_name}_batch"
+    resources batch_resource_name do
       collection do
         get 'batch_show'
         post 'batch_update'

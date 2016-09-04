@@ -1,10 +1,10 @@
-class GasPressureReducingStationReadingsBatchController < AbstractBatchController
+class GasPressureReducingStationDailyReadingsBatchController < AbstractBatchController
   def parent_model
     GasPressureReducingStation
   end
 
   def children_model
-    GasPressureReducingStationReading
+    GasPressureReducingStationDailyReading
   end
 
   def children_attributes

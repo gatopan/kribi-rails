@@ -1,12 +1,9 @@
-class EngineGasReading < AbstractIntervalModel
+class EngineEmissionDioxygenHourlyReading < AbstractIntervalModel
   PARENT_MODEL = Engine
   COUNTER_VALUES_COLUMNS = [
     {
-     type: :relative,
-     counter_value_column_name: :counter_value,
-     absolute_value_column_name: :gas_volume,
-     maximum_interval_difference: 4000,
-     minimum_interval_difference: 0
+     name: :dioxygen,
+     type: :absolute,
     }
   ]
   INTERVAL_IN_MINUTES = 60
@@ -16,8 +13,7 @@ class EngineGasReading < AbstractIntervalModel
       {
         query: {
           type: :aggregate,
-          fragment: 'max(counter_value) as counter_value_max,'\
-                    'sum(gas_volume) as gas_volume_sum'
+          fragment: 'sum(dioxygen) as dioxygen_sum'
         },
         destination: {
           type: :excel,
@@ -42,11 +38,30 @@ class EngineGasReading < AbstractIntervalModel
 
   abstract_bootloader()
 
-  validates :counter_value, {
+  enum dioxygen_code: {
+    OK: 0,
+    OUT_OF_OPERATE: 1,
+    NO_DAILY_CLASS: 2,
+    MAINTENANCE: 3,
+    FAILURE: 4,
+    REPLACEMENT_VALUE: 5,
+    MORE_THAN_DLV: 6,
+    LESS_THAN_TWO_THIRDS: 7,
+    MORE_THAN_LV: 8,
+    MORE_THAN_TWO_ZERO_LV: 9,
+    NO_DATA: 10
+  }
+
+  validates :dioxygen, {
     presence: true,
     numericality: {
       greater_than_or_equal_to: 0,
-      less_than_or_equal_to: 99999999
+      less_than_or_equal_to: 99.999
+    },
+    format: {
+      with: /\A[0-9]+\.[0-9]{1,3}\Z/,
+      message: 'must contain up to three decimal places'
     }
   }
+  validates :dioxygen_code, presence: true
 end

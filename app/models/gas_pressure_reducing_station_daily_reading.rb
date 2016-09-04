@@ -1,15 +1,15 @@
-class EngineEnergyReading < AbstractIntervalModel
-  PARENT_MODEL = Engine
+class GasPressureReducingStationDailyReading < AbstractIntervalModel
+  PARENT_MODEL = GasPressureReducingStation
   COUNTER_VALUES_COLUMNS = [
     {
      type: :relative,
      counter_value_column_name: :counter_value,
-     absolute_value_column_name: :energy_volume,
-     maximum_interval_difference: 16.5,
+     absolute_value_column_name: :gas_volume,
+     maximum_interval_difference: 3000,
      minimum_interval_difference: 0.0
     }
   ]
-  INTERVAL_IN_MINUTES = 60
+  INTERVAL_IN_MINUTES = 60 * 24
   EXPORTER_CONFIG = {
     match_key_types_fragments: [],
     mappings: [
@@ -17,7 +17,7 @@ class EngineEnergyReading < AbstractIntervalModel
         query: {
           type: :aggregate,
           fragment: 'max(counter_value) as counter_value_max,'\
-                    'sum(energy_volume) as energy_volume_sum'
+                    'sum(gas_volume) as gas_volume_sum'
         },
         destination: {
           type: :excel,
@@ -44,17 +44,9 @@ class EngineEnergyReading < AbstractIntervalModel
 
   validates :counter_value, {
     presence: true,
-    format: {
-      with: /\A[0-9]+\.[0-9]{1}\Z/,
-      message: 'must contain a decimal place'
-    }
-  }
-
-  validates :counter_value, {
     numericality: {
       greater_than_or_equal_to: 0,
-      less_than_or_equal_to: 1E6
-    },
-    on: :congruence
+      less_than_or_equal_to: 99999999
+    }
   }
 end
