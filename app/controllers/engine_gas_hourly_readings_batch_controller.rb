@@ -14,7 +14,7 @@ class EngineGasHourlyReadingsBatchController < AbstractBatchController
         attribute: :counter_value,
         type: :numeric,
         class: 'form-control',
-        custom_name: ''
+        custom_name: 'Consumption (Nm3)'
       },
       {
         builder: :text_field,

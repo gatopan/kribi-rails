@@ -13,7 +13,8 @@ class EngineEmissionDioxygenHourlyReadingsBatchController < AbstractBatchControl
         builder: :text_field,
         attribute: :dioxygen,
         class: 'form-control',
-        type: :numeric
+        type: :numeric,
+        custom_name: 'O2 - Dioxygen (mg/m3)'
       },
       {
         builder: :select,

@@ -14,7 +14,7 @@ class EngineEmissionNitrousOxidesInLightFuelOilModeDailyReadingsBatchController 
         attribute: :nitrogen_oxides_in_light_fuel_oil_mode,
         class: 'form-control',
         type: :numeric,
-        custom_name: :nox_in_lfo_mode
+        custom_name: 'NOX - Nitrogen oxides (mg/m3)'
       },
       {
         builder: :select,

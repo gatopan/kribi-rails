@@ -14,7 +14,7 @@ class PlantGrossCapacityReadingsBatchController < AbstractBatchController
         attribute: :output_capacity,
         type: :numeric,
         class: 'form-control',
-        custom_name: ''
+        custom_name: 'Capacity (MW)'
       }
     ]
   end

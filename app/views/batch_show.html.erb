@@ -47,7 +47,7 @@
                       <div class="form-group">
                         <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
                           <% children_attributes.each do |options| %>
-                            <%= label_tag((options[:custom_name] || options[:attribute]), nil, class: (options[:class] =~ /reset-toggleable/ ? 'reset-toggleable' : '')) %>
+                            <%= label_tag(options[:attribute], options[:custom_name], class: (options[:class] =~ /reset-toggleable/ ? 'reset-toggleable' : '')) %>
                             <% options[:disabled] = child.APPROVED? %>
                             <% case options[:builder] %>
                             <% when :text_field %>
@@ -124,7 +124,7 @@
                     <div class="form-group">
                       <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
                         <% children_attributes.each do |options| %>
-                          <%= label_tag((options[:custom_name] || options[:attribute]), nil, class: (options[:class] =~ /reset-toggleable/ ? 'reset-toggleable' : '')) %>
+                          <%= label_tag(options[:attribute], options[:custom_name], class: (options[:class] =~ /reset-toggleable/ ? 'reset-toggleable' : '')) %>
                           <% options[:disabled] = child.APPROVED? %>
                           <% case options[:builder] %>
                           <% when :text_field %>

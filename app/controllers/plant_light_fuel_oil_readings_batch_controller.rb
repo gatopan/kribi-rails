@@ -14,7 +14,7 @@ class PlantLightFuelOilReadingsBatchController < AbstractBatchController
         attribute: :inlet_hall_a_counter_value,
         type: :numeric,
         class: 'form-control',
-        custom_name: :inlet_hall_a
+        custom_name: 'Common LFO Inlet Hall A (Liters)'
       },
       {
         builder: :text_field,
@@ -34,7 +34,7 @@ class PlantLightFuelOilReadingsBatchController < AbstractBatchController
         attribute: :inlet_hall_b_counter_value,
         type: :numeric,
         class: 'form-control',
-        custom_name: :inlet_hall_b
+        custom_name: 'Common LFO Inlet Hall B (Liters)'
       },
       {
         builder: :text_field,
@@ -54,7 +54,7 @@ class PlantLightFuelOilReadingsBatchController < AbstractBatchController
         attribute: :outlet_counter_value,
         type: :numeric,
         class: 'form-control',
-        custom_name: :outlet
+        custom_name: 'Common Outlet (kg)'
       },
       {
         builder: :text_field,

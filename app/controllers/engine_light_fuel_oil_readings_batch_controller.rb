@@ -14,7 +14,7 @@ class EngineLightFuelOilReadingsBatchController < AbstractBatchController
         attribute: :inlet_counter_value,
         type: :numeric,
         class: 'form-control',
-        custom_name: :inlet
+        custom_name: 'Inlet (kg)'
       },
       {
         builder: :text_field,
@@ -34,7 +34,7 @@ class EngineLightFuelOilReadingsBatchController < AbstractBatchController
         attribute: :outlet_counter_value,
         type: :numeric,
         class: 'form-control',
-        custom_name: :outlet
+        custom_name: 'Outlet (kg)'
       },
       {
         builder: :text_field,

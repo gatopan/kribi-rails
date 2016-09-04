@@ -14,18 +14,28 @@ class GasNominationReadingsBatchController < AbstractBatchController
         attribute: :nomination,
         type: :numeric,
         class: 'form-control',
+        custom_name: 'Nomination (MSCF)'
       },
       {
         builder: :text_field,
-        attribute: :delivery,
+        attribute: :delivery_on_specification,
         type: :numeric,
         class: 'form-control',
+        custom_name: 'Delivery on-spec (MSCF)'
+      },
+      {
+        builder: :text_field,
+        attribute: :delivery_off_specification,
+        type: :numeric,
+        class: 'form-control',
+        custom_name: 'Delivery off-spec (MSCF)'
       },
       {
         builder: :text_field,
         attribute: :high_heating_value,
         type: :numeric,
         class: 'form-control',
+        custom_name: 'HHV (BTU/SCF)'
       }
     ]
   end

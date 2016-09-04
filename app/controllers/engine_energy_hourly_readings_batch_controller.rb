@@ -14,7 +14,7 @@ class EngineEnergyHourlyReadingsBatchController < AbstractBatchController
         attribute: :counter_value,
         type: :numeric,
         class: 'form-control',
-        custom_name: ''
+        custom_name: 'Output (MWh)'
       },
       {
         builder: :text_field,

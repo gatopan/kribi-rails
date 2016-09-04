@@ -14,7 +14,7 @@ class EngineRunningTimeReadingsBatchController < AbstractBatchController
         attribute: :counter_value,
         type: :numeric,
         class: 'form-control',
-        custom_name: ''
+        custom_name: 'Cummulative Hours'
       },
       {
         builder: :text_field,

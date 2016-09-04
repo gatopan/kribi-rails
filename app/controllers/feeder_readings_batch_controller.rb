@@ -14,7 +14,7 @@ class FeederReadingsBatchController < AbstractBatchController
         attribute: :transmitting_counter_value,
         type: :numeric,
         class: 'form-control',
-        custom_name: :transmitting
+        custom_name: 'Transmitting (MWh)'
       },
       {
         builder: :text_field,
@@ -34,7 +34,7 @@ class FeederReadingsBatchController < AbstractBatchController
         attribute: :receiving_counter_value,
         type: :numeric,
         class: 'form-control',
-        custom_name: :receiving
+        custom_name: 'Receiving (MWh)'
       },
       {
         builder: :text_field,
