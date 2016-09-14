@@ -39,17 +39,17 @@ class EngineEmissionNitrousOxidesInLightFuelOilModeHourlyReading < AbstractInter
   abstract_bootloader()
 
   enum nitrogen_oxides_in_light_fuel_oil_mode_code: {
-    OK: 0,
-    OUT_OF_OPERATE: 1,
-    NO_DAILY_CLASS: 2,
-    MAINTENANCE: 3,
-    FAILURE: 4,
-    REPLACEMENT_VALUE: 5,
-    MORE_THAN_DLV: 6,
-    LESS_THAN_TWO_THIRDS: 7,
-    MORE_THAN_LV: 8,
-    MORE_THAN_TWO_ZERO_LV: 9,
-    NO_DATA: 10
+    'OK' => 0,
+    '(-)=out of operate' => 10,
+    '(X)=no daily class' => 20,
+    '(W)=maintenance' => 30,
+    '(S)=Failure' => 40,
+    '(E)=replacement value' => 50,
+    '(T)=>DLV' => 60,
+    '(<)=<2/3' => 70,
+    '(G)=>LV' => 80,
+    '(D)=>2,0 LV' => 90,
+    '(N)=NoData' => 100
   }
 
   validates :nitrogen_oxides_in_light_fuel_oil_mode, {
