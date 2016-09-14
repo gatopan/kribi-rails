@@ -1,12 +1,9 @@
-# TODO: Figure out a way to not run this while on migrations
-# TODO: Does not work
-# ObjectSpace.each_object Kribi::Application do |instance|
-#   app = instance
-# end
-
-# NOTE: Comment below while recreating database
-# bundle exec rake db:drop db:create db:migrate db:seed
-Dir.glob("./app/models/*.rb").map{|path| path.sub("./app/models/", '')}.each do |line|
-  model_name = line.split('.').first
-  model_name.camelize.constantize
+# NOTE: Basically we do not want to preload all models if we are running a rake
+# task such as a migration because it tries to load tables even if they do not
+# exists causing exceptions.
+unless (File.basename($0) == 'rake')
+  model_names = Dir.glob("./app/models/*.rb").map{|path| path.sub("./app/models/", '').split('.').first }
+  model_names.each do |model_name|
+    model_name.camelize.constantize
+  end
 end
