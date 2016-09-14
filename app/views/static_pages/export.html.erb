@@ -84,7 +84,7 @@
                 <% type = mapping.fetch(:query).fetch(:type) %>
                 <% filename_prefix = mapping.fetch(:destination).fetch(:filename_prefix) %>
                 <% next if filename_prefix == 'kpp_kpi_report' %>
-                <% filename = "#{filename_prefix}.xml" %>
+                <% filename = "/#{filename_prefix}.xml" %>
                 <a href="<%= filename %>" class='btn btn-primary' download>Download</a>
               <% end %>
             </div>

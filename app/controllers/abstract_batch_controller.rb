@@ -9,7 +9,9 @@ class AbstractBatchController < ApplicationController
     :previous_day_children,
     :target_datetimes,
     :children,
-    :target_day
+    :target_day,
+    :combined_children,
+    :combined_target_datetimes
   )
 
   # NOTE: Basically update selected batch plus future batches records to PENDING
@@ -36,6 +38,14 @@ class AbstractBatchController < ApplicationController
         children_model_datetime_column => target_datetimes,
       ).order(children_model_datetime_column, children_model.parent_model_column)
     end
+  end
+
+  def combined_target_datetimes
+    @combined_target_datetimes ||= previous_day_target_datetimes + target_datetimes
+  end
+
+  def combined_children
+    @combined_children ||= children_model.where(id: previous_day_children.ids + children.ids)
   end
 
   def batch_show
@@ -109,7 +119,7 @@ class AbstractBatchController < ApplicationController
     @previous_day_children ||= children_model.where(
       association_name(parent_model, :singular) => parents,
       children_model_datetime_column => previous_day_target_datetimes,
-    ).order(id: :asc).last(1 * parents.length)
+    ).order(id: :asc)
   end
 
   def target_datetimes

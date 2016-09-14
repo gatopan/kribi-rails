@@ -1,183 +1,4 @@
-<% if target_day %>
-  <div class='row text-center'>
-  </div>
-  <div class='row'>
-    <div class='col-md-5 text-left'>
-      <h2><%= children_model.custom_name.titleize %></h2>
-    </div>
-    <div class='col-md-2'>
-    </div>
-    <div class='col-md-5 text-right'>
-      <br/>
-      <% if children_model.is_resettable? %>
-        <h4>Show reset/offset options: <input type="checkbox" name="showResetOptions" id="toggle-reset"></h4>
-      <% end %>
-    </div>
-    <div class='col-md-12'>
-      <br />
-    </div>
-    <div class='col-md-12 table-wrapper'>
-      <%= form_tag(controller: params[:controller], action: 'batch_update') do %>
-        <input type="hidden" name="target_day" value="<%= target_day.utc.strftime("%d/%m/%Y") %>">
-        <table class="table table-hover batch-readings">
-          <thead>
-            <tr>
-              <th>Time</th>
-              <% parents.each do |parent| %>
-                <th><%= "#{parent_model.to_s.humanize} #{parent.id}" %></th>
-              <% end %>
-            </tr>
-          </thead>
-          <tbody>
-            <% if previous_day_children.any? %>
-              <% previous_day_children.each_with_index do |child, index| %>
-                <% start_of_row = (child.target_datetime != previous_day_children[index-1].target_datetime) || ((index == 0) && (previous_day_children.length == parents.length)) %>
-                <% end_of_row   = ((index % parents.length) == (parents.length-1)) %>
-
-                <% if start_of_row %>
-                  <%# NOTE: Date comment assumes assumes only one previous day children record %>
-                  <tr><td colspan=<%= parents.count + 1 %>><h4>Previous Date Last Record (<%= child.target_datetime.utc.strftime("%d/%m/%Y") %>)</h4></td></tr>
-                  <tr>
-                    <th scope="row">
-                      <div class='form-group'>
-                        <p><%= child.target_datetime.strftime("%H:%M") %></p>
-                      </div>
-                    </th>
-                <% end %>
-                    <td>
-                      <div class="form-group">
-                        <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
-                          <% children_attributes.each do |options| %>
-                            <%= label_tag(options[:attribute], options[:custom_name], class: (options[:class] =~ /reset-toggleable/ ? 'reset-toggleable' : '')) %>
-                            <% options[:disabled] = child.APPROVED? %>
-                            <% case options[:builder] %>
-                            <% when :text_field %>
-                              <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.merge(disabled: :disabled)) %>
-                            <% when :select %>
-                              <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.delete(:possible_values), options.merge(disabled: :disabled)) %>
-                            <% else %>
-                              <% raise StandardError.new('Builder type for form not implemented') %>
-                            <% end %>
-                          <% end %>
-                        <% end %>
-                      </div>
-                    </td>
-                <% if end_of_row%>
-                  </tr>
-                <% end %>
-              <% end %>
-            <% end %>
-
-            <% children.each_with_index do |child, index| %>
-              <% start_of_row = (child.target_datetime != children[index-1].target_datetime) || ((index == 0) && (children.length == parents.length)) %>
-              <% end_of_row   = ((index % parents.length) == (parents.length-1)) %>
-
-              <% if start_of_row %>
-                <% if index == 0 %>
-                  <tr>
-                    <td colspan=<%= parents.count + 1 %>>
-                      
-                      <!-- <h4>Current Records Date (<%= child.target_datetime.utc.strftime("%d/%m/%Y") %>)</a></h4> -->
-                      <h4>Current Records Date (<%= child.target_datetime.utc.strftime("%d/%m/%Y") %>) <a class='date-changer-toggler' href='#'>Change</a></h4>
-                      <div class='date-changer-form'>
-                       <div
-                         class="input-group input-group-sm date"
-                         <% datetime_picker_id = SecureRandom.hex %>
-                         id="datetime-picker-<%= datetime_picker_id %>"
-                       >
-                         <input
-                           type='text'
-                           class='form-control date-changer-date'
-                           style='min-width: 140px;text-align: center;font-size: 20px;'
-                           value='<%= target_day.utc.strftime("%d/%m/%Y") %>'
-                         />
-                         <span class="input-group-addon">
-                           <span class="glyphicon glyphicon-calendar"></span>
-                         </span>
-                         <span><button class='date-changer-button'>Change</button></span>
-                         <script type="text/javascript">
-                           $(function () {
-                             var target_element = $('<%= "#datetime-picker-#{datetime_picker_id}" %>');
-
-                             target_element.datetimepicker({
-                               format: "DD/MM/YYYY",
-                               useCurrent: false,
-                               minDate: new Date('<%= children_model.first.target_datetime.utc.strftime("%Y-%m-%d") %>T00:00:00Z'),
-                               maxDate: new Date('<%= (children_model.target_day.utc+1.day).strftime("%Y-%m-%d") %>T00:00:00Z'),
-                               disabledDates: [new Date('<%= children_model.first.target_datetime.utc.strftime("%Y-%m-%d") %>T00:00:00Z')],
-                               defaultDate: new Date('<%= (children_model.target_day.utc).utc.strftime("%Y-%m-%d") %>T00:00:00Z')
-                             });
-                           });
-                         </script>
-                       </div>
-                      </div>
-                    </tr>
-                  </td>
-                <% end %>
-                <tr>
-                  <th scope="row">
-                    <div class='form-group'>
-                      <p><%= child.target_datetime.strftime("%H:%M") %></p>
-                    </div>
-                  </th>
-              <% end %>
-                  <td>
-                    <div class="form-group">
-                      <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
-                        <% children_attributes.each do |options| %>
-                          <%= label_tag(options[:attribute], options[:custom_name], class: (options[:class] =~ /reset-toggleable/ ? 'reset-toggleable' : '')) %>
-                          <% options[:disabled] = child.APPROVED? %>
-                          <% case options[:builder] %>
-                          <% when :text_field %>
-                            <%= child_form.send(options.delete(:builder), options.delete(:attribute), options) %>
-                          <% when :select %>
-                            <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.delete(:possible_values), options) %>
-                          <% else %>
-                            <% raise StandardError.new('Builder type for form not implemented') %>
-                          <% end %>
-                        <% end %>
-                      <% end %>
-                    </div>
-                  </td>
-              <% if end_of_row %>
-                </tr>
-              <% end %>
-            <% end %>
-          </tbody>
-        </table>
-        <p>Current statuses: <b><%= @children.map(&:status).uniq %></b></p>
-        <p><%= submit_tag('Update') %></p>
-      <% end %>
-
-      <!-- ELEVATE -->
-      <form action="<%= self.send("batch_elevate_#{children_model.table_name}_batch_index_path") %>" method="POST" >
-        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-        <input type="hidden" name="target_day" value="<%= target_day.utc.strftime("%d/%m/%Y") %>">
-        <td>
-          <div class="input-group input-group-sm">
-            <select name="intended_status">
-              <% ['PENDING', 'REVIEWED', 'APPROVED'].each do |status| %>
-                <option
-                  <%= status == @children.map(&:status).uniq.first ? 'SELECTED' : '' %>
-                  <%= current_person.allowed_statuses.include?(status) ? '' : 'DISABLED' %>
-                ><%= status %></option>
-              <% end %>
-            </select>
-          </div>
-        </td>
-        <td><button>Change Status</button></td>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    $(".reset-toggleable").toggle();
-
-    $( "#toggle-reset" ).on("click", {}, function(){
-        $(".reset-toggleable").toggle();
-    });
-  </script>
-<% else %>
+<% unless target_day %>
   <div class='row'>
     <div class='col-md-2 col-md-offset-5'>
       <h2>Please select an initial day</h2>
@@ -216,9 +37,59 @@
       </form>
     </div>
   </div>
+<% else %>
+  <h2 class='text-center'><%= children.last.target_datetime.utc.strftime("%d/%m/%Y") %></h2>
+  <p><a class='date-changer-toggler' href='#'>Change</a></p>
+
+  <% if children_model.is_resettable? %>
+    <h4>Show reset/offset options: <input type="checkbox" name="showResetOptions" id="toggle-reset"></h4>
+  <% end %>
+
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <% parents.each do |parent| %>
+          <th colspan="<%= children_attributes.count %>"><%= "#{parent_model.to_s.humanize} #{parent.id}" %></th>
+        <% end %>
+      </tr>
+      <tr>
+        <th>Time</th>
+        <% parents.each do |parent| %>
+          <% children_attributes.each do |options| %>
+            <th><%= label_tag(options[:attribute], options[:custom_name], class: (options[:class] =~ /reset-toggleable/ ? 'reset-toggleable' : '')) %></th>
+          <% end %>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% combined_target_datetimes.each do |target_datetime| %>
+        <% target_datetime_children = combined_children.where(target_datetime: target_datetime) %>
+        <tr>
+          <td><%= target_datetime.strftime("%H:%M") %></td>
+          <% parents.each do |parent| %>
+            <% child = target_datetime_children.find_by!(association_name(parent_model, :singular) => parent) %>
+              <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
+                <% children_attributes.each do |options| %>
+                  <td>
+                    <% options[:disabled] = child.APPROVED? %>
+                    <% case options[:builder] %>
+                    <% when :text_field %>
+                      <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.merge(disabled: :disabled)) %>
+                    <% when :select %>
+                      <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.delete(:possible_values), options.merge(disabled: :disabled)) %>
+                    <% else %>
+                      <% raise StandardError.new('Builder type for form not implemented') %>
+                    <% end %>
+                  </td>
+                <% end %>
+              <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
-<br />
-<br />
 
 <script>
   $(document).ready(function() {
@@ -233,5 +104,11 @@
       var url = [location.protocol, '//', location.host, location.pathname].join('');
       window.location = (url + '?target_day=' + target_date);
     })
+
+    $(".reset-toggleable").toggle();
+
+    $( "#toggle-reset" ).on("click", {}, function(){
+      $(".reset-toggleable").toggle();
+    });
   });
 </script>
