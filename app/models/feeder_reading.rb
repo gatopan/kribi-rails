@@ -1,6 +1,6 @@
 class FeederReading < AbstractIntervalModel
   PARENT_MODEL = Feeder
-  CUSTOM_NAME = nil
+  CUSTOM_NAME = 'MV outgoing feeder readings'
   COUNTER_VALUES_COLUMNS = [
     {
       type: :relative,

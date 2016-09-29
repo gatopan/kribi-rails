@@ -1,6 +1,6 @@
 class EngineEmissionDioxygenDailyReading < AbstractIntervalModel
   PARENT_MODEL = Engine
-  CUSTOM_NAME = nil
+  CUSTOM_NAME = 'Engine emission 02 daily readings'
   COUNTER_VALUES_COLUMNS = [
     {
      name: :dioxygen,

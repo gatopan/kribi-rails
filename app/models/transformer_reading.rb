@@ -1,6 +1,6 @@
 class TransformerReading < AbstractIntervalModel
   PARENT_MODEL = Transformer
-  CUSTOM_NAME = nil
+  CUSTOM_NAME = '225kV transformer readings'
   COUNTER_VALUES_COLUMNS = [
     {
       type: :relative,

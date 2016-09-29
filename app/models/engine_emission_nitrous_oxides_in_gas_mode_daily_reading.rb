@@ -1,6 +1,6 @@
 class EngineEmissionNitrousOxidesInGasModeDailyReading < AbstractIntervalModel
   PARENT_MODEL = Engine
-  CUSTOM_NAME = nil
+  CUSTOM_NAME = 'Engine emission Nox in gas mode daily readings'
   COUNTER_VALUES_COLUMNS = [
     {
      name: :nitrogen_oxides_in_gas_mode,

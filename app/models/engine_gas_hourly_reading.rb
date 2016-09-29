@@ -1,6 +1,6 @@
 class EngineGasHourlyReading < AbstractIntervalModel
   PARENT_MODEL = Engine
-  CUSTOM_NAME = nil
+  CUSTOM_NAME = 'Engine gas (GRU) hourly readings'
   COUNTER_VALUES_COLUMNS = [
     {
      type: :relative,

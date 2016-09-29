@@ -1,6 +1,6 @@
 class EngineLightFuelOilReading < AbstractIntervalModel
   PARENT_MODEL = Engine
-  CUSTOM_NAME = nil
+  CUSTOM_NAME = 'Engine LFO Readings'
   COUNTER_VALUES_COLUMNS = [
     {
      type: :relative,

@@ -1,6 +1,6 @@
 class EngineRunningTimeReading < AbstractIntervalModel
   PARENT_MODEL = Engine
-  CUSTOM_NAME = nil
+  CUSTOM_NAME = 'Engine cummulative running hours readings'
   COUNTER_VALUES_COLUMNS = [
     {
      counter_value_column_name: :counter_value,

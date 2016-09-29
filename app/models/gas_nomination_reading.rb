@@ -1,6 +1,6 @@
 class GasNominationReading < AbstractIntervalModel
   PARENT_MODEL = GasPressureReducingStation
-  CUSTOM_NAME = nil
+  CUSTOM_NAME = 'Gas contractual readings'
   COUNTER_VALUES_COLUMNS = [
     {
      name: :nomination,
