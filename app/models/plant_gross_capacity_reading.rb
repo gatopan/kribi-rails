@@ -7,7 +7,7 @@ class PlantGrossCapacityReading < AbstractIntervalModel
       type: :absolute,
     }
   ]
-  INTERVAL_IN_MINUTES = 15
+  INTERVAL_IN_MINUTES = 5
   EXPORTER_CONFIG = {
     match_key_types_fragments: [],
     mappings: [
@@ -42,11 +42,11 @@ class PlantGrossCapacityReading < AbstractIntervalModel
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1}\Z/,
-      message: 'must contain a decimal place'
+      message: 'must contain a decimal place'
     },
     numericality: {
       greater_than_or_equal_to: 0.0,
-      less_than: 221
+      less_than: 221 / 3
     }
   }
 end
