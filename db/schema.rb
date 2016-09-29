@@ -250,8 +250,8 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "updated_at",                               null: false
   end
 
-  add_index "engine_energy_daily_readings", ["counter_offset"], name: "index_engine_energy_daily_readings_counter_offset", using: :btree
-  add_index "engine_energy_daily_readings", ["counter_value"], name: "index_engine_energy_daily_readings_counter_value", using: :btree
+  add_index "engine_energy_daily_readings", ["counter_offset"], name: "index_a8785c3354691d2c7c4b6deb56_11d9fef885e2f0b08329768ed8", using: :btree
+  add_index "engine_energy_daily_readings", ["counter_value"], name: "index_a8785c3354691d2c7c4b6deb56_05a9c570a24d0dd02af8a91f2f", using: :btree
   add_index "engine_energy_daily_readings", ["energy_volume"], name: "index_engine_energy_daily_readings_on_energy_volume", using: :btree
   add_index "engine_energy_daily_readings", ["engine_id"], name: "index_engine_energy_daily_readings_on_engine_id", using: :btree
   add_index "engine_energy_daily_readings", ["match_key_customer_monthly"], name: "index_a8785c3354691d2c7c4b6deb56_in_616f7243843d82c3a74b64a061", using: :btree
@@ -260,7 +260,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "engine_energy_daily_readings", ["match_key_standard_quarter"], name: "index_a8785c3354691d2c7c4b6deb56_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "engine_energy_daily_readings", ["match_key_standard_weekly"], name: "index_a8785c3354691d2c7c4b6deb56_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_energy_daily_readings", ["match_key_standard_yearly"], name: "index_a8785c3354691d2c7c4b6deb56_in_4ed0f540897767e0886152da37", using: :btree
-  add_index "engine_energy_daily_readings", ["real_value"], name: "index_engine_energy_daily_readings_real_value", using: :btree
+  add_index "engine_energy_daily_readings", ["real_value"], name: "index_a8785c3354691d2c7c4b6deb56_1b8f140023d2b2bc0ace41fc7c", using: :btree
 
   create_table "engine_energy_hourly_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -280,8 +280,8 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "updated_at",                               null: false
   end
 
-  add_index "engine_energy_hourly_readings", ["counter_offset"], name: "index_engine_energy_hourly_readings_counter_offset", using: :btree
-  add_index "engine_energy_hourly_readings", ["counter_value"], name: "index_engine_energy_hourly_readings_counter_value", using: :btree
+  add_index "engine_energy_hourly_readings", ["counter_offset"], name: "index_dff437b38dda366087bbc357cc_11d9fef885e2f0b08329768ed8", using: :btree
+  add_index "engine_energy_hourly_readings", ["counter_value"], name: "index_dff437b38dda366087bbc357cc_05a9c570a24d0dd02af8a91f2f", using: :btree
   add_index "engine_energy_hourly_readings", ["energy_volume"], name: "index_engine_energy_hourly_readings_on_energy_volume", using: :btree
   add_index "engine_energy_hourly_readings", ["engine_id"], name: "index_engine_energy_hourly_readings_on_engine_id", using: :btree
   add_index "engine_energy_hourly_readings", ["match_key_customer_monthly"], name: "index_dff437b38dda366087bbc357cc_in_616f7243843d82c3a74b64a061", using: :btree
@@ -290,7 +290,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "engine_energy_hourly_readings", ["match_key_standard_quarter"], name: "index_dff437b38dda366087bbc357cc_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "engine_energy_hourly_readings", ["match_key_standard_weekly"], name: "index_dff437b38dda366087bbc357cc_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_energy_hourly_readings", ["match_key_standard_yearly"], name: "index_dff437b38dda366087bbc357cc_in_4ed0f540897767e0886152da37", using: :btree
-  add_index "engine_energy_hourly_readings", ["real_value"], name: "index_engine_energy_hourly_readings_real_value", using: :btree
+  add_index "engine_energy_hourly_readings", ["real_value"], name: "index_dff437b38dda366087bbc357cc_1b8f140023d2b2bc0ace41fc7c", using: :btree
 
   create_table "engine_gas_daily_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -310,8 +310,8 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "updated_at",                               null: false
   end
 
-  add_index "engine_gas_daily_readings", ["counter_offset"], name: "index_engine_gas_daily_readings_counter_offset", using: :btree
-  add_index "engine_gas_daily_readings", ["counter_value"], name: "index_engine_gas_daily_readings_counter_value", using: :btree
+  add_index "engine_gas_daily_readings", ["counter_offset"], name: "index_12cd88b4f6675c13b0a6075d97_11d9fef885e2f0b08329768ed8", using: :btree
+  add_index "engine_gas_daily_readings", ["counter_value"], name: "index_12cd88b4f6675c13b0a6075d97_05a9c570a24d0dd02af8a91f2f", using: :btree
   add_index "engine_gas_daily_readings", ["engine_id"], name: "index_engine_gas_daily_readings_on_engine_id", using: :btree
   add_index "engine_gas_daily_readings", ["match_key_customer_monthly"], name: "index_12cd88b4f6675c13b0a6075d97_in_616f7243843d82c3a74b64a061", using: :btree
   add_index "engine_gas_daily_readings", ["match_key_standard_daily"], name: "index_12cd88b4f6675c13b0a6075d97_in_779a6901c31df79c3bf55687f6", using: :btree
@@ -319,7 +319,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "engine_gas_daily_readings", ["match_key_standard_quarter"], name: "index_12cd88b4f6675c13b0a6075d97_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "engine_gas_daily_readings", ["match_key_standard_weekly"], name: "index_12cd88b4f6675c13b0a6075d97_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_gas_daily_readings", ["match_key_standard_yearly"], name: "index_12cd88b4f6675c13b0a6075d97_in_4ed0f540897767e0886152da37", using: :btree
-  add_index "engine_gas_daily_readings", ["real_value"], name: "index_engine_gas_daily_readings_real_value", using: :btree
+  add_index "engine_gas_daily_readings", ["real_value"], name: "index_12cd88b4f6675c13b0a6075d97_1b8f140023d2b2bc0ace41fc7c", using: :btree
 
   create_table "engine_gas_hourly_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -339,8 +339,8 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "updated_at",                               null: false
   end
 
-  add_index "engine_gas_hourly_readings", ["counter_offset"], name: "index_engine_gas_hourly_readings_counter_offset", using: :btree
-  add_index "engine_gas_hourly_readings", ["counter_value"], name: "index_engine_gas_hourly_readings_counter_value", using: :btree
+  add_index "engine_gas_hourly_readings", ["counter_offset"], name: "index_9e3166474e528d2dc03afc7981_11d9fef885e2f0b08329768ed8", using: :btree
+  add_index "engine_gas_hourly_readings", ["counter_value"], name: "index_9e3166474e528d2dc03afc7981_05a9c570a24d0dd02af8a91f2f", using: :btree
   add_index "engine_gas_hourly_readings", ["engine_id"], name: "index_engine_gas_hourly_readings_on_engine_id", using: :btree
   add_index "engine_gas_hourly_readings", ["match_key_customer_monthly"], name: "index_9e3166474e528d2dc03afc7981_in_616f7243843d82c3a74b64a061", using: :btree
   add_index "engine_gas_hourly_readings", ["match_key_standard_daily"], name: "index_9e3166474e528d2dc03afc7981_in_779a6901c31df79c3bf55687f6", using: :btree
@@ -348,7 +348,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "engine_gas_hourly_readings", ["match_key_standard_quarter"], name: "index_9e3166474e528d2dc03afc7981_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "engine_gas_hourly_readings", ["match_key_standard_weekly"], name: "index_9e3166474e528d2dc03afc7981_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_gas_hourly_readings", ["match_key_standard_yearly"], name: "index_9e3166474e528d2dc03afc7981_in_4ed0f540897767e0886152da37", using: :btree
-  add_index "engine_gas_hourly_readings", ["real_value"], name: "index_engine_gas_hourly_readings_real_value", using: :btree
+  add_index "engine_gas_hourly_readings", ["real_value"], name: "index_9e3166474e528d2dc03afc7981_1b8f140023d2b2bc0ace41fc7c", using: :btree
 
   create_table "engine_light_fuel_oil_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -374,18 +374,18 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   end
 
   add_index "engine_light_fuel_oil_readings", ["engine_id"], name: "index_engine_light_fuel_oil_readings_on_engine_id", using: :btree
-  add_index "engine_light_fuel_oil_readings", ["inlet_counter_offset"], name: "index_engine_light_fuel_oil_readings_inlet_counter_offset", using: :btree
-  add_index "engine_light_fuel_oil_readings", ["inlet_counter_value"], name: "index_engine_light_fuel_oil_readings_inlet_counter_value", using: :btree
-  add_index "engine_light_fuel_oil_readings", ["inlet_real_value"], name: "index_engine_light_fuel_oil_readings_inlet_real_value", using: :btree
+  add_index "engine_light_fuel_oil_readings", ["inlet_counter_offset"], name: "index_36483bb456fbf85c68faf0bb6d_958aad7cf34ec7d85aadb073fe", using: :btree
+  add_index "engine_light_fuel_oil_readings", ["inlet_counter_value"], name: "index_36483bb456fbf85c68faf0bb6d_1b1178905f42eb7f61ee0c7927", using: :btree
+  add_index "engine_light_fuel_oil_readings", ["inlet_real_value"], name: "index_36483bb456fbf85c68faf0bb6d_45f9f336de45b9f191e96ba589", using: :btree
   add_index "engine_light_fuel_oil_readings", ["match_key_customer_monthly"], name: "index_engine_lfo_reading_match_key_customer_monthly", using: :btree
   add_index "engine_light_fuel_oil_readings", ["match_key_standard_daily"], name: "index_engine_lfo_reading_match_key_standard_daily", using: :btree
   add_index "engine_light_fuel_oil_readings", ["match_key_standard_monthly"], name: "index_engine_lfo_reading_match_key_standard_monthly", using: :btree
   add_index "engine_light_fuel_oil_readings", ["match_key_standard_quarter"], name: "index_engine_lfo_reading_match_key_standard_quarter", using: :btree
   add_index "engine_light_fuel_oil_readings", ["match_key_standard_weekly"], name: "index_engine_lfo_reading_match_key_standard_weekly", using: :btree
   add_index "engine_light_fuel_oil_readings", ["match_key_standard_yearly"], name: "index_engine_lfo_reading_match_key_standard_yearly", using: :btree
-  add_index "engine_light_fuel_oil_readings", ["outlet_counter_offset"], name: "index_engine_light_fuel_oil_readings_outlet_counter_offset", using: :btree
-  add_index "engine_light_fuel_oil_readings", ["outlet_counter_value"], name: "index_engine_light_fuel_oil_readings_outlet_counter_value", using: :btree
-  add_index "engine_light_fuel_oil_readings", ["outlet_real_value"], name: "index_engine_light_fuel_oil_readings_outlet_real_value", using: :btree
+  add_index "engine_light_fuel_oil_readings", ["outlet_counter_offset"], name: "index_36483bb456fbf85c68faf0bb6d_fb98f4a95ddbc95545ab33cc7c", using: :btree
+  add_index "engine_light_fuel_oil_readings", ["outlet_counter_value"], name: "index_36483bb456fbf85c68faf0bb6d_7a07d5f52b66d3bce1dfb83399", using: :btree
+  add_index "engine_light_fuel_oil_readings", ["outlet_real_value"], name: "index_36483bb456fbf85c68faf0bb6d_c74e00df2096feb792587f397f", using: :btree
 
   create_table "engine_running_time_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -405,8 +405,8 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "updated_at",                               null: false
   end
 
-  add_index "engine_running_time_readings", ["counter_offset"], name: "index_engine_running_time_readings_counter_offset", using: :btree
-  add_index "engine_running_time_readings", ["counter_value"], name: "index_engine_running_time_readings_counter_value", using: :btree
+  add_index "engine_running_time_readings", ["counter_offset"], name: "index_8064fdffd9a496a883762a9941_11d9fef885e2f0b08329768ed8", using: :btree
+  add_index "engine_running_time_readings", ["counter_value"], name: "index_8064fdffd9a496a883762a9941_05a9c570a24d0dd02af8a91f2f", using: :btree
   add_index "engine_running_time_readings", ["engine_id"], name: "index_engine_running_time_readings_on_engine_id", using: :btree
   add_index "engine_running_time_readings", ["match_key_customer_monthly"], name: "index_engine_running_time_readings_mk_customer_monthly", using: :btree
   add_index "engine_running_time_readings", ["match_key_standard_daily"], name: "index_engine_running_time_readings_mk_standard_daily", using: :btree
@@ -414,7 +414,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "engine_running_time_readings", ["match_key_standard_quarter"], name: "index_engine_running_time_readings_mk_standard_quarter", using: :btree
   add_index "engine_running_time_readings", ["match_key_standard_weekly"], name: "index_engine_running_time_readings_mk_standard_weekly", using: :btree
   add_index "engine_running_time_readings", ["match_key_standard_yearly"], name: "index_engine_running_time_readings_mk_standard_yearly", using: :btree
-  add_index "engine_running_time_readings", ["real_value"], name: "index_engine_running_time_readings_real_value", using: :btree
+  add_index "engine_running_time_readings", ["real_value"], name: "index_8064fdffd9a496a883762a9941_1b8f140023d2b2bc0ace41fc7c", using: :btree
 
   create_table "engine_start_events", force: :cascade do |t|
     t.integer  "engine_id"
@@ -608,12 +608,12 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "feeder_readings", ["match_key_standard_quarter"], name: "index_feeder_readings_on_match_key_standard_quarter", using: :btree
   add_index "feeder_readings", ["match_key_standard_weekly"], name: "index_feeder_readings_on_match_key_standard_weekly", using: :btree
   add_index "feeder_readings", ["match_key_standard_yearly"], name: "index_feeder_readings_on_match_key_standard_yearly", using: :btree
-  add_index "feeder_readings", ["receiving_counter_offset"], name: "index_feeder_readings_receiving_counter_offset", using: :btree
-  add_index "feeder_readings", ["receiving_counter_value"], name: "index_feeder_readings_receiving_counter_value", using: :btree
-  add_index "feeder_readings", ["receiving_real_value"], name: "index_feeder_readings_receiving_real_value", using: :btree
-  add_index "feeder_readings", ["transmitting_counter_offset"], name: "index_feeder_readings_transmitting_counter_offset", using: :btree
-  add_index "feeder_readings", ["transmitting_counter_value"], name: "index_feeder_readings_transmitting_counter_value", using: :btree
-  add_index "feeder_readings", ["transmitting_real_value"], name: "index_feeder_readings_transmitting_real_value", using: :btree
+  add_index "feeder_readings", ["receiving_counter_offset"], name: "index_8d93ce244865938093f6f9dcec_41aa307d8431fe7fe1e1c328c0", using: :btree
+  add_index "feeder_readings", ["receiving_counter_value"], name: "index_8d93ce244865938093f6f9dcec_7569527b06357a6361104a6918", using: :btree
+  add_index "feeder_readings", ["receiving_real_value"], name: "index_8d93ce244865938093f6f9dcec_b40496f71628bce49abf187b6a", using: :btree
+  add_index "feeder_readings", ["transmitting_counter_offset"], name: "index_8d93ce244865938093f6f9dcec_c3a133313cb4da2361e97c3026", using: :btree
+  add_index "feeder_readings", ["transmitting_counter_value"], name: "index_8d93ce244865938093f6f9dcec_3a5625092474ab940d699e4e38", using: :btree
+  add_index "feeder_readings", ["transmitting_real_value"], name: "index_8d93ce244865938093f6f9dcec_f72e98479ae160e11601cb8e79", using: :btree
 
   create_table "feeders", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -665,8 +665,8 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "updated_at",                                     null: false
   end
 
-  add_index "gas_pressure_reducing_station_daily_readings", ["counter_offset"], name: "index_gas_pressure_reducing_station_dai_counter_offset", using: :btree
-  add_index "gas_pressure_reducing_station_daily_readings", ["counter_value"], name: "index_gas_pressure_reducing_station_dai_counter_value", using: :btree
+  add_index "gas_pressure_reducing_station_daily_readings", ["counter_offset"], name: "index_ff65f1ab3f88e4eea9eec8b49e_11d9fef885e2f0b08329768ed8", using: :btree
+  add_index "gas_pressure_reducing_station_daily_readings", ["counter_value"], name: "index_ff65f1ab3f88e4eea9eec8b49e_05a9c570a24d0dd02af8a91f2f", using: :btree
   add_index "gas_pressure_reducing_station_daily_readings", ["gas_pressure_reducing_station_id"], name: "index_daily_gprs_readings", using: :btree
   add_index "gas_pressure_reducing_station_daily_readings", ["match_key_customer_monthly"], name: "index_ff65f1ab3f88e4eea9eec8b49e_in_616f7243843d82c3a74b64a061", using: :btree
   add_index "gas_pressure_reducing_station_daily_readings", ["match_key_standard_daily"], name: "index_ff65f1ab3f88e4eea9eec8b49e_in_779a6901c31df79c3bf55687f6", using: :btree
@@ -674,7 +674,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "gas_pressure_reducing_station_daily_readings", ["match_key_standard_quarter"], name: "index_ff65f1ab3f88e4eea9eec8b49e_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "gas_pressure_reducing_station_daily_readings", ["match_key_standard_weekly"], name: "index_ff65f1ab3f88e4eea9eec8b49e_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "gas_pressure_reducing_station_daily_readings", ["match_key_standard_yearly"], name: "index_ff65f1ab3f88e4eea9eec8b49e_in_4ed0f540897767e0886152da37", using: :btree
-  add_index "gas_pressure_reducing_station_daily_readings", ["real_value"], name: "index_gas_pressure_reducing_station_dai_real_value", using: :btree
+  add_index "gas_pressure_reducing_station_daily_readings", ["real_value"], name: "index_ff65f1ab3f88e4eea9eec8b49e_1b8f140023d2b2bc0ace41fc7c", using: :btree
 
   create_table "gas_pressure_reducing_station_hourly_readings", force: :cascade do |t|
     t.integer  "gas_pressure_reducing_station_id"
@@ -694,8 +694,8 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "updated_at",                                     null: false
   end
 
-  add_index "gas_pressure_reducing_station_hourly_readings", ["counter_offset"], name: "index_gas_pressure_reducing_station_hou_counter_offset", using: :btree
-  add_index "gas_pressure_reducing_station_hourly_readings", ["counter_value"], name: "index_gas_pressure_reducing_station_hou_counter_value", using: :btree
+  add_index "gas_pressure_reducing_station_hourly_readings", ["counter_offset"], name: "index_4497b396aacb1645ee30249423_11d9fef885e2f0b08329768ed8", using: :btree
+  add_index "gas_pressure_reducing_station_hourly_readings", ["counter_value"], name: "index_4497b396aacb1645ee30249423_05a9c570a24d0dd02af8a91f2f", using: :btree
   add_index "gas_pressure_reducing_station_hourly_readings", ["gas_pressure_reducing_station_id"], name: "index_hourly_gprs_readings", using: :btree
   add_index "gas_pressure_reducing_station_hourly_readings", ["match_key_customer_monthly"], name: "index_4497b396aacb1645ee30249423_in_616f7243843d82c3a74b64a061", using: :btree
   add_index "gas_pressure_reducing_station_hourly_readings", ["match_key_standard_daily"], name: "index_4497b396aacb1645ee30249423_in_779a6901c31df79c3bf55687f6", using: :btree
@@ -703,7 +703,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "gas_pressure_reducing_station_hourly_readings", ["match_key_standard_quarter"], name: "index_4497b396aacb1645ee30249423_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "gas_pressure_reducing_station_hourly_readings", ["match_key_standard_weekly"], name: "index_4497b396aacb1645ee30249423_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "gas_pressure_reducing_station_hourly_readings", ["match_key_standard_yearly"], name: "index_4497b396aacb1645ee30249423_in_4ed0f540897767e0886152da37", using: :btree
-  add_index "gas_pressure_reducing_station_hourly_readings", ["real_value"], name: "index_gas_pressure_reducing_station_hou_real_value", using: :btree
+  add_index "gas_pressure_reducing_station_hourly_readings", ["real_value"], name: "index_4497b396aacb1645ee30249423_1b8f140023d2b2bc0ace41fc7c", using: :btree
 
   create_table "gas_pressure_reducing_stations", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -729,8 +729,8 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "updated_at",                               null: false
   end
 
-  add_index "new_oil_tank_dispensing_events", ["counter_offset"], name: "index_new_oil_tank_dispensing_events_counter_offset", using: :btree
-  add_index "new_oil_tank_dispensing_events", ["counter_value"], name: "index_new_oil_tank_dispensing_events_counter_value", using: :btree
+  add_index "new_oil_tank_dispensing_events", ["counter_offset"], name: "index_3011be341a2d93d38c98775851_11d9fef885e2f0b08329768ed8", using: :btree
+  add_index "new_oil_tank_dispensing_events", ["counter_value"], name: "index_3011be341a2d93d38c98775851_05a9c570a24d0dd02af8a91f2f", using: :btree
   add_index "new_oil_tank_dispensing_events", ["engine_id"], name: "index_new_oil_tank_dispensing_events_on_engine_id", using: :btree
   add_index "new_oil_tank_dispensing_events", ["match_key_customer_monthly"], name: "index_new_oil_tank_disp_event_mk_customer_monthly", using: :btree
   add_index "new_oil_tank_dispensing_events", ["match_key_standard_daily"], name: "index_new_oil_tank_disp_event_mk_standard_daily", using: :btree
@@ -739,7 +739,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "new_oil_tank_dispensing_events", ["match_key_standard_weekly"], name: "index_new_oil_tank_disp_event_mk_standard_weekly", using: :btree
   add_index "new_oil_tank_dispensing_events", ["match_key_standard_yearly"], name: "index_new_oil_tank_disp_event_mk_standard_yearly", using: :btree
   add_index "new_oil_tank_dispensing_events", ["new_oil_tank_id"], name: "index_new_oil_tank_dispensing_events_on_new_oil_tank_id", using: :btree
-  add_index "new_oil_tank_dispensing_events", ["real_value"], name: "index_new_oil_tank_dispensing_events_real_value", using: :btree
+  add_index "new_oil_tank_dispensing_events", ["real_value"], name: "index_3011be341a2d93d38c98775851_1b8f140023d2b2bc0ace41fc7c", using: :btree
 
   create_table "new_oil_tank_receiving_events", force: :cascade do |t|
     t.integer  "new_oil_tank_id"
@@ -759,8 +759,8 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "updated_at",                               null: false
   end
 
-  add_index "new_oil_tank_receiving_events", ["counter_offset"], name: "index_new_oil_tank_receiving_events_counter_offset", using: :btree
-  add_index "new_oil_tank_receiving_events", ["counter_value"], name: "index_new_oil_tank_receiving_events_counter_value", using: :btree
+  add_index "new_oil_tank_receiving_events", ["counter_offset"], name: "index_ac8df57f158f5ab48b10b7feff_11d9fef885e2f0b08329768ed8", using: :btree
+  add_index "new_oil_tank_receiving_events", ["counter_value"], name: "index_ac8df57f158f5ab48b10b7feff_05a9c570a24d0dd02af8a91f2f", using: :btree
   add_index "new_oil_tank_receiving_events", ["match_key_customer_monthly"], name: "index_new_oil_tank_rece_event_mk_customer_monthly", using: :btree
   add_index "new_oil_tank_receiving_events", ["match_key_standard_daily"], name: "index_new_oil_tank_rece_event_mk_standard_daily", using: :btree
   add_index "new_oil_tank_receiving_events", ["match_key_standard_monthly"], name: "index_new_oil_tank_rece_event_mk_standard_monthly", using: :btree
@@ -768,7 +768,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "new_oil_tank_receiving_events", ["match_key_standard_weekly"], name: "index_new_oil_tank_rece_event_mk_standard_weekly", using: :btree
   add_index "new_oil_tank_receiving_events", ["match_key_standard_yearly"], name: "index_new_oil_tank_rece_event_mk_standard_yearly", using: :btree
   add_index "new_oil_tank_receiving_events", ["new_oil_tank_id"], name: "index_new_oil_tank_receiving_events_on_new_oil_tank_id", using: :btree
-  add_index "new_oil_tank_receiving_events", ["real_value"], name: "index_new_oil_tank_receiving_events_real_value", using: :btree
+  add_index "new_oil_tank_receiving_events", ["real_value"], name: "index_ac8df57f158f5ab48b10b7feff_1b8f140023d2b2bc0ace41fc7c", using: :btree
 
   create_table "new_oil_tanks", force: :cascade do |t|
     t.string   "name"
@@ -847,7 +847,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "plant_gross_capacity_readings", ["match_key_standard_yearly"], name: "index_plant_gross_capacity_mk_standard_yearly", using: :btree
   add_index "plant_gross_capacity_readings", ["plant_id"], name: "index_plant_gross_capacity_readings_on_plant_id", using: :btree
 
-  create_table "plant_light_fuel_oil_readings", force: :cascade do |t|
+  create_table "plant_light_fuel_oil_daily_readings", force: :cascade do |t|
     t.integer  "plant_id"
     t.datetime "target_datetime"
     t.float    "inlet_hall_a_counter_value",  default: 0.0
@@ -874,22 +874,66 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "updated_at",                                null: false
   end
 
-  add_index "plant_light_fuel_oil_readings", ["inlet_hall_a_counter_offset"], name: "index_plant_light_fuel_oil_readings_inlet_hall_a_counter_offset", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["inlet_hall_a_counter_value"], name: "index_plant_light_fuel_oil_readings_inlet_hall_a_counter_value", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["inlet_hall_a_real_value"], name: "index_plant_light_fuel_oil_readings_inlet_hall_a_real_value", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["inlet_hall_b_counter_offset"], name: "index_plant_light_fuel_oil_readings_inlet_hall_b_counter_offset", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["inlet_hall_b_counter_value"], name: "index_plant_light_fuel_oil_readings_inlet_hall_b_counter_value", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["inlet_hall_b_real_value"], name: "index_plant_light_fuel_oil_readings_inlet_hall_b_real_value", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["match_key_customer_monthly"], name: "index_plant_lfo_reading_match_key_customer_monthly", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["match_key_standard_daily"], name: "index_plant_lfo_reading_match_key_standard_daily", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["match_key_standard_monthly"], name: "index_plant_lfo_reading_match_key_standard_monthly", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["match_key_standard_quarter"], name: "index_plant_lfo_reading_match_key_standard_quarter", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["match_key_standard_weekly"], name: "index_plant_lfo_reading_match_key_standard_weekly", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["match_key_standard_yearly"], name: "index_plant_lfo_reading_match_key_standard_yearly", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["outlet_counter_offset"], name: "index_plant_light_fuel_oil_readings_outlet_counter_offset", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["outlet_counter_value"], name: "index_plant_light_fuel_oil_readings_outlet_counter_value", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["outlet_real_value"], name: "index_plant_light_fuel_oil_readings_outlet_real_value", using: :btree
-  add_index "plant_light_fuel_oil_readings", ["plant_id"], name: "index_plant_light_fuel_oil_readings_on_plant_id", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["inlet_hall_a_counter_offset"], name: "index_56c27b799678b547a14f6c262c_bccb26c9f98957b356a39088ba", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["inlet_hall_a_counter_value"], name: "index_56c27b799678b547a14f6c262c_a0ed856779fce8709d40a2fb53", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["inlet_hall_a_real_value"], name: "index_56c27b799678b547a14f6c262c_4497776062953045b1732b5ba2", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["inlet_hall_b_counter_offset"], name: "index_56c27b799678b547a14f6c262c_3ad75f71ba75267f15b3332617", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["inlet_hall_b_counter_value"], name: "index_56c27b799678b547a14f6c262c_fe51cc0f3b83e0f58dd050c302", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["inlet_hall_b_real_value"], name: "index_56c27b799678b547a14f6c262c_05e8cc71aaf86ed0d87f404133", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["match_key_customer_monthly"], name: "index_56c27b799678b547a14f6c262c_in_616f7243843d82c3a74b64a061", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["match_key_standard_daily"], name: "index_56c27b799678b547a14f6c262c_in_779a6901c31df79c3bf55687f6", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["match_key_standard_monthly"], name: "index_56c27b799678b547a14f6c262c_in_3bc6e6d395cde11b555bc478fc", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["match_key_standard_quarter"], name: "index_56c27b799678b547a14f6c262c_in_4a51978869deb3180e78dabcbe", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["match_key_standard_weekly"], name: "index_56c27b799678b547a14f6c262c_in_dea340e5b463fa21e8cb939498", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["match_key_standard_yearly"], name: "index_56c27b799678b547a14f6c262c_in_4ed0f540897767e0886152da37", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["outlet_counter_offset"], name: "index_56c27b799678b547a14f6c262c_fb98f4a95ddbc95545ab33cc7c", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["outlet_counter_value"], name: "index_56c27b799678b547a14f6c262c_7a07d5f52b66d3bce1dfb83399", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["outlet_real_value"], name: "index_56c27b799678b547a14f6c262c_c74e00df2096feb792587f397f", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["plant_id"], name: "index_plant_light_fuel_oil_daily_readings_on_plant_id", using: :btree
+
+  create_table "plant_light_fuel_oil_hourly_readings", force: :cascade do |t|
+    t.integer  "plant_id"
+    t.datetime "target_datetime"
+    t.float    "inlet_hall_a_counter_value",  default: 0.0
+    t.float    "inlet_hall_a_real_value",     default: 0.0
+    t.float    "inlet_hall_a_counter_offset", default: 0.0
+    t.float    "inlet_hall_a_liters"
+    t.float    "inlet_hall_b_counter_value",  default: 0.0
+    t.float    "inlet_hall_b_real_value",     default: 0.0
+    t.float    "inlet_hall_b_counter_offset", default: 0.0
+    t.float    "inlet_hall_b_liters"
+    t.float    "outlet_counter_value",        default: 0.0
+    t.float    "outlet_real_value",           default: 0.0
+    t.float    "outlet_counter_offset",       default: 0.0
+    t.float    "outlet_cubic_meters"
+    t.float    "consumption_liters"
+    t.integer  "status",                      default: 0
+    t.string   "match_key_standard_daily"
+    t.string   "match_key_standard_weekly"
+    t.string   "match_key_standard_monthly"
+    t.string   "match_key_standard_quarter"
+    t.string   "match_key_standard_yearly"
+    t.string   "match_key_customer_monthly"
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+  end
+
+  add_index "plant_light_fuel_oil_hourly_readings", ["inlet_hall_a_counter_offset"], name: "index_099e72fb0d2d6e5e1b13d17928_bccb26c9f98957b356a39088ba", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["inlet_hall_a_counter_value"], name: "index_099e72fb0d2d6e5e1b13d17928_a0ed856779fce8709d40a2fb53", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["inlet_hall_a_real_value"], name: "index_099e72fb0d2d6e5e1b13d17928_4497776062953045b1732b5ba2", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["inlet_hall_b_counter_offset"], name: "index_099e72fb0d2d6e5e1b13d17928_3ad75f71ba75267f15b3332617", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["inlet_hall_b_counter_value"], name: "index_099e72fb0d2d6e5e1b13d17928_fe51cc0f3b83e0f58dd050c302", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["inlet_hall_b_real_value"], name: "index_099e72fb0d2d6e5e1b13d17928_05e8cc71aaf86ed0d87f404133", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["match_key_customer_monthly"], name: "index_099e72fb0d2d6e5e1b13d17928_in_616f7243843d82c3a74b64a061", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["match_key_standard_daily"], name: "index_099e72fb0d2d6e5e1b13d17928_in_779a6901c31df79c3bf55687f6", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["match_key_standard_monthly"], name: "index_099e72fb0d2d6e5e1b13d17928_in_3bc6e6d395cde11b555bc478fc", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["match_key_standard_quarter"], name: "index_099e72fb0d2d6e5e1b13d17928_in_4a51978869deb3180e78dabcbe", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["match_key_standard_weekly"], name: "index_099e72fb0d2d6e5e1b13d17928_in_dea340e5b463fa21e8cb939498", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["match_key_standard_yearly"], name: "index_099e72fb0d2d6e5e1b13d17928_in_4ed0f540897767e0886152da37", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["outlet_counter_offset"], name: "index_099e72fb0d2d6e5e1b13d17928_fb98f4a95ddbc95545ab33cc7c", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["outlet_counter_value"], name: "index_099e72fb0d2d6e5e1b13d17928_7a07d5f52b66d3bce1dfb83399", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["outlet_real_value"], name: "index_099e72fb0d2d6e5e1b13d17928_c74e00df2096feb792587f397f", using: :btree
+  add_index "plant_light_fuel_oil_hourly_readings", ["plant_id"], name: "index_plant_light_fuel_oil_hourly_readings_on_plant_id", using: :btree
 
   create_table "plant_reference_condition_readings", force: :cascade do |t|
     t.integer  "plant_id"
@@ -1002,15 +1046,15 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "updated_at",                               null: false
   end
 
-  add_index "substation_readings", ["counter_offset"], name: "index_substation_readings_counter_offset", using: :btree
-  add_index "substation_readings", ["counter_value"], name: "index_substation_readings_counter_value", using: :btree
+  add_index "substation_readings", ["counter_offset"], name: "index_12a51dd80b5b9de4d293474fa3_11d9fef885e2f0b08329768ed8", using: :btree
+  add_index "substation_readings", ["counter_value"], name: "index_12a51dd80b5b9de4d293474fa3_05a9c570a24d0dd02af8a91f2f", using: :btree
   add_index "substation_readings", ["match_key_customer_monthly"], name: "index_substation_readings_on_match_key_customer_monthly", using: :btree
   add_index "substation_readings", ["match_key_standard_daily"], name: "index_substation_readings_on_match_key_standard_daily", using: :btree
   add_index "substation_readings", ["match_key_standard_monthly"], name: "index_substation_readings_on_match_key_standard_monthly", using: :btree
   add_index "substation_readings", ["match_key_standard_quarter"], name: "index_substation_readings_on_match_key_standard_quarter", using: :btree
   add_index "substation_readings", ["match_key_standard_weekly"], name: "index_substation_readings_on_match_key_standard_weekly", using: :btree
   add_index "substation_readings", ["match_key_standard_yearly"], name: "index_substation_readings_on_match_key_standard_yearly", using: :btree
-  add_index "substation_readings", ["real_value"], name: "index_substation_readings_real_value", using: :btree
+  add_index "substation_readings", ["real_value"], name: "index_12a51dd80b5b9de4d293474fa3_1b8f140023d2b2bc0ace41fc7c", using: :btree
   add_index "substation_readings", ["substation_id"], name: "index_substation_readings_on_substation_id", using: :btree
 
   create_table "substations", force: :cascade do |t|
@@ -1058,13 +1102,13 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "transformer_readings", ["match_key_standard_quarter"], name: "index_transformer_readings_on_match_key_standard_quarter", using: :btree
   add_index "transformer_readings", ["match_key_standard_weekly"], name: "index_transformer_readings_on_match_key_standard_weekly", using: :btree
   add_index "transformer_readings", ["match_key_standard_yearly"], name: "index_transformer_readings_on_match_key_standard_yearly", using: :btree
-  add_index "transformer_readings", ["receiving_counter_offset"], name: "index_transformer_readings_receiving_counter_offset", using: :btree
-  add_index "transformer_readings", ["receiving_counter_value"], name: "index_transformer_readings_receiving_counter_value", using: :btree
-  add_index "transformer_readings", ["receiving_real_value"], name: "index_transformer_readings_receiving_real_value", using: :btree
+  add_index "transformer_readings", ["receiving_counter_offset"], name: "index_715db9c72ef7eda8e1246406d2_41aa307d8431fe7fe1e1c328c0", using: :btree
+  add_index "transformer_readings", ["receiving_counter_value"], name: "index_715db9c72ef7eda8e1246406d2_7569527b06357a6361104a6918", using: :btree
+  add_index "transformer_readings", ["receiving_real_value"], name: "index_715db9c72ef7eda8e1246406d2_b40496f71628bce49abf187b6a", using: :btree
   add_index "transformer_readings", ["transformer_id"], name: "index_transformer_readings_on_transformer_id", using: :btree
-  add_index "transformer_readings", ["transmitting_counter_offset"], name: "index_transformer_readings_transmitting_counter_offset", using: :btree
-  add_index "transformer_readings", ["transmitting_counter_value"], name: "index_transformer_readings_transmitting_counter_value", using: :btree
-  add_index "transformer_readings", ["transmitting_real_value"], name: "index_transformer_readings_transmitting_real_value", using: :btree
+  add_index "transformer_readings", ["transmitting_counter_offset"], name: "index_715db9c72ef7eda8e1246406d2_c3a133313cb4da2361e97c3026", using: :btree
+  add_index "transformer_readings", ["transmitting_counter_value"], name: "index_715db9c72ef7eda8e1246406d2_3a5625092474ab940d699e4e38", using: :btree
+  add_index "transformer_readings", ["transmitting_real_value"], name: "index_715db9c72ef7eda8e1246406d2_f72e98479ae160e11601cb8e79", using: :btree
 
   create_table "transformers", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -1129,7 +1173,8 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_foreign_key "new_oil_tank_receiving_events", "new_oil_tanks"
   add_foreign_key "plant_declared_capacity_readings", "plants"
   add_foreign_key "plant_gross_capacity_readings", "plants"
-  add_foreign_key "plant_light_fuel_oil_readings", "plants"
+  add_foreign_key "plant_light_fuel_oil_daily_readings", "plants"
+  add_foreign_key "plant_light_fuel_oil_hourly_readings", "plants"
   add_foreign_key "plant_reference_condition_readings", "plants"
   add_foreign_key "service_oil_tank_dispensing_events", "engines"
   add_foreign_key "service_oil_tank_dispensing_events", "service_oil_tanks"

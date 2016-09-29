@@ -1,30 +1,30 @@
-class PlantLightFuelOilReading < AbstractIntervalModel
+class PlantLightFuelOilDailyReading < AbstractIntervalModel
   PARENT_MODEL = Plant
-  CUSTOM_NAME = 'Plant common LFO readings'
+  CUSTOM_NAME = 'Plant common LFO daily readings'
   COUNTER_VALUES_COLUMNS = [
     {
      type: :relative,
      counter_value_column_name: :inlet_hall_a_counter_value,
      absolute_value_column_name: :inlet_hall_a_liters,
-     maximum_interval_difference: 5000.0,
+     maximum_interval_difference: 5000.0 * 24,
      minimum_interval_difference: 0.0
     },
     {
      type: :relative,
      counter_value_column_name: :inlet_hall_b_counter_value,
      absolute_value_column_name: :inlet_hall_b_liters,
-     maximum_interval_difference: 5000.0,
+     maximum_interval_difference: 5000.0 * 24,
      minimum_interval_difference: 0.0
     },
     {
      type: :relative,
      counter_value_column_name: :outlet_counter_value,
      absolute_value_column_name: :outlet_cubic_meters,
-     maximum_interval_difference: 10.0,
+     maximum_interval_difference: 10.0 * 24,
      minimum_interval_difference: 0.0
     }
   ]
-  INTERVAL_IN_MINUTES = 60
+  INTERVAL_IN_MINUTES = 60 * 24
   EXPORTER_CONFIG = {
     match_key_types_fragments: [],
     mappings: [
@@ -74,7 +74,7 @@ class PlantLightFuelOilReading < AbstractIntervalModel
     },
     format: {
       with: /\A[0-9]+\.[0-9]{1}\Z/,
-      message: 'must contain one decimal place'
+      message: 'must contain one decimal place'
     }
   }
 
@@ -86,7 +86,7 @@ class PlantLightFuelOilReading < AbstractIntervalModel
     },
     format: {
       with: /\A[0-9]+\.[0-9]{1}\Z/,
-      message: 'must contain one decimal place'
+      message: 'must contain one decimal place'
     }
   }
 
@@ -98,7 +98,7 @@ class PlantLightFuelOilReading < AbstractIntervalModel
     },
     format: {
       with: /\A[0-9]+\.[0-9]{1}\Z/,
-      message: 'must contain one decimal place'
+      message: 'must contain one decimal place'
     }
   }
 
@@ -120,7 +120,7 @@ class PlantLightFuelOilReading < AbstractIntervalModel
       errors.add :outlet_counter_value, 'cannot be less than zero'
     end
 
-    unless calculated_consumption_liters <= 50700
+    unless calculated_consumption_liters <= 50700 * 24
       errors.add :outlet_counter_value, 'is not congruent with consumption liters'
     end
   end

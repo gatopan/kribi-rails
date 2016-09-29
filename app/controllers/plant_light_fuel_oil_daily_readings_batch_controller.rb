@@ -1,10 +1,10 @@
-class PlantLightFuelOilReadingsBatchController < AbstractBatchController
+class PlantLightFuelOilDailyReadingsBatchController < AbstractBatchController
   def parent_model
     Plant
   end
 
   def children_model
-    PlantLightFuelOilReading
+    PlantLightFuelOilDailyReading
   end
 
   def children_attributes

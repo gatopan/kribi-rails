@@ -25,13 +25,18 @@ module Kribi
 
     # Includes counter value, counter offset, and real value columns
     def create_relative_counter_value_columns(table, counter_value_column_name)
+      table_name_hash = Digest::SHA1.hexdigest(table.name)
+
       [
         counter_value_column_name.to_s,
         counter_value_column_name.to_s.sub('counter', 'real'),
         counter_value_column_name.to_s.sub('value', 'offset'),
       ].each do |column_name|
+        column_name_hash = Digest::SHA1.hexdigest(column_name)
+
         table.float column_name, default: 0
-        table.index column_name, name: "index_#{table.name[0..32]}_#{column_name}"
+        name = "index_#{table_name_hash[0..25]}_#{column_name_hash[0..25]}"
+        table.index column_name, name: name
       end
     end
   end
