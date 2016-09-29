@@ -22,21 +22,9 @@ class PlantDeclaredCapacityReadingsBatchController < AbstractBatchController
         class: 'form-control'
       },
       {
-        builder: :text_field,
-        attribute: :grid_demand,
-        type: :numeric,
-        class: 'form-control'
-      },
-      {
-        builder: :text_field,
-        attribute: :equivalent_scheduled_outage_factor,
-        type: :numeric,
-        class: 'form-control'
-      },
-      {
-        builder: :text_field,
-        attribute: :equivalent_forced_outage_factor,
-        type: :numeric,
+        builder: :select,
+        attribute: :grid_disturbances,
+        possible_values: children_model.grid_disturbances.map{|key, value| [key.humanize, key]},
         class: 'form-control'
       }
     ]

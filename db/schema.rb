@@ -802,10 +802,8 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "target_datetime"
     t.float    "capacity_at_actual_site_conditions",    default: 0.0
     t.float    "capacity_at_reference_site_conditions", default: 0.0
-    t.float    "grid_demand",                           default: 0.0
-    t.float    "equivalent_scheduled_outage_factor",    default: 0.0
-    t.float    "equivalent_forced_outage_factor",       default: 0.0
     t.integer  "status",                                default: 0
+    t.integer  "grid_disturbances",                     default: 0
     t.string   "match_key_standard_daily"
     t.string   "match_key_standard_weekly"
     t.string   "match_key_standard_monthly"
@@ -816,12 +814,12 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "updated_at",                                          null: false
   end
 
-  add_index "plant_declared_capacity_readings", ["match_key_customer_monthly"], name: "index_plant_declared_capacity_mk_customer_monthly", using: :btree
-  add_index "plant_declared_capacity_readings", ["match_key_standard_daily"], name: "index_plant_declared_capacity_mk_standard_daily", using: :btree
-  add_index "plant_declared_capacity_readings", ["match_key_standard_monthly"], name: "index_plant_declared_capacity_mk_standard_monthly", using: :btree
-  add_index "plant_declared_capacity_readings", ["match_key_standard_quarter"], name: "index_plant_declared_capacity_mk_standard_quarter", using: :btree
-  add_index "plant_declared_capacity_readings", ["match_key_standard_weekly"], name: "index_plant_declared_capacity_mk_standard_weekly", using: :btree
-  add_index "plant_declared_capacity_readings", ["match_key_standard_yearly"], name: "index_plant_declared_capacity_mk_standard_yearly", using: :btree
+  add_index "plant_declared_capacity_readings", ["match_key_customer_monthly"], name: "index_0c45b4860c52a80533f694b6bd_in_616f7243843d82c3a74b64a061", using: :btree
+  add_index "plant_declared_capacity_readings", ["match_key_standard_daily"], name: "index_0c45b4860c52a80533f694b6bd_in_779a6901c31df79c3bf55687f6", using: :btree
+  add_index "plant_declared_capacity_readings", ["match_key_standard_monthly"], name: "index_0c45b4860c52a80533f694b6bd_in_3bc6e6d395cde11b555bc478fc", using: :btree
+  add_index "plant_declared_capacity_readings", ["match_key_standard_quarter"], name: "index_0c45b4860c52a80533f694b6bd_in_4a51978869deb3180e78dabcbe", using: :btree
+  add_index "plant_declared_capacity_readings", ["match_key_standard_weekly"], name: "index_0c45b4860c52a80533f694b6bd_in_dea340e5b463fa21e8cb939498", using: :btree
+  add_index "plant_declared_capacity_readings", ["match_key_standard_yearly"], name: "index_0c45b4860c52a80533f694b6bd_in_4ed0f540897767e0886152da37", using: :btree
   add_index "plant_declared_capacity_readings", ["plant_id"], name: "index_plant_declared_capacity_readings_on_plant_id", using: :btree
 
   create_table "plant_gross_capacity_readings", force: :cascade do |t|
