@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929061218) do
+ActiveRecord::Schema.define(version: 20160929061607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -710,6 +710,30 @@ ActiveRecord::Schema.define(version: 20160929061218) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "grid_demand_instruction_events", force: :cascade do |t|
+    t.integer  "grid_id"
+    t.datetime "target_datetime"
+    t.float    "grid_demand",                default: 0.0
+    t.integer  "status",                     default: 0
+    t.text     "comments"
+    t.string   "match_key_standard_daily"
+    t.string   "match_key_standard_weekly"
+    t.string   "match_key_standard_monthly"
+    t.string   "match_key_standard_quarter"
+    t.string   "match_key_standard_yearly"
+    t.string   "match_key_customer_monthly"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  add_index "grid_demand_instruction_events", ["grid_id"], name: "index_grid_demand_instruction_events_on_grid_id", using: :btree
+  add_index "grid_demand_instruction_events", ["match_key_customer_monthly"], name: "index_88abcb74eef843e739557b7f17_in_616f7243843d82c3a74b64a061", using: :btree
+  add_index "grid_demand_instruction_events", ["match_key_standard_daily"], name: "index_88abcb74eef843e739557b7f17_in_779a6901c31df79c3bf55687f6", using: :btree
+  add_index "grid_demand_instruction_events", ["match_key_standard_monthly"], name: "index_88abcb74eef843e739557b7f17_in_3bc6e6d395cde11b555bc478fc", using: :btree
+  add_index "grid_demand_instruction_events", ["match_key_standard_quarter"], name: "index_88abcb74eef843e739557b7f17_in_4a51978869deb3180e78dabcbe", using: :btree
+  add_index "grid_demand_instruction_events", ["match_key_standard_weekly"], name: "index_88abcb74eef843e739557b7f17_in_dea340e5b463fa21e8cb939498", using: :btree
+  add_index "grid_demand_instruction_events", ["match_key_standard_yearly"], name: "index_88abcb74eef843e739557b7f17_in_4ed0f540897767e0886152da37", using: :btree
+
   create_table "grids", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -1171,6 +1195,7 @@ ActiveRecord::Schema.define(version: 20160929061218) do
   add_foreign_key "gas_nomination_readings", "gas_pressure_reducing_stations"
   add_foreign_key "gas_pressure_reducing_station_daily_readings", "gas_pressure_reducing_stations"
   add_foreign_key "gas_pressure_reducing_station_hourly_readings", "gas_pressure_reducing_stations"
+  add_foreign_key "grid_demand_instruction_events", "grids"
   add_foreign_key "new_oil_tank_dispensing_events", "engines"
   add_foreign_key "new_oil_tank_dispensing_events", "new_oil_tanks"
   add_foreign_key "new_oil_tank_receiving_events", "new_oil_tanks"
