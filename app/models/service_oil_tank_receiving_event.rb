@@ -1,5 +1,5 @@
 class ServiceOilTankReceivingEvent < AbstractEventModel
-  PARENT_MODEL = ServiceOilTank
+  PARENT_MODEL = Engine
   CUSTOM_NAME = nil
   EXPORTER_CONFIG = {
     match_key_types_fragments: [],
@@ -32,6 +32,8 @@ class ServiceOilTankReceivingEvent < AbstractEventModel
   CALCULATED_FIELD_NAMES = [
   ]
   abstract_bootloader()
+
+  belongs_to :engine
 
   validates :quantity_in_liters, {
     presence: true,

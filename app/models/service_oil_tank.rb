@@ -1,6 +1,5 @@
 class ServiceOilTank < ActiveRecord::Base
   has_many :service_oil_tank_dispensing_events
-  has_many :service_oil_tank_receiving_events
 
   validate :only_one_check
 

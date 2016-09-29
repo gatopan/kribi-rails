@@ -10,6 +10,7 @@ class Engine < ActiveRecord::Base
   has_many :engine_status_change_events
   has_many :engine_trip_events
   has_many :engine_start_events
+  has_many :service_oil_tank_receiving_events
 
   validate :only_13_check
 

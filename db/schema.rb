@@ -945,7 +945,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "service_oil_tank_dispensing_events", ["service_oil_tank_id"], name: "index_service_oil_tank_dispensing_events_on_service_oil_tank_id", using: :btree
 
   create_table "service_oil_tank_receiving_events", force: :cascade do |t|
-    t.integer  "service_oil_tank_id"
+    t.integer  "engine_id"
     t.datetime "target_datetime"
     t.integer  "quantity_in_liters"
     t.integer  "status",                     default: 0
@@ -959,13 +959,13 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.datetime "updated_at",                             null: false
   end
 
-  add_index "service_oil_tank_receiving_events", ["match_key_customer_monthly"], name: "index_service_oil_tank_rece_event_mk_customer_monthly", using: :btree
-  add_index "service_oil_tank_receiving_events", ["match_key_standard_daily"], name: "index_service_oil_tank_rece_event_mk_standard_daily", using: :btree
-  add_index "service_oil_tank_receiving_events", ["match_key_standard_monthly"], name: "index_service_oil_tank_rece_event_mk_standard_monthly", using: :btree
-  add_index "service_oil_tank_receiving_events", ["match_key_standard_quarter"], name: "index_service_oil_tank_rece_event_mk_standard_quarter", using: :btree
-  add_index "service_oil_tank_receiving_events", ["match_key_standard_weekly"], name: "index_service_oil_tank_rece_event_mk_standard_weekly", using: :btree
-  add_index "service_oil_tank_receiving_events", ["match_key_standard_yearly"], name: "index_service_oil_tank_rece_event_mk_standard_yearly", using: :btree
-  add_index "service_oil_tank_receiving_events", ["service_oil_tank_id"], name: "index_service_oil_tank_receiving_events_on_service_oil_tank_id", using: :btree
+  add_index "service_oil_tank_receiving_events", ["engine_id"], name: "index_service_oil_tank_receiving_events_on_engine_id", using: :btree
+  add_index "service_oil_tank_receiving_events", ["match_key_customer_monthly"], name: "index_b7db33deaa0f9a2872a7419024_in_616f7243843d82c3a74b64a061", using: :btree
+  add_index "service_oil_tank_receiving_events", ["match_key_standard_daily"], name: "index_b7db33deaa0f9a2872a7419024_in_779a6901c31df79c3bf55687f6", using: :btree
+  add_index "service_oil_tank_receiving_events", ["match_key_standard_monthly"], name: "index_b7db33deaa0f9a2872a7419024_in_3bc6e6d395cde11b555bc478fc", using: :btree
+  add_index "service_oil_tank_receiving_events", ["match_key_standard_quarter"], name: "index_b7db33deaa0f9a2872a7419024_in_4a51978869deb3180e78dabcbe", using: :btree
+  add_index "service_oil_tank_receiving_events", ["match_key_standard_weekly"], name: "index_b7db33deaa0f9a2872a7419024_in_dea340e5b463fa21e8cb939498", using: :btree
+  add_index "service_oil_tank_receiving_events", ["match_key_standard_yearly"], name: "index_b7db33deaa0f9a2872a7419024_in_4ed0f540897767e0886152da37", using: :btree
 
   create_table "service_oil_tanks", force: :cascade do |t|
     t.string   "name"
@@ -1133,7 +1133,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_foreign_key "plant_reference_condition_readings", "plants"
   add_foreign_key "service_oil_tank_dispensing_events", "engines"
   add_foreign_key "service_oil_tank_dispensing_events", "service_oil_tanks"
-  add_foreign_key "service_oil_tank_receiving_events", "service_oil_tanks"
+  add_foreign_key "service_oil_tank_receiving_events", "engines"
   add_foreign_key "substation_readings", "substations"
   add_foreign_key "transformer_readings", "transformers"
   add_foreign_key "weather_readings", "weather_stations"
