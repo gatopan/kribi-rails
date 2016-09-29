@@ -1,5 +1,6 @@
 class PlantLightFuelOilReading < AbstractIntervalModel
   PARENT_MODEL = Plant
+  CUSTOM_NAME = nil
   COUNTER_VALUES_COLUMNS = [
     {
      type: :relative,

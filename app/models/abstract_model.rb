@@ -2,8 +2,13 @@ class AbstractModel < ActiveRecord::Base
   self.abstract_class = true
 
   DATETIME_COLUMN = :target_datetime
+  CUSTOM_NAME = nil
 
   include MatchKeyGenerators
+
+  def self.custom_name
+    self::CUSTOM_NAME || self.table_name.humanize
+  end
 
   def self.target_day
     raise StandardError.new('Must implement')

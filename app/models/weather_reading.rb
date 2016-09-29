@@ -1,5 +1,6 @@
 class WeatherReading < AbstractIntervalModel
   PARENT_MODEL = WeatherStation
+  CUSTOM_NAME = nil
   COUNTER_VALUES_COLUMNS = [
     {
       name: :ambient_temperature,

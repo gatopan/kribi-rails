@@ -44,7 +44,7 @@
     <% @interval_models.each do |interval_model| %>
       <tbody>
         <tr>
-          <td><%= interval_model.table_name.titleize %></td>
+          <td><%= interval_model.custom_name %></td>
           <td><%= interval_model.target_day.try(:strftime,"%Y-%m-%d") %></td>
           <td class='export-button-group' >
             <div class='btn-group btn-group-justified' role='group'>
@@ -75,7 +75,7 @@
     <% @event_models.each do |event_model| %>
       <tbody>
         <tr>
-          <td><%= event_model.table_name.titleize %></td>
+          <td><%= event_model.custom_name %></td>
           <td><%= event_model.target_day.try(:strftime, "%Y-%m-%d") %></td>
           <td><%= event_model.PENDING.count + event_model.REVIEWED.count %></td>
           <td class='export-button-group' >

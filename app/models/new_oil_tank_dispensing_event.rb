@@ -1,5 +1,6 @@
 class NewOilTankDispensingEvent < AbstractEventModel
   PARENT_MODEL = NewOilTank
+  CUSTOM_NAME = nil
   EXPORTER_CONFIG = {
     match_key_types_fragments: [:engine_id],
     mappings: [

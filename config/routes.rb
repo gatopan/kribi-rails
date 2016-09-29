@@ -1,3 +1,5 @@
+load './config/initializers/model_loader.rb'
+
 Kribi::Application.routes.draw do
   # Web
   root({

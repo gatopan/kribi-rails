@@ -1,6 +1,6 @@
 module ApplicationHelper
   def is_active_route(route)
-    (route.fetch(:route_name) =~ /#{params[:controller]}/) ? 'active' : nil
+    ((route.fetch(:route_name)+'_batch') =~ /#{params[:controller]}/) ? 'active' : nil
   end
 
   def is_active_controller(controller_name)
@@ -12,10 +12,10 @@ module ApplicationHelper
   end
 
   def is_active_batch
-    @batch_routes.any?{|route| route.fetch(:route_name) =~ /#{params[:controller]}/} ? 'active' : nil
+    batch_routes.any?{|route| (route.fetch(:route_name)+'_batch')  =~ /#{params[:controller]}/} ? 'active' : nil
   end
 
   def is_active_event
-    @event_routes.any?{|route| route.fetch(:route_name) =~ /#{params[:controller]}/} ? 'active' : nil
+    event_routes.any?{|route| route.fetch(:route_name) =~ /#{params[:controller]}/} ? 'active' : nil
   end
 end

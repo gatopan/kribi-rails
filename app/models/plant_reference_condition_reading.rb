@@ -1,5 +1,6 @@
 class PlantReferenceConditionReading < AbstractIntervalModel
   PARENT_MODEL = Plant
+  CUSTOM_NAME = nil
   COUNTER_VALUES_COLUMNS = [
     {
       name: :methane_number_at_actual_site_condition,

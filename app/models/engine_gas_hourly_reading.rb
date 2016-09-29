@@ -1,5 +1,6 @@
 class EngineGasHourlyReading < AbstractIntervalModel
   PARENT_MODEL = Engine
+  CUSTOM_NAME = nil
   COUNTER_VALUES_COLUMNS = [
     {
      type: :relative,
