@@ -36,6 +36,13 @@ class GasNominationReadingsBatchController < AbstractBatchController
         type: :numeric,
         class: 'form-control',
         custom_name: 'HHV (BTU/SCF)'
+      },
+      {
+        builder: :text_field,
+        attribute: :contractual_methane_number,
+        type: :numeric,
+        class: 'form-control',
+        custom_name: nil
       }
     ]
   end

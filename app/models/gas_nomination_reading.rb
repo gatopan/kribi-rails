@@ -17,6 +17,10 @@ class GasNominationReading < AbstractIntervalModel
     {
      name: :high_heating_value,
      type: :absolute,
+    },
+    {
+     name: :contractual_methane_number,
+     type: :absolute,
     }
   ]
   INTERVAL_IN_MINUTES = 1440
@@ -28,7 +32,9 @@ class GasNominationReading < AbstractIntervalModel
           type: :aggregate,
           fragment: 'sum(nomination) as nomination_sum,'\
                     'sum(delivery_on_specification) as delivery_on_specification_sum,'\
-                    'sum(delivery_off_specification) as delivery_off_specification_sum'
+                    'sum(delivery_off_specification) as delivery_off_specification_sum,'\
+                    'sum(high_heating_value) as high_heating_value_sum,'\
+                    'avg(contractual_methane_number) as contractual_methane_number_average'
         },
         destination: {
           type: :excel,
@@ -91,6 +97,17 @@ class GasNominationReading < AbstractIntervalModel
     numericality: {
       greater_than_or_equal_to: 0,
       less_than_or_equal_to: 2000
+    },
+    format: {
+      with: /\A[0-9]+\.[0-9]{1,3}\Z/,
+      message: 'must contain up to three decimal places'
+    }
+  }
+  validates :contractual_methane_number, {
+    presence: true,
+    numericality: {
+      greater_than_or_equal_to: 60,
+      less_than_or_equal_to: 80
     },
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,

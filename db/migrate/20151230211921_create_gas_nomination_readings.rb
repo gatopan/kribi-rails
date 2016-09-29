@@ -7,6 +7,7 @@ class CreateGasNominationReadings < Kribi::Migration
       t.float :delivery_on_specification, default: 0.0
       t.float :delivery_off_specification, default: 0.0
       t.float :high_heating_value, default: 0.0
+      t.float :contractual_methane_number, default: 60.0
       t.integer :status, default: 0
       create_match_keys_for(t)
 

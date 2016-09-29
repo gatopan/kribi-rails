@@ -627,6 +627,7 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.float    "delivery_on_specification",        default: 0.0
     t.float    "delivery_off_specification",       default: 0.0
     t.float    "high_heating_value",               default: 0.0
+    t.float    "contractual_methane_number",       default: 60.0
     t.integer  "status",                           default: 0
     t.string   "match_key_standard_daily"
     t.string   "match_key_standard_weekly"
@@ -634,8 +635,8 @@ ActiveRecord::Schema.define(version: 20160512034926) do
     t.string   "match_key_standard_quarter"
     t.string   "match_key_standard_yearly"
     t.string   "match_key_customer_monthly"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
   end
 
   add_index "gas_nomination_readings", ["gas_pressure_reducing_station_id"], name: "index_gprs_gas_nomination_readings", using: :btree
