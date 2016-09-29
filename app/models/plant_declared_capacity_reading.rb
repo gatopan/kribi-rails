@@ -1,5 +1,6 @@
 class PlantDeclaredCapacityReading < AbstractIntervalModel
   PARENT_MODEL = Plant
+  CUSTOM_NAME = nil
   COUNTER_VALUES_COLUMNS = [
     {
       name: :capacity_at_actual_site_conditions,

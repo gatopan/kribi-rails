@@ -1,5 +1,6 @@
 class GasPressureReducingStationDailyReading < AbstractIntervalModel
   PARENT_MODEL = GasPressureReducingStation
+  CUSTOM_NAME = nil
   COUNTER_VALUES_COLUMNS = [
     {
      type: :relative,

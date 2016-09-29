@@ -1,5 +1,6 @@
 class EngineEmissionNitrousOxidesInGasModeHourlyReading < AbstractIntervalModel
   PARENT_MODEL = Engine
+  CUSTOM_NAME = nil
   COUNTER_VALUES_COLUMNS = [
     {
      name: :nitrogen_oxides_in_gas_mode,

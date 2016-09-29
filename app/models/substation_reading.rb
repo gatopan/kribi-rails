@@ -1,5 +1,6 @@
 class SubstationReading < AbstractIntervalModel
   PARENT_MODEL = Substation
+  CUSTOM_NAME = nil
   COUNTER_VALUES_COLUMNS = [
     {
      type: :relative,

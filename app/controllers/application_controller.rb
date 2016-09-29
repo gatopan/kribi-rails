@@ -1,39 +1,38 @@
 # TODO:Rename to AbstractController and update refs
 class ApplicationController < ActionController::Base
   helper_method :current_person
+  helper_method :batch_routes
+  helper_method :event_routes
   before_action :authenticate
   before_action :prevent_guest_acesss
-  before_action :calculate_routes
 
-  def calculate_routes
-    routes = Rails.application.routes.named_routes.routes
-    @batch_routes ||= routes
-      .select{|route_name, route_object| route_name =~ /batch_show/}
-      .map{|route_name, route_object|
-        resource_name_array = route_name.to_s.split("_")
-        resource_name = resource_name_array[2..(resource_name_array.length - 4)].join(' ').humanize
-        {
-          resource_name: resource_name,
-          resource_path: self.send("#{route_name}_path"),
-          route_name: route_name,
-          route_object: route_object
-        }
+  def initialize
+    load './config/initializers/model_loader.rb'
+    super
+  end
+
+  # TODO: fix incongruence batch vs interval incongruence
+  def batch_routes
+    @batch_routes ||= AbstractIntervalModel.descendants.map do |model|
+      {
+        resource_name: model.custom_name,
+        resource_path: self.send("show_#{model.table_name}_path"),
+        route_name: model.table_name,
+        model: model
       }
-    @batch_routes.sort_by!{|route| route.fetch(:resource_name)}
-    @event_routes ||= routes
-      .select{|route_name, route_object| (route_name =~ /editor_/) && (route_name =~/_events/)}
-      .reject{|route_name, route_object| (route_name =~ /_create_|_elevate_|_update_|_destroy_/)} # TODO: Figure out cleaner way of creating editor routes
-      .map{|route_name, route_object|
-        resource_name_array = route_name.to_s.split("_")
-        resource_name = resource_name_array[1..(resource_name_array.length - 2)].join(' ').humanize
-        {
-          resource_name: resource_name,
-          resource_path: self.send("#{route_name}_path"),
-          route_name: route_name,
-          route_object: route_object
-        }
+    end
+  end
+
+  def event_routes
+    binding.pry
+    @event_routes ||= AbstractEventModel.descendants.map do |model|
+      {
+        resource_name: model.custom_name,
+        resource_path: self.send("#{model.table_name}_url"),
+        route_name: model.table_name,
+        model: model
       }
-    @event_routes.sort_by!{|route| route.fetch(:resource_name)}
+    end
   end
 
   protect_from_forgery with: :exception

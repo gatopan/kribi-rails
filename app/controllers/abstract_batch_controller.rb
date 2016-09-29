@@ -12,27 +12,30 @@ class AbstractBatchController < ApplicationController
     :target_day
   )
 
-  def batch_show
-    @target_datetimes = target_datetimes
-    @parents = parents
-    create_children_if_they_do_not_exist
-    @children = children
-    check_extra_children_validity
-    render template: 'batch_show.html.erb'
+  def show
+    if target_day
+      @target_datetimes = target_datetimes
+      @parents = parents
+      create_children_if_they_do_not_exist
+      @children = children
+      check_extra_children_validity
+      render template: 'batches/show.html.erb'
+    else
+      render template: 'batches/target_day_selection.html.erb'
+    end
   end
 
-  def batch_update
+  def update
     @children = children
     @parents = parents
     @target_datetimes = target_datetimes
     perform_update_with_groupings
     check_extra_children_validity
     flash[:success] = "Sucessfully updated #{children_model.table_name.titleize} values"
-    flash.keep
-    redirect_to self.send("batch_show_#{controller_name}_index_url")
+    render template: 'batches/show.html.erb'
   end
 
-  def batch_elevate
+  def elevate
     unless intended_status = params[:intended_status]
       return render_bad_request('Must submit a intended status')
     end
@@ -98,25 +101,26 @@ class AbstractBatchController < ApplicationController
   end
 
   def target_day
-    unless params[:target_day]
-      return children_model.target_day
-    end
+    @target_day ||=
+      if params[:target_day]
+        target_day_datetime = params[:target_day].to_datetime
 
-    target_day_datetime = params[:target_day].to_datetime
+        if target_day_datetime >= DateTime.now
+          raise StandardError.new("Target Day cannot be in the future.")
+        end
 
-    if target_day_datetime >= DateTime.now
-      raise StandardError.new("Target Day cannot be in the future.")
-    end
+        if children_model.any?
+          if target_day_datetime < children_model.first.target_datetime
+            raise StandardError.new("Target Day cannot be before first record.")
+          end
 
-    unless children_model.any?
-      return target_day_datetime
-    end
-
-    if target_day_datetime < children_model.first.target_datetime
-      raise StandardError.new("Target Day cannot be before first record.")
-    end
-
-    return target_day_datetime
+          target_day_datetime
+        else
+          target_day_datetime
+        end
+      else
+        children_model.target_day
+      end
   end
 
   def association_name(model, type)

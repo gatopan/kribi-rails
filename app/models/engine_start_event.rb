@@ -1,5 +1,6 @@
 class EngineStartEvent < AbstractEventModel
   PARENT_MODEL = Engine
+  CUSTOM_NAME = nil
   EXPORTER_CONFIG = {
     match_key_types_fragments: [:result],
     mappings: [

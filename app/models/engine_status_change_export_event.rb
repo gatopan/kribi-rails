@@ -1,6 +1,7 @@
 class EngineStatusChangeExportEvent < AbstractEventModel
   self.inheritance_column = nil
   PARENT_MODEL = Engine
+  CUSTOM_NAME = nil
   EXPORTER_CONFIG = {
     match_key_types_fragments: [:engine_mode, :derating_mode],
     mappings: [

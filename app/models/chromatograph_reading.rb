@@ -1,5 +1,6 @@
 class ChromatographReading < AbstractIntervalModel
   PARENT_MODEL = Chromatograph
+  CUSTOM_NAME = nil
   COUNTER_VALUES_COLUMNS = [
     {
       name: :un_norm_total,
