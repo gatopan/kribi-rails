@@ -2,6 +2,7 @@
 1.times  { Chromatograph.create! }
 1.times  { WeatherStation.create! }
 1.times  { Plant.create! }
+1.times  { Grid.create! }
 1.times  { NewOilTank.create! }
 1.times  { ServiceOilTank.create! }
 5.times  { Feeder.create! }

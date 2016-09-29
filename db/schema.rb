@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160512034926) do
+ActiveRecord::Schema.define(version: 20160929061218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -706,6 +706,11 @@ ActiveRecord::Schema.define(version: 20160512034926) do
   add_index "gas_pressure_reducing_station_hourly_readings", ["real_value"], name: "index_4497b396aacb1645ee30249423_1b8f140023d2b2bc0ace41fc7c", using: :btree
 
   create_table "gas_pressure_reducing_stations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "grids", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
