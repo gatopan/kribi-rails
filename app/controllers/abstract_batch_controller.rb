@@ -12,12 +12,39 @@ class AbstractBatchController < ApplicationController
     :target_day
   )
 
+  # NOTE: Basically update selected batch plus future batches records to PENDING
+  # status
+  def handle_regression
+    if params[:target_day]
+      # find intended status
+      intented_status = children_model.statuses['PENDING']
+
+      # find affected records
+      starting_id = children.minimum(:id)
+      affected_records = children_model.where("id >= (?)", starting_id)
+
+      # perform update
+      ActiveRecord::Base.transaction do
+        affected_records.each do |record|
+          record.update!(status: intented_status)
+        end
+      end
+
+      # override children records
+      @children = children_model.where(
+        association_name(parent_model, :singular) => parents,
+        children_model_datetime_column => target_datetimes,
+      ).order(children_model_datetime_column, children_model.parent_model_column)
+    end
+  end
+
   def batch_show
     @target_datetimes = target_datetimes
     @parents = parents
     create_children_if_they_do_not_exist
     @children = children
     check_extra_children_validity
+    handle_regression
     render template: 'batch_show.html.erb'
   end
 
@@ -29,7 +56,11 @@ class AbstractBatchController < ApplicationController
     check_extra_children_validity
     flash[:success] = "Sucessfully updated #{children_model.table_name.titleize} values"
     flash.keep
-    redirect_to self.send("batch_show_#{controller_name}_index_url")
+    redirect_to(
+      controller: params[:controller],
+      action: 'batch_show',
+      target_day: target_day.utc.strftime("%d/%m/%Y")
+    )
   end
 
   def batch_elevate
@@ -63,7 +94,11 @@ class AbstractBatchController < ApplicationController
 
     flash[:success] = "Sucessfully updated status to #{intended_status.downcase} on all records."
     flash.keep
-    return redirect_to self.send("batch_show_#{controller_name}_index_url")
+    redirect_to(
+      controller: params[:controller],
+      action: 'batch_show',
+      target_day: (target_day + 1.day).utc.strftime("%d/%m/%Y")
+    )
   end
 
   def previous_day_target_datetimes
@@ -102,6 +137,7 @@ class AbstractBatchController < ApplicationController
       return children_model.target_day
     end
 
+    # TODO: enforce only d/m/y is being used, do not allow hour/minutes/seconds
     target_day_datetime = params[:target_day].to_datetime
 
     if target_day_datetime >= DateTime.now
@@ -157,10 +193,12 @@ class AbstractBatchController < ApplicationController
       child.send(association_name(parent_model, :singular))
     end
 
-    parent_children_grouping.each do |parent, children|
-      children.each do |child|
-        attributes = collection_params[child.id.to_s] # TODO: use a more natural data structure for params
-        child.update(attributes)
+    ActiveRecord::Base.transaction do
+      parent_children_grouping.each do |parent, children|
+        children.each do |child|
+          attributes = collection_params[child.id.to_s] # TODO: use a more natural data structure for params
+          child.update(attributes)
+        end
       end
     end
   end

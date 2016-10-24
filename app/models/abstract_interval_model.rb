@@ -19,7 +19,7 @@ class AbstractIntervalModel < AbstractModel
     return unless intended_day
 
     # prevent future dates
-    if intended_day > 1.day.from_now.beginning_of_day
+    if intended_day >= 1.day.from_now.beginning_of_day
       self.APPROVED.last.try(DATETIME_COLUMN)
     else
       intended_day
