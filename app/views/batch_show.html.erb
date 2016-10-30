@@ -84,6 +84,9 @@
                   </td>
                 <% end %>
               <% end %>
+            <% if child.id == previous_day_children.max.id %>
+              </tr><td><hr/></td><tr>
+            <% end %>
           <% end %>
         </tr>
       <% end %>
