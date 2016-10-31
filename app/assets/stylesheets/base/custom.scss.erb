@@ -1,39 +1,4 @@
-/* Only demo */
-@media (max-width: 1000px) {
-  .welcome-message {
-    display: none;
-  }
-}
-
-.heart {
-  display: inline-block;
-  margin-top: 3px;
-  margin-right: 2px;
-  width: 11px;
-  height: 11px;
-  vertical-align: top;
-  background-size: 11px 11px;
-  background-repeat: no-repeat;
-  background-image:url(<%= asset_data_uri 'heart@2x.png' %>);
-  transition-property: all!important;
-  transition-duration: .3s!important;
-}
-
-.batch-readings {
-  th {
-    text-align: right;
-  }
-}
-
-.export {
-  th, td {
-    text-align: center !important;
-  }
-  .export-button-group {
-    width: 33%;
-  }
-}
-
+/* OVERRIDES */
 .form-group {
   label {
     display: block;
@@ -55,5 +20,46 @@
 .field_with_errors {
   input {
     border:1px solid red;
+  }
+}
+
+/* GLOBAL */
+.heart {
+  display: inline-block;
+  margin-top: 3px;
+  margin-right: 2px;
+  width: 11px;
+  height: 11px;
+  vertical-align: top;
+  background-size: 11px 11px;
+  background-repeat: no-repeat;
+  background-image:url(<%= asset_data_uri 'heart@2x.png' %>);
+  transition-property: all!important;
+  transition-duration: .3s!important;
+}
+
+/* PER VIEW */
+
+.batch-show, .batch-update {
+  th, td, input {
+    text-align: right;
+  }
+
+
+  .action-buttons {
+    text-align: center;
+
+    form, input, select, button {
+      display: inline-block;
+    }
+  }
+}
+
+.export {
+  th, td {
+    text-align: center !important;
+  }
+  .export-button-group {
+    width: 33%;
   }
 }

@@ -90,6 +90,8 @@ class StaticPagesController < ApplicationController
   # end
 
   def export
+    @body_class = 'export'
+
     # NOTE: MODEL_LOADER
     Dir.glob("./app/models/*.rb").map{|path| path.sub("./app/models/", '')}.each do |line|
       model_name = line.split('.').first

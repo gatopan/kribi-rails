@@ -31,12 +31,6 @@ class AbstractBatchController < ApplicationController
           record.update!(status: intented_status)
         end
       end
-
-      # override children records
-      @children = children_model.where(
-        association_name(parent_model, :singular) => parents,
-        children_model_datetime_column => target_datetimes,
-      ).order(children_model_datetime_column, children_model.parent_model_column)
     end
   end
 
@@ -45,20 +39,32 @@ class AbstractBatchController < ApplicationController
   end
 
   def combined_children
-    @combined_children ||= children_model.where(id: previous_day_children.ids + children.ids)
+    @combined_children ||= previous_day_children + children
   end
 
   def batch_show
+    @body_class = 'batch-show'
+
+    if (target_day > children_model.target_day)
+      return redirect_to(
+        controller: params[:controller],
+        action: 'batch_show',
+        target_day: children_model.target_day.utc.strftime("%d/%m/%Y")
+      )
+    end
+
     @target_datetimes = target_datetimes
     @parents = parents
     create_children_if_they_do_not_exist
     @children = children
-    check_extra_children_validity
     handle_regression
+    check_extra_children_validity
     render template: 'batch_show.html.erb'
   end
 
   def batch_update
+    @body_class = 'batch-update'
+
     @children = children
     @parents = parents
     @target_datetimes = target_datetimes
@@ -112,7 +118,8 @@ class AbstractBatchController < ApplicationController
   end
 
   def previous_day_target_datetimes
-    @previous_day_target_datetimes ||= target_datetimes.map{|td| td - 1.day}.last(1)
+    @previous_day_target_datetimes = [] if target_day == children_model.first.target_datetime
+    @previous_day_target_datetimes ||= children_model.count > (target_datetimes.count * parents.count) ? target_datetimes.map{|td| td - 1.day}.last(1) : []
   end
 
   def previous_day_children
