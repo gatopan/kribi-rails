@@ -12,11 +12,11 @@ class AbstractIntervalModel < AbstractModel
   ## CALCULATED FIELDS
   def self.target_day
     intended_day =
-      # self.PENDING.last.try(DATETIME_COLUMN) ||
+      self.PENDING.last.try(DATETIME_COLUMN) ||
       self.REVIEWED.last.try(DATETIME_COLUMN) ||
       self.APPROVED.last.try(DATETIME_COLUMN).try(:+, 1.day)
 
-    return self.first.target_datetime unless intended_day
+    return unless intended_day
 
     # prevent future dates
     if intended_day >= 1.day.from_now.beginning_of_day

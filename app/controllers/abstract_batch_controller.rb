@@ -45,13 +45,13 @@ class AbstractBatchController < ApplicationController
   def batch_show
     @body_class = 'batch-show'
 
-    if (target_day > children_model.target_day)
-      return redirect_to(
-        controller: params[:controller],
-        action: 'batch_show',
-        target_day: children_model.target_day.utc.strftime("%d/%m/%Y")
-      )
-    end
+    # if (children_model.any? && children_model.target_day) && (target_day > children_model.target_day)
+    #   return redirect_to(
+    #     controller: params[:controller],
+    #     action: 'batch_show',
+    #     target_day: children_model.target_day.utc.strftime("%d/%m/%Y")
+    #   )
+    # end
 
     @target_datetimes = target_datetimes
     @parents = parents
