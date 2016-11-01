@@ -8,6 +8,7 @@ class EngineEmissionNitrousOxidesInGasModeHourlyReading < AbstractIntervalModel
     }
   ]
   INTERVAL_IN_MINUTES = 60
+  INTERVAL_USER_INTERFACE_OFFSET = 0
   EXPORTER_CONFIG = {
     match_key_types_fragments: [],
     mappings: [
