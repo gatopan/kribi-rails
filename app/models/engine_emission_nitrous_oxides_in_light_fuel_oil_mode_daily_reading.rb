@@ -8,7 +8,8 @@ class EngineEmissionNitrousOxidesInLightFuelOilModeDailyReading < AbstractInterv
     }
   ]
   INTERVAL_IN_MINUTES = 60 * 24
-  INTERVAL_USER_INTERFACE_OFFSET = 0
+  INTERVAL_USER_INTERFACE_OFFSET = 60
+  INTERVAL_USER_INTERFACE_MODE = :vector
   EXPORTER_CONFIG = {
     match_key_types_fragments: [],
     mappings: [
@@ -59,7 +60,7 @@ class EngineEmissionNitrousOxidesInLightFuelOilModeDailyReading < AbstractInterv
     presence: true,
     numericality: {
       greater_than_or_equal_to: 0,
-      less_than_or_equal_to: 99999.999
+      less_than_or_equal_to: 99999.999 * 24
     },
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,

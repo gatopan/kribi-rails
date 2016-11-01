@@ -12,6 +12,7 @@ class EngineEnergyDailyReading < AbstractIntervalModel
   ]
   INTERVAL_IN_MINUTES = 60 * 24
   INTERVAL_USER_INTERFACE_OFFSET = 0
+  INTERVAL_USER_INTERFACE_MODE = :point
   EXPORTER_CONFIG = {
     match_key_types_fragments: [],
     mappings: [
@@ -48,7 +49,7 @@ class EngineEnergyDailyReading < AbstractIntervalModel
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1}\Z/,
-      message: 'must contain a decimal place'
+      message: 'must contain a decimal place'
     }
   }
 

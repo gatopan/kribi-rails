@@ -12,6 +12,7 @@ class EngineGasHourlyReading < AbstractIntervalModel
   ]
   INTERVAL_IN_MINUTES = 60
   INTERVAL_USER_INTERFACE_OFFSET = 0
+  INTERVAL_USER_INTERFACE_MODE = :point
   EXPORTER_CONFIG = {
     match_key_types_fragments: [],
     mappings: [
