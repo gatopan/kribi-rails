@@ -156,7 +156,7 @@
               <%# We use rail's form helpers to take advantage of errors checking %>
               <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
                 <% children_attributes.each do |options| %>
-                  <td>
+                  <td class='<%= 'active_attribute' if previous_day_children.exclude?(child) && !(options[:class] =~ /reset-toggleable/) %>'>
                     <% options[:disabled] = previous_day_children.include?(child) || child.APPROVED? %>
                     <% case options[:builder] %>
                     <% when :text_field %>
@@ -235,6 +235,38 @@
 
     $( "#toggle-reset" ).on("click", {}, function(){
       $(".reset-toggleable").toggle();
+    });
+
+    // Disable enter key on forms
+    $("input, select").keypress(function(event) {
+      if (event.keyCode == 13) {
+        event.preventDefault();
+
+        $this = $(this).closest('.active_attribute');
+        var parentRow     = $this.closest('tr');
+        var position      = parentRow.find(".active_attribute").index($this);
+        var targetElement = parentRow.next().find(".active_attribute").eq(position);
+
+        if (targetElement.find("input, select").length === 0) {
+          // NOTE: Hardcoded active attribute tr position
+          var firstActiveAttributes = $("table").find("tbody").find("tr").eq(3).find(".active_attribute");
+          var nextPosition = position + 1;
+
+          if (nextPosition >= firstActiveAttributes.length) {
+            var finalTargetElement = firstActiveAttributes.eq(0);
+          } else {
+            var finalTargetElement = firstActiveAttributes.eq(nextPosition);
+          }
+        } else {
+          var finalTargetElement = targetElement;
+        }
+
+        var inputElement = finalTargetElement.find("input, select");
+        inputElement.val("");
+        inputElement.focus();
+
+        return true;
+      }
     });
   });
 </script>
