@@ -37,6 +37,7 @@
     </div>
   </div>
 <% else %>
+  <h1 class='text-center'><%= children_model::CUSTOM_NAME || children_model.table_name.titleize %></h1>
   <div class='col-md-4 col-md-offset-4'>
     <h2 class='text-center'>
       Current Records Date (<%= target_day.utc.strftime("%d/%m/%Y") %>) 
@@ -86,13 +87,28 @@
     <table>
       <thead>
         <tr>
-          <th></th>
+          <% case children_model::INTERVAL_USER_INTERFACE_MODE %>
+          <% when :point %>
+            <th></th>
+          <% when :vector %>
+            <th></th>
+            <th></th>
+          <% else %>
+            <% raise StandardError.new("Interval user interface mode not implemented: #{children_model::INTERVAL_USER_INTERFACE_MODE} for #{children_model}") %>
+          <% end %>
           <% parents.each do |parent| %>
             <th colspan="<%= children_attributes.count %>"><%= "#{parent_model.to_s.humanize} #{parent.id}" %></th>
           <% end %>
         </tr>
         <tr>
-          <th>Time</th>
+          <% case children_model::INTERVAL_USER_INTERFACE_MODE %>
+          <% when :point %>
+            <th>Time</th>
+          <% when :vector %>
+            <th colspan='2'>Period</th>
+          <% else %>
+            <% raise StandardError.new("Interval user interface mode not implemented: #{children_model::INTERVAL_USER_INTERFACE_MODE} for #{children_model}") %>
+          <% end %>
           <% parents.each do |parent| %>
             <% children_attributes.each do |options| %>
               <th><%= label_tag(options[:attribute], options[:custom_name], class: (options[:class] =~ /reset-toggleable/ ? 'reset-toggleable' : '')) %></th>
@@ -103,7 +119,21 @@
       <tbody>
         <% combined_target_datetimes.each do |target_datetime| %>
           <tr>
-            <td><%= target_datetime.strftime("%H:%M") %></td>
+            <% case children_model::INTERVAL_USER_INTERFACE_MODE %>
+            <% when :point %>
+              <% hour             = target_datetime.hour + (children_model::INTERVAL_USER_INTERFACE_OFFSET / 60) %>
+              <% minute           = (target_datetime.minute + (children_model::INTERVAL_USER_INTERFACE_OFFSET % 60) % 60 ) %>
+              <td><%= "#{hour.to_s.rjust(2, '0')}:#{minute.to_s.rjust(2, '0')}" %></td>
+            <% when :vector %>
+              <% ending_hour      = target_datetime.hour + (children_model::INTERVAL_USER_INTERFACE_OFFSET / 60) %>
+              <% ending_minute    = (target_datetime.minute + (children_model::INTERVAL_USER_INTERFACE_OFFSET % 60) % 60 ) %>
+              <% starting_hour    = ending_hour - children_model::INTERVAL_IN_MINUTES / 60 %>
+              <% starting_minute  = (ending_minute - (children_model::INTERVAL_IN_MINUTES % 60) % 60) %>
+              <td><%= "#{(starting_hour % 24).to_s.rjust(2, '0')}:#{starting_minute.to_s.rjust(2, '0')}-" %></td>
+              <td><%= "#{ending_hour.to_s.rjust(2, '0')}:#{ending_minute.to_s.rjust(2, '0')}" %></td>
+            <% else %>
+              <% raise StandardError.new("Interval user interface mode not implemented: #{children_model::INTERVAL_USER_INTERFACE_MODE} for #{children_model}") %>
+            <% end %>
             <% parents.each do |parent| %>
 
               <%# child element picking %>
