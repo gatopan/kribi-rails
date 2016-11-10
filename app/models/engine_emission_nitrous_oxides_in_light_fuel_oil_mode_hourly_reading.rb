@@ -22,7 +22,7 @@ class EngineEmissionNitrousOxidesInLightFuelOilModeHourlyReading < AbstractInter
           type: :excel,
           template: false,
           filename_prefix: 'kpp_kpi_report',
-          worksheet_name: self.table_name
+          worksheet_name: 'emission_nox_in_lfo_mode_hourly'
         }
       },
       {
@@ -33,7 +33,7 @@ class EngineEmissionNitrousOxidesInLightFuelOilModeHourlyReading < AbstractInter
           type: :excel,
           template: false,
           filename_prefix: "#{self.table_name}_dump",
-          worksheet_name: self.table_name
+          worksheet_name: 'emission_nox_in_lfo_mode_hourly'
         }
       }
     ]

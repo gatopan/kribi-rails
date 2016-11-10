@@ -40,7 +40,7 @@ class EngineStatusChangeExportEvent < AbstractEventModel
 
   enum engine_mode: {
     IN_SERVICE: 0, # NO_DERATING, PLANNED_DERATING, FORCED_DERATING
-    RESERVED: 1, # NO_DERATING, RESERVED_DERATING
+    RESERVED: 1, # NO_DERATING
     SCHEDULED_OUTAGE: 2, # NO_DERATING
     MANUAL_FORCED_OUTAGE: 3, # NO_DERATING
     AUTOMATIC_FORCED_OUTAGE: 4 # NO_DERATING
@@ -48,7 +48,6 @@ class EngineStatusChangeExportEvent < AbstractEventModel
 
   enum derating_mode: {
     NO_DERATING: 0,
-    RESERVED_DERATING: 1,
     PLANNED_DERATING: 2,
     FORCED_DERATING: 3
   }
@@ -107,9 +106,9 @@ class EngineStatusChangeExportEvent < AbstractEventModel
     if (engine_mode == 'RESERVED') && ['PLANNED_DERATING', 'FORCED_DERATING'].include?(derating_mode)
       errors.add :derating_mode, 'cannot be planned or forced because engine is in reserve'
     end
-    if (engine_mode == 'IN_SERVICE') && ['RESERVED_DERATING'].include?(derating_mode)
-      errors.add :derating_mode, 'cannot be reserved because engine is in service'
-    end
+    # if (engine_mode == 'IN_SERVICE') && ('RESERVED_DERATING' == derating_mode)
+    #   errors.add :derating_mode, 'cannot be reserved because engine is in service'
+    # end
   end
 
   def load_limitation_congruence

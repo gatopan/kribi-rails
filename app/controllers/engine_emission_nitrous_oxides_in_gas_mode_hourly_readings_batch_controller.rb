@@ -14,7 +14,7 @@ class EngineEmissionNitrousOxidesInGasModeHourlyReadingsBatchController < Abstra
         attribute: :nitrogen_oxides_in_gas_mode,
         class: 'form-control',
         type: :numeric,
-        custom_name: 'NOX - Nitrogen oxides (mg/m3)'
+        custom_name: 'NOX (mg/m3)'
       },
       {
         builder: :select,

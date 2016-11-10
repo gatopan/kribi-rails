@@ -30,27 +30,27 @@ class NewOilTankDispensingEvent < AbstractEventModel
     ]
   }
   CALCULATED_FIELD_NAMES = [
-    'quantity_in_liters'
+  #   'quantity_in_liters'
   ]
   abstract_bootloader()
 
   belongs_to :engine
 
-  before_validation do
-    CALCULATED_FIELD_NAMES.each do |calculated_field_name|
-      result = self.send("calculated_#{calculated_field_name}")
-      self.send("#{calculated_field_name}=", result)
-    end
-  end
+  # before_validation do
+  #   CALCULATED_FIELD_NAMES.each do |calculated_field_name|
+  #     result = self.send("calculated_#{calculated_field_name}")
+  #     self.send("#{calculated_field_name}=", result)
+  #   end
+  # end
 
   validates :engine, presence: true
-  validates :counter_value, {
-    presence: true,
-    numericality: {
-      greater_than_or_equal_to: 0,
-      less_than: 99999 # TODO: get real counter value max value
-    }
-  }
+  # validates :counter_value, {
+  #   presence: true,
+  #   numericality: {
+  #     greater_than_or_equal_to: 0,
+  #     less_than: 99999 # TODO: get real counter value max value
+  #   }
+  # }
 
   validates :quantity_in_liters, {
     presence: true,
@@ -60,28 +60,28 @@ class NewOilTankDispensingEvent < AbstractEventModel
     }
   }
 
-  validate :counter_value_congruence
-
-  private
-
-  def previous_record
-    parent_children_records.last
-  end
-
-  def counter_value_congruence
-    return unless counter_value
-    return unless previous_record
-    if counter_value < previous_record.counter_value
-      errors.add :counter_value, 'cannot be lower than previous record counter value'
-    end
-  end
-
-  def calculated_quantity_in_liters
-    return unless counter_value
-    if previous_record
-      counter_value - previous_record.counter_value
-    else
-      counter_value
-    end
-  end
+  # validate :counter_value_congruence
+  #
+  # private
+  #
+  # def previous_record
+  #   parent_children_records.last
+  # end
+  #
+  # def counter_value_congruence
+  #   return unless counter_value
+  #   return unless previous_record
+  #   if counter_value < previous_record.counter_value
+  #     errors.add :counter_value, 'cannot be lower than previous record counter value'
+  #   end
+  # end
+  #
+  # def calculated_quantity_in_liters
+  #   return unless counter_value
+  #   if previous_record
+  #     counter_value - previous_record.counter_value
+  #   else
+  #     counter_value
+  #   end
+  # end
 end

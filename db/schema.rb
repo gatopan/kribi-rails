@@ -743,9 +743,6 @@ ActiveRecord::Schema.define(version: 20160929061607) do
     t.integer  "new_oil_tank_id"
     t.integer  "engine_id"
     t.datetime "target_datetime"
-    t.float    "counter_value",              default: 0.0
-    t.float    "real_value",                 default: 0.0
-    t.float    "counter_offset",             default: 0.0
     t.integer  "quantity_in_liters"
     t.integer  "status",                     default: 0
     t.string   "match_key_standard_daily"
@@ -754,12 +751,10 @@ ActiveRecord::Schema.define(version: 20160929061607) do
     t.string   "match_key_standard_quarter"
     t.string   "match_key_standard_yearly"
     t.string   "match_key_customer_monthly"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
-  add_index "new_oil_tank_dispensing_events", ["counter_offset"], name: "index_3011be341a2d93d38c98775851_11d9fef885e2f0b08329768ed8", using: :btree
-  add_index "new_oil_tank_dispensing_events", ["counter_value"], name: "index_3011be341a2d93d38c98775851_05a9c570a24d0dd02af8a91f2f", using: :btree
   add_index "new_oil_tank_dispensing_events", ["engine_id"], name: "index_new_oil_tank_dispensing_events_on_engine_id", using: :btree
   add_index "new_oil_tank_dispensing_events", ["match_key_customer_monthly"], name: "index_new_oil_tank_disp_event_mk_customer_monthly", using: :btree
   add_index "new_oil_tank_dispensing_events", ["match_key_standard_daily"], name: "index_new_oil_tank_disp_event_mk_standard_daily", using: :btree
@@ -768,14 +763,10 @@ ActiveRecord::Schema.define(version: 20160929061607) do
   add_index "new_oil_tank_dispensing_events", ["match_key_standard_weekly"], name: "index_new_oil_tank_disp_event_mk_standard_weekly", using: :btree
   add_index "new_oil_tank_dispensing_events", ["match_key_standard_yearly"], name: "index_new_oil_tank_disp_event_mk_standard_yearly", using: :btree
   add_index "new_oil_tank_dispensing_events", ["new_oil_tank_id"], name: "index_new_oil_tank_dispensing_events_on_new_oil_tank_id", using: :btree
-  add_index "new_oil_tank_dispensing_events", ["real_value"], name: "index_3011be341a2d93d38c98775851_1b8f140023d2b2bc0ace41fc7c", using: :btree
 
   create_table "new_oil_tank_receiving_events", force: :cascade do |t|
     t.integer  "new_oil_tank_id"
     t.datetime "target_datetime"
-    t.float    "counter_value",              default: 0.0
-    t.float    "real_value",                 default: 0.0
-    t.float    "counter_offset",             default: 0.0
     t.integer  "quantity_in_liters"
     t.integer  "status",                     default: 0
     t.string   "match_key_standard_daily"
@@ -784,12 +775,10 @@ ActiveRecord::Schema.define(version: 20160929061607) do
     t.string   "match_key_standard_quarter"
     t.string   "match_key_standard_yearly"
     t.string   "match_key_customer_monthly"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
-  add_index "new_oil_tank_receiving_events", ["counter_offset"], name: "index_ac8df57f158f5ab48b10b7feff_11d9fef885e2f0b08329768ed8", using: :btree
-  add_index "new_oil_tank_receiving_events", ["counter_value"], name: "index_ac8df57f158f5ab48b10b7feff_05a9c570a24d0dd02af8a91f2f", using: :btree
   add_index "new_oil_tank_receiving_events", ["match_key_customer_monthly"], name: "index_new_oil_tank_rece_event_mk_customer_monthly", using: :btree
   add_index "new_oil_tank_receiving_events", ["match_key_standard_daily"], name: "index_new_oil_tank_rece_event_mk_standard_daily", using: :btree
   add_index "new_oil_tank_receiving_events", ["match_key_standard_monthly"], name: "index_new_oil_tank_rece_event_mk_standard_monthly", using: :btree
@@ -797,7 +786,6 @@ ActiveRecord::Schema.define(version: 20160929061607) do
   add_index "new_oil_tank_receiving_events", ["match_key_standard_weekly"], name: "index_new_oil_tank_rece_event_mk_standard_weekly", using: :btree
   add_index "new_oil_tank_receiving_events", ["match_key_standard_yearly"], name: "index_new_oil_tank_rece_event_mk_standard_yearly", using: :btree
   add_index "new_oil_tank_receiving_events", ["new_oil_tank_id"], name: "index_new_oil_tank_receiving_events_on_new_oil_tank_id", using: :btree
-  add_index "new_oil_tank_receiving_events", ["real_value"], name: "index_ac8df57f158f5ab48b10b7feff_1b8f140023d2b2bc0ace41fc7c", using: :btree
 
   create_table "new_oil_tanks", force: :cascade do |t|
     t.string   "name"

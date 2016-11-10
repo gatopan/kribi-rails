@@ -1,5 +1,6 @@
 module Kribi
   BLACKLISTED_COLUMN_NAMES = [
+    'id',
     'match_key',
     'created_at',
     'updated_at',

@@ -4,7 +4,7 @@ class CreateNewOilTankDispensingEvents < Kribi::Migration
       t.references :new_oil_tank, index: true, foreign_key: true
       t.references :engine, index: true, foreign_key: true
       t.datetime :target_datetime
-      create_relative_counter_value_columns(t, :counter_value)
+      # create_relative_counter_value_columns(t, :counter_value)
       t.integer :quantity_in_liters
       t.integer :status, default: 0
       [

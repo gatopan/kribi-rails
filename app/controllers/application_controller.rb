@@ -15,12 +15,14 @@ class ApplicationController < ActionController::Base
   def batch_routes
     @batch_routes ||= AbstractIntervalModel.descendants
       .map do |model|
-      {
-        resource_name: model.custom_name,
-        resource_path: self.send("batch_show_#{model.table_name}_batch_index_path"),
-        route_name: model.table_name,
-        model: model
-      }
+        {
+          resource_name: model.custom_name,
+          resource_path: self.send("batch_show_#{model.table_name}_batch_index_path"),
+          route_name: model.table_name,
+          model: model
+        }
+    end.sort_by do |batch_route|
+      batch_route[:resource_name]
     end
   end
 
@@ -34,6 +36,8 @@ class ApplicationController < ActionController::Base
         route_name: model.table_name,
         model: model
       }
+    end.sort_by do |event_route|
+      event_route[:resource_name]
     end
   end
 

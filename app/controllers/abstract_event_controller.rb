@@ -177,7 +177,7 @@ class AbstractEventController < ApplicationController
 
   # NOTE: For use in editor
   def current_parent_id
-    params[parent_model_column] || 0
+    params[parent_model_column] || 1
   end
 
   # NOTE: For use in editor

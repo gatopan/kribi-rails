@@ -96,8 +96,12 @@
           <% else %>
             <% raise StandardError.new("Interval user interface mode not implemented: #{children_model::INTERVAL_USER_INTERFACE_MODE} for #{children_model}") %>
           <% end %>
-          <% parents.each do |parent| %>
-            <th colspan="<%= children_attributes.count %>"><%= "#{parent_model.to_s.humanize} #{parent.id}" %></th>
+          <% if parents.length == 1 %>
+            <th></th>
+          <% else %>
+            <% parents.each do |parent| %>
+              <th colspan="<%= children_attributes.count %>"><%= "#{parent_model.to_s.humanize} #{parent.id}" %></th>
+            <% end %>
           <% end %>
         </tr>
         <tr>

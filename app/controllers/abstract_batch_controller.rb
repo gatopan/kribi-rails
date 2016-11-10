@@ -17,6 +17,7 @@ class AbstractBatchController < ApplicationController
   # NOTE: Basically update selected batch plus future batches records to PENDING
   # status
   def handle_regression
+    return if params[:previous_action] == 'elevate'
     if params[:target_day]
       # find intended status
       intented_status = children_model.statuses['PENDING']
@@ -42,19 +43,38 @@ class AbstractBatchController < ApplicationController
     @combined_children ||= previous_day_children + children
   end
 
+  def batch_size
+    target_datetimes.length * parents.length
+  end
+
+  def first_pending_batch
+    return unless children_model.PENDING.any?
+    children_model.PENDING.first(batch_size)
+  end
+
+  def first_pending_batch_target_datetime
+    return unless first_pending_batch
+    first_pending_batch.last.target_datetime
+  end
+
   def batch_show
     @body_class = 'batch-show'
 
-    # if (children_model.any? && children_model.target_day) && (target_day > children_model.target_day)
-    #   return redirect_to(
-    #     controller: params[:controller],
-    #     action: 'batch_show',
-    #     target_day: children_model.target_day.utc.strftime("%d/%m/%Y")
-    #   )
-    # end
-
     @target_datetimes = target_datetimes
     @parents = parents
+
+    # Redirects to first pending batch there exist several pending batches due
+    # to previous regression
+    if (children_model.PENDING.count > batch_size) && (target_day != first_pending_batch_target_datetime)
+      flash[:warning] = "PENDING records at #{first_pending_batch_target_datetime.utc.strftime("%d/%m/%Y")} need to be APPROVED first."
+      flash.keep
+      return redirect_to(
+        controller: params[:controller],
+        action: 'batch_show',
+        target_day: first_pending_batch_target_datetime.utc.strftime("%d/%m/%Y")
+      )
+    end
+
     create_children_if_they_do_not_exist
     @children = children
     handle_regression
@@ -110,10 +130,20 @@ class AbstractBatchController < ApplicationController
 
     flash[:success] = "Sucessfully updated status to #{intended_status.downcase} on all records."
     flash.keep
+
+    original_target_day = target_day || DateTime.now.utc
+
+    if (original_target_day + 1.day) >= DateTime.now
+      target_day = original_target_day
+    else
+      target_day = original_target_day + 1.day
+    end
+
     redirect_to(
       controller: params[:controller],
       action: 'batch_show',
-      target_day: (target_day + 1.day).utc.strftime("%d/%m/%Y")
+      target_day: target_day.strftime("%d/%m/%Y"),
+      previous_action: 'elevate'
     )
   end
 
@@ -150,9 +180,7 @@ class AbstractBatchController < ApplicationController
   end
 
   def target_day
-    unless params[:target_day]
-      return children_model.target_day
-    end
+    return children_model.target_day unless params[:target_day]
 
     # TODO: enforce only d/m/y is being used, do not allow hour/minutes/seconds
     target_day_datetime = params[:target_day].to_datetime
