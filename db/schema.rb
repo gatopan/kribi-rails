@@ -452,9 +452,7 @@ ActiveRecord::Schema.define(version: 20160929061607) do
     t.integer  "engine_mode",                default: 0
     t.integer  "derating_mode",              default: 0
     t.float    "load_limitation",            default: 0.0
-    t.integer  "resolution_department",      default: 0
-    t.text     "outage_description"
-    t.text     "other_description"
+    t.text     "observation"
     t.integer  "status",                     default: 0
     t.string   "match_key_standard_daily"
     t.string   "match_key_standard_weekly"
@@ -482,9 +480,7 @@ ActiveRecord::Schema.define(version: 20160929061607) do
     t.integer  "engine_mode",                default: 0
     t.integer  "derating_mode",              default: 0
     t.float    "load_limitation",            default: 0.0
-    t.integer  "resolution_department",      default: 0
-    t.text     "outage_description"
-    t.text     "other_description"
+    t.text     "observation"
     t.integer  "status",                     default: 0
     t.string   "match_key_standard_daily"
     t.string   "match_key_standard_weekly"

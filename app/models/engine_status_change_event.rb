@@ -33,28 +33,13 @@ class EngineStatusChangeEvent < AbstractEventModel
     IN_SERVICE: 0, # NO_DERATING, PLANNED_DERATING, FORCED_DERATING
     RESERVED: 1, # NO_DERATING
     SCHEDULED_OUTAGE: 2, # NO_DERATING
-    MANUAL_FORCED_OUTAGE: 3, # NO_DERATING
-    AUTOMATIC_FORCED_OUTAGE: 4 # NO_DERATING
+    FORCED_OUTAGE: 3, # NO_DERATING
   }
 
   enum derating_mode: {
     NO_DERATING: 0,
     PLANNED_DERATING: 2,
     FORCED_DERATING: 3
-  }
-
-  enum resolution_department: {
-    NONE: 0,
-    ELECTRICAL_MAINTENANCE: 1,
-    MECHANICAL_MAINTENANCE: 2,
-    OPERATIONS: 3,
-    CONTRACTOR: 4,
-    OPERATION_AND_ELECTRICAL_MAINTENANCE: 5,
-    OPERATION_AND_MECHANICAL_MAINTENANCE: 6,
-    OPERATION_AND_CONTRACTORS: 7,
-    ELECTRICAL_MAINTENANCE_AND_MECHANICAL_MAINTENANCE: 8,
-    MECHANICAL_MAINTENANCE_AND_CONTRACTORS: 9,
-    ELECTRICAL_MAINTENANCE_AND_CONTRACTORS: 10,
   }
 
   validates :type, presence: true
@@ -68,10 +53,9 @@ class EngineStatusChangeEvent < AbstractEventModel
     },
     format: {
       with: /\A[0-9]+\.[0-9]{1}\Z/,
-      message: 'must contain a decimal place'
+      message: 'must contain a decimal place'
     }
   }
-  validates :resolution_department, presence: true
 
   validate :derating_congruence, on: :congruence
   validate :load_limitation_congruence, on: :congruence
@@ -88,7 +72,7 @@ class EngineStatusChangeEvent < AbstractEventModel
 
   def outage?
     return unless engine_mode
-    ['SCHEDULED_OUTAGE', 'MANUAL_FORCED_OUTAGE', 'AUTOMATIC_FORCED_OUTAGE'].include? engine_mode
+    ['SCHEDULED_OUTAGE', 'FORCED_OUTAGE'].include? engine_mode
   end
 
   def derating?
