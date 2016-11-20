@@ -242,11 +242,13 @@
                       ><%= previous_child.send(attribute.fetch(:name)) %></textarea>
                     <% # NOTE: date overrides, must convert to d/m/y %>
                     <% when :datetime %>
+                      <% name  = attribute.fetch(:name) %>
+                      <% value = previous_child.send(name) %>
                       <input
                         <%= attribute.fetch(:editable) ? '' : 'READONLY' %>
                         <%= previous_child.APPROVED? ? 'READONLY' : '' %>
-                        name="<%= attribute.fetch(:name) %>"
-                        value="<%= previous_child.send(attribute.fetch(:name)).strftime("%m/%d/%Y %l:%M %p") %>"
+                        name="<%= name %>"
+                        value="<%= value ? value.strftime("%m/%d/%Y %l:%M %p") : nil %>"
                         type='text'
                         class="form-control"
                         style='min-width: 140px'

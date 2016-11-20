@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929061607) do
+ActiveRecord::Schema.define(version: 20161119224711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -386,6 +386,45 @@ ActiveRecord::Schema.define(version: 20160929061607) do
   add_index "engine_light_fuel_oil_readings", ["outlet_counter_offset"], name: "index_36483bb456fbf85c68faf0bb6d_fb98f4a95ddbc95545ab33cc7c", using: :btree
   add_index "engine_light_fuel_oil_readings", ["outlet_counter_value"], name: "index_36483bb456fbf85c68faf0bb6d_7a07d5f52b66d3bce1dfb83399", using: :btree
   add_index "engine_light_fuel_oil_readings", ["outlet_real_value"], name: "index_36483bb456fbf85c68faf0bb6d_c74e00df2096feb792587f397f", using: :btree
+
+  create_table "engine_operation_events", force: :cascade do |t|
+    t.integer  "engine_id"
+    t.datetime "target_datetime"
+    t.integer  "type"
+    t.integer  "subtype"
+    t.integer  "bank"
+    t.integer  "cylinder"
+    t.integer  "equipment"
+    t.integer  "context"
+    t.integer  "ocurrence"
+    t.integer  "owner"
+    t.datetime "end_time_of_trip"
+    t.datetime "end_time_without_generation"
+    t.float    "mean_load",                                default: 0.0
+    t.float    "duration_in_hours"
+    t.float    "energy_in_mwh"
+    t.float    "light_fuel_oil_without_generation_in_kg"
+    t.float    "light_fuel_oil_with_generation_in_kg"
+    t.integer  "failed_start_due_to_pilot_trip_ocurrence"
+    t.text     "observations"
+    t.integer  "status",                                   default: 0
+    t.string   "match_key_standard_daily"
+    t.string   "match_key_standard_weekly"
+    t.string   "match_key_standard_monthly"
+    t.string   "match_key_standard_quarter"
+    t.string   "match_key_standard_yearly"
+    t.string   "match_key_customer_monthly"
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+  end
+
+  add_index "engine_operation_events", ["engine_id"], name: "index_engine_operation_events_on_engine_id", using: :btree
+  add_index "engine_operation_events", ["match_key_customer_monthly"], name: "index_engine_operation_events_on_match_key_customer_monthly", using: :btree
+  add_index "engine_operation_events", ["match_key_standard_daily"], name: "index_engine_operation_events_on_match_key_standard_daily", using: :btree
+  add_index "engine_operation_events", ["match_key_standard_monthly"], name: "index_engine_operation_events_on_match_key_standard_monthly", using: :btree
+  add_index "engine_operation_events", ["match_key_standard_quarter"], name: "index_engine_operation_events_on_match_key_standard_quarter", using: :btree
+  add_index "engine_operation_events", ["match_key_standard_weekly"], name: "index_engine_operation_events_on_match_key_standard_weekly", using: :btree
+  add_index "engine_operation_events", ["match_key_standard_yearly"], name: "index_engine_operation_events_on_match_key_standard_yearly", using: :btree
 
   create_table "engine_running_time_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -1169,6 +1208,7 @@ ActiveRecord::Schema.define(version: 20160929061607) do
   add_foreign_key "engine_gas_daily_readings", "engines"
   add_foreign_key "engine_gas_hourly_readings", "engines"
   add_foreign_key "engine_light_fuel_oil_readings", "engines"
+  add_foreign_key "engine_operation_events", "engines"
   add_foreign_key "engine_running_time_readings", "engines"
   add_foreign_key "engine_start_events", "engines"
   add_foreign_key "engine_status_change_events", "engines"
