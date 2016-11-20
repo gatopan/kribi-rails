@@ -26,7 +26,7 @@ class GasPressureReducingStationHourlyReading < AbstractIntervalModel
           type: :excel,
           template: false,
           filename_prefix: 'kpp_kpi_report',
-          worksheet_name: self.table_name
+          worksheet_name: 'gprs_hourly_readings'
         }
       },
       {
@@ -37,7 +37,7 @@ class GasPressureReducingStationHourlyReading < AbstractIntervalModel
           type: :excel,
           template: false,
           filename_prefix: "#{self.table_name}_dump",
-          worksheet_name: self.table_name
+          worksheet_name: 'gprs_hourly_readings'
         }
       }
     ]
