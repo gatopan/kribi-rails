@@ -398,8 +398,8 @@ ActiveRecord::Schema.define(version: 20161119224711) do
     t.integer  "context"
     t.integer  "ocurrence"
     t.integer  "owner"
-    t.datetime "end_time_of_trip"
-    t.datetime "end_time_without_generation"
+    t.time     "end_time_of_trip"
+    t.time     "end_time_without_generation"
     t.float    "mean_load",                                default: 0.0
     t.float    "duration_in_hours"
     t.float    "energy_in_mwh"

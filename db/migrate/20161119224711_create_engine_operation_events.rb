@@ -11,17 +11,17 @@ class CreateEngineOperationEvents < Kribi::Migration
       t.integer :context
       t.integer :ocurrence
       t.integer :owner
-      t.datetime :end_time_of_trip
-      t.datetime :end_time_without_generation
+      t.time :end_time_of_trip
+      t.time :end_time_without_generation
       t.float :mean_load, default: 0.0
-      
+
       # calculated
       t.float :duration_in_hours
       t.float :energy_in_mwh
       t.float :light_fuel_oil_without_generation_in_kg
       t.float :light_fuel_oil_with_generation_in_kg
       t.integer :failed_start_due_to_pilot_trip_ocurrence
-      
+
       t.text :observations
       t.integer :status, default: 0
       [
