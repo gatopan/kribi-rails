@@ -37,45 +37,45 @@
     </div>
   </div>
 <% else %>
-  <h1 class='text-center'><%= children_model::CUSTOM_NAME || children_model.table_name.titleize %></h1>
-  <div class='col-md-4 col-md-offset-4'>
-    <h2 class='text-center'>
+  <div class='col-md-12'>
+    <h1><%= children_model::CUSTOM_NAME || children_model.table_name.titleize %></h1>
+    <h3>
       Current Records Date (<%= target_day.utc.strftime("%d/%m/%Y") %>) 
       <a class='date-changer-toggler' href='#'>Change</a>
-    </h2>
+    </h3>
 
     <div class='date-changer-form'>
-    <div
-      class="input-group input-group-sm date"
-      <% datetime_picker_id = SecureRandom.hex %>
-      id="datetime-picker-<%= datetime_picker_id %>"
-    >
-      <input
-        type='text'
-        class='form-control date-changer-date'
-        value='<%= target_day.utc.strftime("%d/%m/%Y") %>'
-      />
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-calendar"></span>
-      </span>
-      <span>
-        <button class='date-changer-button'>Change</button>
-      </span>
-      <script type="text/javascript">
-        $(function () {
-          var target_element = $('<%= "#datetime-picker-#{datetime_picker_id}" %>');
+      <div
+        class="input-group input-group-sm date"
+        <% datetime_picker_id = SecureRandom.hex %>
+        id="datetime-picker-<%= datetime_picker_id %>"
+      >
+        <input
+          type='text'
+          class='form-control date-changer-date'
+          value='<%= target_day.utc.strftime("%d/%m/%Y") %>'
+        />
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+        <span>
+          <button class='date-changer-button'>Change</button>
+        </span>
+        <script type="text/javascript">
+          $(function () {
+            var target_element = $('<%= "#datetime-picker-#{datetime_picker_id}" %>');
 
-          target_element.datetimepicker({
-            format: "DD/MM/YYYY",
-            useCurrent: false,
-            minDate: new Date('<%= children_model.first.target_datetime.utc.strftime("%Y-%m-%d") %>T00:00:00Z'),
-            maxDate: new Date('<%= (children_model.target_day.utc+1.day).strftime("%Y-%m-%d") %>T00:00:00Z'),
-            disabledDates: [new Date('<%= children_model.first.target_datetime.utc.strftime("%Y-%m-%d") %>T00:00:00Z')],
-            defaultDate: new Date('<%= (children_model.target_day.utc).utc.strftime("%Y-%m-%d") %>T00:00:00Z')
+            target_element.datetimepicker({
+              format: "DD/MM/YYYY",
+              useCurrent: false,
+              minDate: new Date('<%= children_model.first.target_datetime.utc.strftime("%Y-%m-%d") %>T00:00:00Z'),
+              maxDate: new Date('<%= (children_model.target_day.utc+1.day).strftime("%Y-%m-%d") %>T00:00:00Z'),
+              disabledDates: [new Date('<%= children_model.first.target_datetime.utc.strftime("%Y-%m-%d") %>T00:00:00Z')],
+              defaultDate: new Date('<%= (children_model.target_day.utc).utc.strftime("%Y-%m-%d") %>T00:00:00Z')
+            });
           });
-        });
-      </script>
-    </div>
+        </script>
+      </div>
     </div>
 
     <% if children_model.is_resettable? %>

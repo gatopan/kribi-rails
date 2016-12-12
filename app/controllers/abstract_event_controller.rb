@@ -2,6 +2,9 @@
 # perhaps split into two controllers?
 class AbstractEventController < ApplicationController
   before_action :cast_datetimes
+  helper_method(
+    :children_model
+  )
 
   # TODO: convert to use filters scope
   # TODO figure out how to not need the flash clear

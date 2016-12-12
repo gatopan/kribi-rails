@@ -1,3 +1,4 @@
+<h1><%= children_model::CUSTOM_NAME || children_model.table_name.titleize %></h1>
 <ul class="nav nav-tabs parents" style="text-align: center">
   <% @parents.each do |parent| %>
     <li class="parent <%= (@current_parent == parent) ? 'active' : '' %>" role="presentation">
