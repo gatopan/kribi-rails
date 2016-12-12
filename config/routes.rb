@@ -25,6 +25,11 @@ Kribi::Application.routes.draw do
     as: :export
   }
 
+  get 'readme', {
+    to: 'static_pages#readme',
+    as: :readme
+  }
+
   get '/all_dumps.zip', to: 'static_pages#all_dumps'
 
   # TODO: Prettify urls

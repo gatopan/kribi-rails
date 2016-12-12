@@ -114,6 +114,10 @@ class StaticPagesController < ApplicationController
     send_file(file)
   end
 
+  def readme
+    render 'readme'
+  end
+
   private
 
   def registration_params
