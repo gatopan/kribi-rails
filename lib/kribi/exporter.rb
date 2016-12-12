@@ -1,8 +1,7 @@
 module Kribi
   module Exporter
     ALLOWED_MIDDLE_RECORD_MODELS = [
-      EngineStatusChangeEvent,
-      EngineTripEvent
+      EngineStatusChangeEvent
     ]
 
     extend ActiveSupport::Autoload

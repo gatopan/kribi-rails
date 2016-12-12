@@ -455,34 +455,6 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_running_time_readings", ["match_key_standard_yearly"], name: "index_engine_running_time_readings_mk_standard_yearly", using: :btree
   add_index "engine_running_time_readings", ["real_value"], name: "index_8064fdffd9a496a883762a9941_1b8f140023d2b2bc0ace41fc7c", using: :btree
 
-  create_table "engine_start_events", force: :cascade do |t|
-    t.integer  "engine_id"
-    t.datetime "target_datetime"
-    t.integer  "bank"
-    t.integer  "result"
-    t.integer  "equipment"
-    t.integer  "cylinder"
-    t.integer  "alarm"
-    t.text     "observations"
-    t.integer  "status",                     default: 0
-    t.string   "match_key_standard_daily"
-    t.string   "match_key_standard_weekly"
-    t.string   "match_key_standard_monthly"
-    t.string   "match_key_standard_quarter"
-    t.string   "match_key_standard_yearly"
-    t.string   "match_key_customer_monthly"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-  end
-
-  add_index "engine_start_events", ["engine_id"], name: "index_engine_start_events_on_engine_id", using: :btree
-  add_index "engine_start_events", ["match_key_customer_monthly"], name: "index_engine_start_events_on_match_key_customer_monthly", using: :btree
-  add_index "engine_start_events", ["match_key_standard_daily"], name: "index_engine_start_events_on_match_key_standard_daily", using: :btree
-  add_index "engine_start_events", ["match_key_standard_monthly"], name: "index_engine_start_events_on_match_key_standard_monthly", using: :btree
-  add_index "engine_start_events", ["match_key_standard_quarter"], name: "index_engine_start_events_on_match_key_standard_quarter", using: :btree
-  add_index "engine_start_events", ["match_key_standard_weekly"], name: "index_engine_start_events_on_match_key_standard_weekly", using: :btree
-  add_index "engine_start_events", ["match_key_standard_yearly"], name: "index_engine_start_events_on_match_key_standard_yearly", using: :btree
-
   create_table "engine_status_change_events", force: :cascade do |t|
     t.integer  "engine_id"
     t.datetime "target_datetime"
@@ -538,76 +510,6 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_status_change_export_events", ["match_key_standard_quarter"], name: "index_engine_stat_chng_evnt_mk_standard_quarter", using: :btree
   add_index "engine_status_change_export_events", ["match_key_standard_weekly"], name: "index_engine_stat_chng_evnt_mk_standard_weekly", using: :btree
   add_index "engine_status_change_export_events", ["match_key_standard_yearly"], name: "index_engine_stat_chng_evnt_mk_standard_yearly", using: :btree
-
-  create_table "engine_trip_events", force: :cascade do |t|
-    t.integer  "engine_id"
-    t.datetime "target_datetime"
-    t.float    "duration_in_hours"
-    t.integer  "equipment"
-    t.integer  "bank"
-    t.integer  "cylinder"
-    t.integer  "alarm"
-    t.integer  "type"
-    t.integer  "context"
-    t.integer  "owner"
-    t.integer  "light_fuel_oil_consumption_type"
-    t.float    "light_fuel_oil_estimation_in_kilograms"
-    t.float    "power_generated_during_light_fuel_oil_consumption"
-    t.float    "mean_load",                                         default: 0.0
-    t.text     "observations"
-    t.integer  "status",                                            default: 0
-    t.string   "match_key_standard_daily"
-    t.string   "match_key_standard_weekly"
-    t.string   "match_key_standard_monthly"
-    t.string   "match_key_standard_quarter"
-    t.string   "match_key_standard_yearly"
-    t.string   "match_key_customer_monthly"
-    t.datetime "created_at",                                                      null: false
-    t.datetime "updated_at",                                                      null: false
-  end
-
-  add_index "engine_trip_events", ["engine_id"], name: "index_engine_trip_events_on_engine_id", using: :btree
-  add_index "engine_trip_events", ["match_key_customer_monthly"], name: "index_engine_trip_events_on_match_key_customer_monthly", using: :btree
-  add_index "engine_trip_events", ["match_key_standard_daily"], name: "index_engine_trip_events_on_match_key_standard_daily", using: :btree
-  add_index "engine_trip_events", ["match_key_standard_monthly"], name: "index_engine_trip_events_on_match_key_standard_monthly", using: :btree
-  add_index "engine_trip_events", ["match_key_standard_quarter"], name: "index_engine_trip_events_on_match_key_standard_quarter", using: :btree
-  add_index "engine_trip_events", ["match_key_standard_weekly"], name: "index_engine_trip_events_on_match_key_standard_weekly", using: :btree
-  add_index "engine_trip_events", ["match_key_standard_yearly"], name: "index_engine_trip_events_on_match_key_standard_yearly", using: :btree
-
-  create_table "engine_trip_export_events", force: :cascade do |t|
-    t.integer  "engine_id"
-    t.integer  "equipment"
-    t.integer  "bank"
-    t.integer  "cylinder"
-    t.integer  "alarm"
-    t.integer  "type"
-    t.integer  "context"
-    t.integer  "owner"
-    t.integer  "light_fuel_oil_consumption_type"
-    t.float    "light_fuel_oil_estimation_in_kilograms"
-    t.float    "power_generated_during_light_fuel_oil_consumption"
-    t.float    "mean_load",                                         default: 0.0
-    t.text     "observations"
-    t.datetime "target_datetime"
-    t.float    "duration_in_hours"
-    t.integer  "status",                                            default: 0
-    t.string   "match_key_standard_daily"
-    t.string   "match_key_standard_weekly"
-    t.string   "match_key_standard_monthly"
-    t.string   "match_key_standard_quarter"
-    t.string   "match_key_standard_yearly"
-    t.string   "match_key_customer_monthly"
-    t.datetime "created_at",                                                      null: false
-    t.datetime "updated_at",                                                      null: false
-  end
-
-  add_index "engine_trip_export_events", ["engine_id"], name: "index_engine_trip_export_events_on_engine_id", using: :btree
-  add_index "engine_trip_export_events", ["match_key_customer_monthly"], name: "index_engine_trip_export_events_on_match_key_customer_monthly", using: :btree
-  add_index "engine_trip_export_events", ["match_key_standard_daily"], name: "index_engine_trip_export_events_on_match_key_standard_daily", using: :btree
-  add_index "engine_trip_export_events", ["match_key_standard_monthly"], name: "index_engine_trip_export_events_on_match_key_standard_monthly", using: :btree
-  add_index "engine_trip_export_events", ["match_key_standard_quarter"], name: "index_engine_trip_export_events_on_match_key_standard_quarter", using: :btree
-  add_index "engine_trip_export_events", ["match_key_standard_weekly"], name: "index_engine_trip_export_events_on_match_key_standard_weekly", using: :btree
-  add_index "engine_trip_export_events", ["match_key_standard_yearly"], name: "index_engine_trip_export_events_on_match_key_standard_yearly", using: :btree
 
   create_table "engines", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -1210,11 +1112,8 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_foreign_key "engine_light_fuel_oil_readings", "engines"
   add_foreign_key "engine_operation_events", "engines"
   add_foreign_key "engine_running_time_readings", "engines"
-  add_foreign_key "engine_start_events", "engines"
   add_foreign_key "engine_status_change_events", "engines"
   add_foreign_key "engine_status_change_export_events", "engines"
-  add_foreign_key "engine_trip_events", "engines"
-  add_foreign_key "engine_trip_export_events", "engines"
   add_foreign_key "feeder_readings", "feeders"
   add_foreign_key "gas_nomination_readings", "gas_pressure_reducing_stations"
   add_foreign_key "gas_pressure_reducing_station_daily_readings", "gas_pressure_reducing_stations"

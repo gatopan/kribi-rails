@@ -72,61 +72,6 @@ module Kribi
 
             middle_records.last.destroy! # remove final record to prevent record with empty duratin to show in the report
           end
-        when "EngineTripEvent"
-          model::PARENT_MODEL.all.each do |parent_model|
-            parent_id = parent_model.id
-            children = model.where(model.parent_model_column => parent_id).order(:id).to_a
-            next unless children.any?
-
-            # Select first child to ease data handling
-            previous_child = children.first
-
-            # Create last child to ease data handling
-            final_child = generate_final_child(model, parent_id)
-            children.push(final_child)
-
-            children.each_with_index do |current_child, index|
-              next if index == 0
-
-              previous_child_day = days_since_y2k(previous_child.target_datetime)
-              current_child_day = days_since_y2k(current_child.target_datetime)
-
-              (previous_child_day..current_child_day).each do |block_day|
-                block_day_date = y2k_days_to_date(block_day)
-
-                duration_in_hours =
-                  if current_child_day == previous_child_day # if starts and ends on same day
-                    ( current_child.target_datetime - previous_child.target_datetime)/(60 * 60)
-                  elsif previous_child_day == block_day # if first day
-                    24 + (block_day_date - previous_child.target_datetime)/(60 * 60)
-                  elsif current_child_day == block_day # if last day
-                    (current_child.target_datetime - block_day_date)/(60 * 60)
-                  else
-                    24
-                  end
-
-                middle_record_source                  = current_child.dup
-                middle_record                         = EngineTripExportEvent.new
-                middle_record.attributes              = middle_record_source.attributes
-                middle_record.duration_in_hours       = duration_in_hours
-                middle_record.power_generated_during_light_fuel_oil_consumption =  middle_record.calculated_power_generated_during_light_fuel_oil_consumption
-                middle_record.light_fuel_oil_estimation_in_kilograms =  middle_record.calculated_light_fuel_oil_estimation_in_kilograms
-                middle_record.target_datetime         = block_day_date
-                middle_record.status                  = :APPROVED
-
-                unless middle_record.save
-                  binding.pry
-                  raise StandardError.new('Unable to save middle record')
-                end
-
-                middle_records.push(middle_record)
-              end
-
-              previous_child = current_child
-            end
-
-            middle_records.last.destroy! # remove final record to prevent record with empty duratin to show in the report
-          end
         end
       end
 
@@ -140,10 +85,6 @@ module Kribi
             engine_mode: model.engine_modes.values.sample,
             target_datetime: remove_hours(Time.now.utc)
           )
-        when "EngineTripEvent"
-          final_child = model.where(model.parent_model_column => parent_id).last.dup
-          final_child.target_datetime = remove_hours(Time.now.utc)
-          final_child
         else
           raise StandardError.new("Model not implemented for middle records: #{model}")
         end
