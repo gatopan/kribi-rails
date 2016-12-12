@@ -51,4 +51,9 @@ class PlantGrossCapacityReading < AbstractIntervalModel
       less_than: 221 / 3
     }
   }
+
+  def readable_hour_and_minute
+    return unless target_datetime
+    target_datetime.strftime('%H:%M')
+  end
 end

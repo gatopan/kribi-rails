@@ -34,6 +34,20 @@ class StaticPagesController < ApplicationController
     when 'GUEST'
       render 'public_home', layout: false
     else
+      if PlantGrossCapacityReading.APPROVED.last
+        last_approved_reading = PlantGrossCapacityReading.APPROVED.last
+        @target_datetime = last_approved_reading.target_datetime
+        # start_of_approved_day_time = Time.utc(target_datetime.year, target_datetime.month, target_datetime.day )
+
+        target_datetimes = 24.times.map{|hour| Time.utc(@target_datetime.year, @target_datetime.month, @target_datetime.day, hour)}
+      else
+        # start_of_approved_day_time = Time.now
+        @target_datetime = Time.now
+        target_datetimes = 24.times.map{|hour| Time.utc(@target_datetime.year, @target_datetime.month, @target_datetime.day, hour)}
+      end
+
+      # @approved_plant_gross_capacity_readings = PlantGrossCapacityReading.APPROVED.where("target_datetime >= (?)", start_of_approved_day_time)
+      @approved_plant_gross_capacity_readings = PlantGrossCapacityReading.APPROVED.where(target_datetime: target_datetimes)
       render 'private_home'
     end
   end

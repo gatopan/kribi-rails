@@ -5,9 +5,9 @@
         <div class="ibox-content">
           <div>
             <h3 class="font-bold no-margins">
-              Average Output Capacity (Sample Data)
+              Plant Gross Capacity Readings
             </h3>
-            <small>During last 6 months.</small>
+            <small>During Last Day</small>
           </div>
           <div>
             <canvas id="lineChart" height="70"></canvas>
@@ -15,10 +15,12 @@
           <div class="m-t-md">
             <small class="pull-right">
               <i class="fa fa-clock-o"> </i>
-              Update on <%= DateTime.now.try(:strftime, "%Y-%m-%d") %>
+              Update on <%= @target_datetime.strftime("%Y-%m-%d") %>
             </small>
             <small>
-              <strong>Analysis of output capacity:</strong> The value has been changing over time, and last month reached an all time peak.
+              <strong>Analysis of output capacity:</strong>
+              The value has been changing during last day.
+              This is a test graph using real data.
             </small>
           </div>
         </div>
@@ -30,27 +32,17 @@
 <script>
   $(document).ready(function() {
     var lineData = {
-      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      labels: <%= @approved_plant_gross_capacity_readings.map(&:readable_hour_and_minute).to_json.html_safe %>,
       datasets: [
         {
-          label: "Example dataset",
+          label: "Output Capacity",
           fillColor: "rgba(220,220,220,0.5)",
           strokeColor: "rgba(220,220,220,1)",
           pointColor: "rgba(220,220,220,1)",
           pointStrokeColor: "#fff",
           pointHighlightFill: "#fff",
           pointHighlightStroke: "rgba(220,220,220,1)",
-          data: [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-          label: "Example dataset",
-          fillColor: "rgba(26,179,148,0.5)",
-          strokeColor: "rgba(26,179,148,0.7)",
-          pointColor: "rgba(26,179,148,1)",
-          pointStrokeColor: "#fff",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "rgba(26,179,148,1)",
-          data: [28, 48, 40, 19, 86, 27, 90]
+          data: <%= @approved_plant_gross_capacity_readings.map(&:output_capacity).to_json.html_safe %>,
         }
       ]
     };
