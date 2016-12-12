@@ -91,7 +91,6 @@
                       name="<%= attribute.fetch(:name) %>"
                       type='text'
                       class="form-control"
-                      style='min-width: 140px'
                     />
                     <span class="input-group-addon">
                       <span class="glyphicon glyphicon-calendar"></span>
@@ -107,7 +106,6 @@
                       name="<%= attribute.fetch(:name) %>"
                       type='text'
                       class="form-control"
-                      style='min-width: 140px'
                     />
                     <span class="input-group-addon">
                       <span class="glyphicon glyphicon-calendar"></span>
@@ -268,7 +266,6 @@
                         value="<%= value ? value.strftime("%m/%d/%Y %l:%M %p") : nil %>"
                         type='text'
                         class="form-control"
-                        style='min-width: 140px'
                       />
                       <span class="input-group-addon" >
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -288,7 +285,6 @@
                         value="<%= value ? value.strftime("%l:%M %p") : nil %>"
                         type='text'
                         class="form-control"
-                        style='min-width: 140px'
                       />
                       <span class="input-group-addon" >
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -400,3 +396,9 @@
   <% end %>
 </div>
 <br/>
+
+<script>
+  $(document).ready(function() {
+    $('input').autoGrowInput({ minWidth: 140, maxWidth: 999 });
+  });
+</script>

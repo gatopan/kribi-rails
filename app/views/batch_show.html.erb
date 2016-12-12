@@ -237,6 +237,11 @@
 
     $(".reset-toggleable").toggle();
 
+    // TODO: hook this to toggle above, it's currently calling complete on each element, not cool.
+    setTimeout(function(){
+      $('input').autoGrowInput({ maxWidth: 999 });
+    }, 2000);
+
     $( "#toggle-reset" ).on("click", {}, function(){
       $(".reset-toggleable").toggle();
     });
