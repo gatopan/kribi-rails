@@ -233,25 +233,58 @@ class EngineOperationEvent < AbstractEventModel
     }
   }
   validates :owner, presence: true
-  # validates :end_time_of_trip
-  # validates :end_time_without_generation
+
+  validate :end_time_of_trip_congruence
+
+  def end_time_of_trip_congruence
+    return unless target_datetime
+    return unless end_time_of_trip
+
+    target_datetime_minutes = (target_datetime.hour * 60) + target_datetime.min
+    end_time_of_trip_minutes = (end_time_of_trip.hour * 60) + end_time_of_trip.min
+
+    unless end_time_of_trip_minutes >= target_datetime_minutes
+      errors.add :end_time_of_trip, 'must be greater of equal to target datetime'
+    end
+  end
+
+  validate :end_time_without_generation_congruence
+
+  def end_time_without_generation_congruence
+    return unless target_datetime
+    return unless end_time_of_trip
+    return unless end_time_without_generation
+
+    target_datetime_minutes = (target_datetime.hour * 60) + target_datetime.min
+    end_time_of_trip_minutes = (end_time_of_trip.hour * 60) + end_time_of_trip.min
+    end_time_without_generation_minutes = (end_time_without_generation.hour * 60) + end_time_without_generation.min
+
+    if end_time_without_generation_minutes <= target_datetime_minutes
+      errors.add :end_time_without_generation, 'must be greater or equal to target datetime'
+    end
+
+    if end_time_without_generation_minutes >= end_time_of_trip_minutes
+      errors.add :end_time_without_generation, 'must be less or equal to end time of trip'
+    end
+  end
+
   validates :mean_load, {
     presence: true,
     numericality: {
       greater_than_or_equal_to: 0,
-      less_than_or_equal_to: 20
+      less_than_or_equal_to: 16.621
     }
   }
-  
+
   validate :type_and_subtype_congruence
-  
+
   def type_and_subtype_congruence
     return unless type
     return unless subtype
-    
+
     type_prefix     = (self.type == 'TYPE_NONE') ? 'NONE' : self.type.split('_').first
     subtype_prefix  = (self.subtype == 'SUBTYPE_NONE') ? 'NONE' : self.subtype.split('_').first
-    
+
     unless (type_prefix == subtype_prefix)
       errors.add :base, 'Type and Subtype prefix must match'
     end
@@ -261,7 +294,7 @@ class EngineOperationEvent < AbstractEventModel
   def calculated_duration_in_hours
     1
   end
-  
+
   #TODO: formula
   def calculated_energy_in_mwh
     1
