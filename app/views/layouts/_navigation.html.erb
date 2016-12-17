@@ -32,13 +32,85 @@
       </li>
 
       <li class="<%= is_active_batch %>">
-        <a href=""><i class="fa fa-th-large"></i> <span class="nav-label" data-i18n="nav.dashboard">Batches</span> <span class="fa arrow"></span></a>
+      <a href=""><i class="fa fa-th-large"></i> <span class="nav-label" data-i18n="nav.dashboard">Readings</span> <span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse <%= is_active_batch %>">
-          <% batch_routes.each do |batch_route| %>
-            <li class="<%= is_active_route(batch_route) %>"><%= link_to batch_route.fetch(:resource_name), batch_route.fetch(:resource_path) %></li>
-          <% end %>
+            <li class="<%= is_active_route(batch_routes.first) %>">
+              <%= link_to "225Kv Transformer", "/transformer_readings_batch/batch_show" %>
+            </li>
+            <li class="<%= is_active_route(batch_routes.first) %>">
+              <%= link_to "Chromatograph", "/chromatograph_readings_batch/batch_show" %>
+            </li>
+            <li class="<%= is_active_route(batch_routes.first) %>">
+              <%= link_to "Engine cummulative running hours", "/engine_running_time_readings_batch/batch_show" %>
+            </li>
+             <li class="<%= is_active_batch %>"><a href="#">Engine emission O2<span class="fa arrow"></span></a>
+              <ul class="nav nav-third-level">
+                <li><%= link_to "daily readings", "/engine_emission_dioxygen_daily_readings_batch/batch_show" %></li>
+                <li><%= link_to "hourly readings", "/engine_emission_dioxygen_hourly_readings_batch/batch_show" %></li>
+              </ul>
+            </li>
+             <li class="<%= is_active_batch %>"><a href="#">Engine emission Nox in GAS mode <span class="fa arrow"></span></a>
+              <ul class="nav nav-third-level">
+                <li><%= link_to "daily readings", "/engine_emission_nitrous_oxides_in_gas_mode_daily_readings_batch/batch_show" %></li>
+                <li><%= link_to "hourly readings", "/engine_emission_nitrous_oxides_in_gas_mode_hourly_readings_batch/batch_show" %></li>
+              </ul>
+            </li>           
+            <li class="<%= is_active_batch %>"><a href="#">Engine emission Nox in LFO mode <span class="fa arrow"></span></a>
+              <ul class="nav nav-third-level">
+                <li><%= link_to "daily readings", "/engine_emission_nitrous_oxides_in_light_fuel_oil_mode_daily_readings_batch/batch_show" %></li>
+                <li><%= link_to "hourly readings", "/engine_emission_nitrous_oxides_in_light_fuel_oil_mode_hourly_readings_batch/batch_show" %></li>
+              </ul>
+            </li>
+            <li class="<%= is_active_batch %>"><a href="#">Engine energy <span class="fa arrow"></span></a>
+              <ul class="nav nav-third-level">
+                <li><%= link_to "daily readings", "/engine_energy_daily_readings_batch/batch_show" %></li>
+                <li><%= link_to "hourly readings", "/engine_energy_hourly_readings_batch/batch_show" %></li>
+              </ul>
+            </li>
+            <li class="<%= is_active_batch %>"><a href="#">Engine gas (GRU) <span class="fa arrow"></span></a>
+              <ul class="nav nav-third-level">
+                <li><%= link_to "daily readings", "/engine_gas_daily_readings_batch/batch_show" %></li>
+                <li><%= link_to "hourly readings", "/engine_gas_hourly_readings_batch/batch_show" %></li>
+              </ul>
+            </li>
+            <li class="<%= is_active_route(batch_routes.first) %>">
+              <%= link_to "Engine LFO", "/engine_light_fuel_oil_readings_batch/batch_show" %>
+            </li>
+            <li class="<%= is_active_route(batch_routes.first) %>">
+              <%= link_to "Gas contractual", "/gas_nomination_readings_batch/batch_show" %>
+            </li>
+            <li class="<%= is_active_batch %>"><a href="#">Gas pressure reducing station (GPRS)<span class="fa arrow"></span></a>
+              <ul class="nav nav-third-level">
+                <li><%= link_to "daily readings", "/gas_pressure_reducing_station_daily_readings_batch/batch_show" %></li>
+                <li><%= link_to "hourly readings", "gas_pressure_reducing_station_hourly_readings_batch/batch_show" %></li>
+              </ul>
+            </li>
+            <li class="<%= is_active_route(batch_routes.first) %>">
+              <%= link_to "MV outgoing feeder", "/feeder_readings_readings_batch/batch_show" %>
+            </li>
+            <li class="<%= is_active_batch %>"><a href="#">Plant common LFO<span class="fa arrow"></span></a>
+              <ul class="nav nav-third-level">
+                <li><%= link_to "daily readings", "/plant_light_fuel_oil_daily_readings_batch/batch_show" %></li>
+                <li><%= link_to "hourly readings", "plant_light_fuel_oil_hourly_readings_batch/batch_show" %></li>
+              </ul>
+            </li>
+            <li class="<%= is_active_route(batch_routes.first) %>">
+              <%= link_to "Plant declared capacity", "/plant_declared_capacity_readings_readings_batch/batch_show" %>
+            </li>
+            <li class="<%= is_active_route(batch_routes.first) %>">
+              <%= link_to "Plant gross capacity", "/plant_gross_capacity_readings_readings_batch/batch_show" %>
+            </li>
+            <li class="<%= is_active_route(batch_routes.first) %>">
+              <%= link_to "Plant reference condition", "/plant_reference_condition_readings_readings_batch/batch_show" %>
+            </li>
+            <li class="<%= is_active_route(batch_routes.first) %>">
+              <%= link_to "Substation consumption", "/substation_readings_readings_batch/batch_show" %>
+            </li>
+            <li class="<%= is_active_route(batch_routes.first) %>">
+              <%= link_to "Weather", "/weather_readings_readings_batch/batch_show" %>
+            </li>
         </ul>
-      </li>
+      </li>          
 
       <li class="<%= is_active_event %>">
         <a href=""><i class="fa fa-th-large"></i> <span class="nav-label" data-i18n="nav.dashboard">Events</span> <span class="fa arrow"></span></a>
