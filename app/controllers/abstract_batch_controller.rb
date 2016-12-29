@@ -58,11 +58,15 @@ class AbstractBatchController < ApplicationController
   end
 
   def batch_show
+    if params.key?(:target_day) && (params[:target_day] == "")
+      return render_bad_request('Must submit a target day')
+    end
+
     @body_class = 'batch-show'
 
     @target_datetimes = target_datetimes
     @parents = parents
-
+    
     # Redirects to first pending batch there exist several pending batches due
     # to previous regression
     if (children_model.PENDING.count > batch_size) && (target_day != first_pending_batch_target_datetime)

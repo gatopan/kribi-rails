@@ -16,18 +16,20 @@
             name="target_day"
             type='text'
             class="form-control"
+            style='width: 100px;'
             value='<%= target_day ? children_model.target_day.utc.strftime("%d/%m/%Y") : '' %>'
           />
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
           </span>
-          <span><button>Change</button></span>
+          <span><button>Start</button></span>
           <script type="text/javascript">
             $(function () {
               $('<%= "#datetime-picker-#{datetime_picker_id}" %>').datetimepicker({
                 format: 'DD/MM/YYYY',
                 minDate: false,
                 maxDate: new Date('<%= DateTime.now.utc.strftime("%Y-%m-%d") %>T00:00:00Z'),
+                defaultDate: new Date('<%= DateTime.now.utc.strftime("%Y-%m-%d") %>T00:00:00Z')
               });
               <%# TODO: implement above max date check in backend %>
             });
