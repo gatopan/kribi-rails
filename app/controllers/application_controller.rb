@@ -13,33 +13,58 @@ class ApplicationController < ActionController::Base
 
   # TODO: fix incongruence batch vs interval incongruence
   def batch_routes
-    @batch_routes ||= AbstractIntervalModel.descendants
-      .map do |model|
-        {
-          resource_name: model.custom_name,
-          resource_path: self.send("batch_show_#{model.table_name}_batch_index_path"),
-          route_name: model.table_name,
-          model: model
+    preprocessed_models = AbstractIntervalModel.descendants
+    processed_models = []
+    
+    preprocessed_models.each do |model|
+      name = model.to_s
+      
+      trunk = name.sub('Daily', '').sub('Hourly', '').sub('Reading', '')
+      
+      # Select processed model if exists
+      
+      target_model = processed_models.select do |processed_model|
+        processed_model.fetch(:trunk) == trunk
+      end.first
+      
+      # Create processed model if it does not exists
+      unless target_model
+        target_model = {
+          trunk: trunk,
+          branches: []
         }
-    end.sort_by do |batch_route|
-      batch_route[:resource_name]
+        processed_models << target_model
+      end
+      
+      branch = {
+        model: model,
+        resource_name: model.custom_name,
+        route_name: model.table_name,
+        resource_path: self.send("batch_show_#{model.table_name}_batch_index_path")
+      }
+      
+      target_model[:branches] << branch 
+    end
+    
+    @batch_routes = processed_models.sort_by do |target_model|
+      target_model[:branches][0][:resource_name]
     end
   end
 
-  def event_routes
-    @event_routes ||= AbstractEventModel.descendants.reject do |model|
-      model.to_s =~ /Export/
-    end.map do |model|
-      {
-        resource_name: model.custom_name,
-        resource_path: self.send("#{model.table_name}_path") + '/editor',
-        route_name: model.table_name,
-        model: model
-      }
-    end.sort_by do |event_route|
-      event_route[:resource_name]
-    end
-  end
+  # def event_routes
+  #   @event_routes ||= AbstractEventModel.descendants.reject do |model|
+  #     model.to_s =~ /Export/
+  #   end.map do |model|
+  #     {
+  #       resource_name: model.custom_name,
+  #       resource_path: self.send("#{model.table_name}_path") + '/editor',
+  #       route_name: model.table_name,
+  #       model: model
+  #     }
+  #   end.sort_by do |event_route|
+  #     event_route[:resource_name]
+  #   end
+  # end
 
   protect_from_forgery with: :exception
 

@@ -34,23 +34,20 @@
       <li class="<%= is_active_batch %>">
         <a href=""><i class="fa fa-pencil-square-o"></i> <span class="nav-label" data-i18n="nav.dashboard">Readings</span> <span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse <%= is_active_batch %>">
-          <% batch_routes.each do |batch_route| %>
-            <li class="<%= is_active_route(batch_route) %>"><%= link_to batch_route.fetch(:resource_name), batch_route.fetch(:resource_path) %></li>
+          <% batch_routes.each do |target_model| %>
+            <% case target_model.branches.length %>
+            <% when 1 %>
+              <% branch = target_model.branches.first %>
+              <li class="<%= is_active_route(branch) %>"><%= link_to branch.fetch(:resource_name), branch.fetch(:resource_path) %></li>
+            <% when 0 %>
+              <% raise StandardError.new("Error while generating navigation menu. Please contact technical support.") %>
+            <% else %>
+              <p>MULTIPLE</p>
+            <% end %>
           <% end %>
         </ul>
       </li>
 
-      <li class="<%= is_active_event %>">
-        <a href=""><i class="fa fa-list-ol"></i> <span class="nav-label" data-i18n="nav.dashboard">Events</span> <span class="fa arrow"></span></a>
-        <ul class="nav nav-second-level collapse <%= is_active_event %>">
-          <% event_routes.each do |event_route| %>
-            <li class="<%= is_active_route(event_route) %>">
-              <%= link_to event_route.fetch(:resource_name), event_route.fetch(:resource_path) %>
-            </li>
-          <% end %>
-        </ul>
-      </li>
-      
       <li class="<%= is_active_controller('static_pages') && is_active_action('export') %>">
         <a href="/export"><i class="fa fa-download"></i> <span class="nav-label" data-i18n="nav.dashboard">Downloads</span> <span class="fa arrow"></span></a>
       </li>
