@@ -163,7 +163,7 @@
               <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
                 <% children_attributes.each do |options| %>
                   <td class='<%= 'active_attribute' if previous_day_children.exclude?(child) && !(options[:class] =~ /reset-toggleable/) %>'>
-                    <% options[:disabled] = previous_day_children.include?(child) || child.APPROVED? %>
+                    <% options[:disabled] = previous_day_children.include?(child) || child.APPROVED? || (options[:editable] == false) %>
                     <% case options[:builder] %>
                     <% when :text_field %>
                       <%= child_form.send(options.delete(:builder), options.delete(:attribute), options) %>
