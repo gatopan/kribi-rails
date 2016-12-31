@@ -32,7 +32,7 @@ The following sections explain how to use the system.
 
 ##Readings
 
-Includes recording readings for: Transformer, chromatograph, engine LFO, Engine cummulative running hours, engine emissions, engine energy, engine gas (GRU), gas contractual, GPRS, MV outgoing feeder, plant common LFO, plant declared capacity, plant gross capacity, plant reference conditions, substation consumption, and weather.
+Includes recording readings for: Transformer, chromatograph, engine LFO, Engine cummulative running hours, engine emissions, engine energy, engine gas (GRU), gas contractual, GPRS, MV outgoing feeder, plant common LqFO, plant declared capacity, plant gross capacity, plant reference conditions, substation consumption, and weather.
 
 For any of the Readings Resources, when you click on the designated link on the left navigation or in shortcuts, you will be presented with a table of input cells. The input cells will be for a specific date, which is the one exactly after the latest one approved (the very first row, is the most recent approved record from previous day). The date for input is shown on top of the web page. You can only input data when there is already data for the previous day. Each row represents a specific time of the day, while each column title represents the type of data expected to be input. See the diagram below:
 
