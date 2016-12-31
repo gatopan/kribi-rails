@@ -1,0 +1,52 @@
+<div class="row">
+  <h3>Shortcuts for readings input</h3>
+  <div class="col-md-3">
+    <ul>
+      <li><%= link_to "225kV Transformer", "transformer_readings_batch/batch_show" %></li>
+      <li><%= link_to "Chromatograph", "chromatograph_readings_batch/batch_show" %></li>
+      <li><%= link_to "Engine LFO", "engine_light_fuel_oil_readings_batch/batch_show" %></li>
+      <li><%= link_to "Engine cummulative running hours", "engine_running_time_readings_batch/batch_show" %></li>
+      <li><%= link_to "MV outgoing feeder", "feeder_readings_batch/batch_show" %></li>
+    </ul>
+  </div>
+  <div class="col-md-3">
+    <ul>
+      <li><%= link_to "Gas contractual", "gas_nomination_readings_batch/batch_show" %></li>
+      <li><%= link_to "Plant declared capacity", "plant_declared_capacity_readings_batch/batch_show" %></li>
+      <li><%= link_to "Plant gross capacity", "plant_gross_capacity_readings_batch/batch_show" %></li>
+      <li><%= link_to "Plant reference condition", "plant_reference_condition_readings_batch/batch_show" %></li>
+      <li><%= link_to "Substation consumption", "substation_readings_batch/batch_show" %></li>
+      <li><%= link_to "Weather", "weather_readings_batch/batch_show" %></li>
+    </ul>
+  </div>
+  <div class="col-md-6">
+    <ul>
+      <li>Engine emissions O2  <%= link_to "daily",  "engine_emission_dioxygen_daily_readings_batch/batch_show" %>|
+              <%= link_to "hourly", "engine_emission_dioxygen_hourly_readings_batch/batch_show" %>
+      </li>
+      <li>Engine emissions Nox in LFO mode <%= link_to "daily",  "engine_emission_nitrous_oxides_in_light_fuel_oil_mode_daily_readings_batch/batch_show" %>|
+              <%= link_to "hourly", "engine_emission_nitrous_oxides_in_light_fuel_oil_mode_hourly_readings_batch/batch_show" %>
+      </li>  
+      <li>Engine emissions Nox in gas mode <%= link_to "daily",  "engine_emission_nitrous_oxides_in_gas_mode_daily_readings_batch/batch_show" %>|
+              <%= link_to "hourly", "engine_emission_nitrous_oxides_in_gas_mode_hourly_readings_batch/batch_show" %>
+      </li>  
+      <li>Engine energy 
+        <%= link_to "daily",  "engine_energy_daily_readings_batch/batch_show" %>|
+        <%= link_to "hourly", "engine_energy_hourly_readings_batch/batch_show" %>
+      </li>
+      <li>Engine gas (GRU) 
+        <%= link_to "daily",  "engine_gas_daily_readings_batch/batch_show" %>|
+        <%= link_to "hourly", "engine_gas_hourly_readings_batch/batch_show" %>
+      </li>
+      <li>Gas pressure reducing station (GPRS) 
+        <%= link_to "daily",  "gas_pressure_reducing_station_daily_readings_batch/batch_show" %>|
+        <%= link_to "hourly", "gas_pressure_reducing_station_hourly_readings_batch/batch_show" %>
+      </li>
+      <li>Plant common LFO 
+        <%= link_to "daily",  "plant_light_fluid_oil_daily_readings_batch/batch_show" %>|
+        <%= link_to "hourly", "plant_light_fluid_oil_hourly_readings_batch/batch_show" %>
+      </li>
+    </ul>
+  </div>
+
+</div>
