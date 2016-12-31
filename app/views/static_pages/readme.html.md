@@ -8,13 +8,14 @@ To enter the system, you need to have a user name and a password. Once you enter
 - **Reviewer:** Reviews that data makes sense, so only good data is saved.
 - **Approver:** Approver is the final filter. Once data is approved, it shouldn't be changed.
  
-![public home](/readme/user_manual_intro_01public_home.png "test")
+![public home](/readme/user_manual_intro_01public_home.png "Public home")
 
 Once you finish using the system, it is important that you logout, so other person cannot inadvertently use the system with your credentials. Logout link is on the top right area of the application.
 
 Once you are properly logged in, you will be presented with the following screen:
 
-![private home overview](/readme/user_manual_intro_02private_home.png "test2")
+![private home overview](/readme/user_manual_intro_02private_home.png "private home screen")<br/>
+*(1) user identification, (2)Main menu, (3)chart area, (4)Shortcuts, (5)Logout*<br/><br/>
 
 The above image is the main navigation screen. To the left there is the main menu, and in the center stage there are charts and some shortcuts.
 
@@ -33,21 +34,34 @@ The following sections explain how to use the system.
 
 Includes recording readings for: Transformer, chromatograph, engine LFO, Engine cummulative running hours, engine emissions, engine energy, engine gas (GRU), gas contractual, GPRS, MV outgoing feeder, plant common LFO, plant declared capacity, plant gross capacity, plant reference conditions, substation consumption, and weather.
 
-For any of the batch resources, when you click on the designated link, you will be presented with a table of input cells. The input cells will be for a specific date, which is the one exactly after the latest one approved (the very first row, is the most recent approved record from previous day). The date for input is shown on top of the web page. You can only input data when there is already data for the previous day. Each row represents a specific time of the day, while each column title represents the type of data expected to be input. See the diagram below:
+For any of the Readings Resources, when you click on the designated link on the left navigation or in shortcuts, you will be presented with a table of input cells. The input cells will be for a specific date, which is the one exactly after the latest one approved (the very first row, is the most recent approved record from previous day). The date for input is shown on top of the web page. You can only input data when there is already data for the previous day. Each row represents a specific time of the day, while each column title represents the type of data expected to be input. See the diagram below:
 
-![Readings input overview](/readme/user_manual_readings_01overview.png "Readings overview - example of data input")
+![Readings input overview](/readme/user_manual_readings_01overview.png "Readings overview - example of data input")<br/>
+*(1)Input title;  (2)Date for input;  (3)input section; (4)actions section; (5)show/hide reset offset option*<br/><br/>
+
 
 To navigate through the input table, you can use the mouse, or the keyboard. When using the keyboard, click the 'tab' key to go to the next right cell; click 'enter' to go next below cell. 
 
-When completing all inputs for that page, you need to click the 'update' button (see next image). When you click the 'update' button, the app internally checks if values are valid according to the validation rules. If there are any values not meeting the validation rules, the cells will be outlined with red color. After you review and correct the cells, click 'update' again. If data is valid, you will receive a 'success' green message on top of the page indicating that the data has been saved in 'pending' state. For the data to be available for reports and to be able to input the next day, the data needs to be 'approved'. So, after confirming that data is OK, need to request a person with approval rights, to 'approve' the day's information.
+When completing all inputs for that page, you need to click the 'update' button (see 'actions' section above). When you click the 'update' button, the app internally checks if values are valid according to the validation rules. If there are any values not meeting the validation rules, the cells will be outlined with red color. After you review and correct the cells, click 'update' again. If data is valid, you will receive a 'success' green message on top of the page indicating that the data has been saved in 'pending' state. 
 
-![Readings input overview success](/readme/user_manual_readings_02success.png "Readings overview - success")
+![Readings input overview success](/readme/user_manual_readings_02success.png "Readings overview - success")<br/>
+*(1)Success message*<br/><br/>
+
+
+For the data to be available for reports and to be able to input the next day, the data needs to be 'approved'. So, after confirming that data is OK, need to request a person with approval rights, to 'approve' the day's information.
+
+![Readings approval](/readme/user_manual_readings_03approve.png "Readings approved")<br/>
+*(1)Actions section, with options displayed; (2)Actions section with 'approved' option - click (3)to change status to approved; (4)is the success message that the record was created; (5) row that shows the created record; (6)shows the new input row for new data; (7)is the NEW date for data input; (8) is the actions section for the most recent record.*<br/><br/>
+
 
 For some of the Readings resources, things happen to equipment counters. So resets need to be considered. Since for many of the resources the counter values are relative to when counter was initialized, if a reset happens accidentally or if the counter reached its maximum permissible value, you need to perform a special input. The application allows you to add a value to compensate for the reading value. See next images for explanation:
 
-![Reset correction method](/readme/user_manual_readings_03reset_counter_value.png "Reset correction method")
+![Reset correction method](/readme/user_manual_readings_04reset_counter_value.png "Reset correction method")<br/>
+*(1)checkbox to show/hide reset offset options; (2)the reading value; (3)the counter offset; (4)the calculated real value.*<br/><br/>
 
 So, once you click on the 'Show reset/offset options' checkbox, one more value input cell will appear. In this new cell you can input the counter offset. The 'counter offset' is the last value available when the reset happened.
+
+----
 
 ##Events
 
@@ -55,11 +69,19 @@ Includes resources to record events that have an effect on the operation. Event 
 
 For events links, after clicking one of the links,  a row will appear to input details of the event. For engines, you have to select the number of the engine before inputing the details of the event.
 
-![Event input overview](/readme/user_manual_events_01overview.png "Event input overview")
+![Event input overview](/readme/user_manual_events_01overview.png "Event input overview")<br/>
+*(1)Event input title; (2)Entity number, i.e. engine, transformer, Etc.; (3)'create new record' section;  (4) 'create' button.*<br/><br/>
 
-Once the event details are recorded, click on the 'create' button. If data is valid and there are no validation issues, the event will be saved in 'PENDING' status. In order to have the data available for reporting, the event data needs to be approved. The events will appear below. You may approve each particular event record, or opt for selecting several event records to update to same state, at the same time. To approve one event record, go to that listed event, on the right side, change the state from 'pending', or 'reviewed' to 'approved', and then click 'change status'. To approve several events at the same time, click on the left side checkboxes of the events you want to change state to. Then, on the 'collection actions' section below the list of events, select the new state from the dropdown menu, such as 'approved', and then click the 'change status' button.
+Once the event details are recorded, click on the 'create' button. If data is valid and there are no validation issues, the event will be saved in 'PENDING' status. In order to have the data available for reporting, the event data needs to be approved. The events will appear below. You may approve each particular event record, or opt for selecting several event records to update to same state, at the same time. To approve one event record, go to that listed event, on the right side, change the state from 'pending', or 'reviewed' to 'approved', and then click 'change status'. 
 
-![Event approvals](/readme/user_manual_events_02approval.png "Event record approval")
+![Event approvals](/readme/user_manual_events_02approval.png "Event record approval")<br/>
+*(1)Success message; (2)'Create new record' section; (3)'Update existing records' section; (4)individual event status and actions section; (5)collection of events actions section; (6)Change page to view more existing records.*<br/><br/>
+
+To approve several events at the same time, click on the left side checkboxes of the events you want to change state to. Then, on the 'collection actions' section below the list of events, select the new state from the dropdown menu, such as 'approved', and then click the 'change status' button.
+
+![Events collection approvals](/readme/user_manual_events_03approval_collection.png "Event records collection approval")<br/>
+*(1)collection actions options: select 'approved' and click 'change status' button;  (2)Success mesage; (3)The records appear now as approved.*  <br/><br/>
+
 
 ##Downloads
 
@@ -83,4 +105,6 @@ In case there are further questions, please send email to <adiaz@abante.com.mx> 
 
 #User management
 
-Currently user management is done directly by the app developers. In case there is need to add users, or change roles, please request developers. Contact <adiaz@abante.com.mx>.
+Currently user management is done directly by the app developers. In case there is need to add/remove users, or change roles, please request developers. Contact <adiaz@abante.com.mx>.
+
+<br/><br/><br/><br/><br/><br/>
