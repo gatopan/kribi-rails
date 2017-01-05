@@ -9,6 +9,8 @@ class AbstractEventController < ApplicationController
   # TODO: convert to use filters scope
   # TODO figure out how to not need the flash clear
   def editor
+    @body_class = 'event-editor'
+
     @unpaginated_children = children_model.where(parent_model_column => current_parent_id)
     @metadata = calculated_metadata
     @parents = calculated_parents
