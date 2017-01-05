@@ -190,7 +190,7 @@ class AbstractEventController < ApplicationController
 
   def whitelisted_columns
     children_model.columns.reject do |column|
-      column.name =~ /#{Kribi::BLACKLISTED_COLUMN_NAMES.join('|')}/
+      Kribi::BLACKLISTED_COLUMN_NAMES.include?(column.name) || (column.name =~ /match_key/)
     end
   end
 
