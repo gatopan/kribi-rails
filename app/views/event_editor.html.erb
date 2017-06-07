@@ -98,7 +98,9 @@
                     </span>
                     <script type="text/javascript">
                       $(function () {
-                        $('<%= "#datetime-picker-#{datetime_picker_id}" %>').datetimepicker();
+                        $('<%= "#datetime-picker-#{datetime_picker_id}" %>').datetimepicker({
+                          defaultDate: "<%= @new_child.send(attribute.fetch(:name)) ? @new_child.send(attribute.fetch(:name)).utc.strftime("%d/%m/%Y") : nil %>"
+                        });
                       });
                     </script>
                   <% when :time %>
