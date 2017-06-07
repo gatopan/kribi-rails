@@ -132,7 +132,12 @@ class AbstractBatchController < ApplicationController
     service = Kribi::Exporter::Performer.new(:all)
     service.perform
 
-    flash[:success] = "Sucessfully updated status to #{intended_status.downcase} on all records."
+    if intended_status == "APPROVED"
+      flash[:success] = "Sucessfully updated status to #{intended_status.downcase} on all records.<br>You are now ready to input data from next day."
+    else
+      flash[:success] = "Sucessfully updated status to #{intended_status.downcase} on all records."
+    end
+
     flash.keep
 
     original_target_day = target_day || DateTime.now.utc

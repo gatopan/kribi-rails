@@ -58,9 +58,9 @@ class StaticPagesController < ApplicationController
 
     if person && person.authenticate(login_params.fetch(:password))
       session[:token] = person.token
-      flash[:success] = 'Successfully logged in'
+      flash[:success] = 'Successfully logged in.'
     else
-      flash[:warning] = 'Bad email or password'
+      flash[:warning] = 'Wrong email or password.'
     end
 
     flash.keep

@@ -19,7 +19,7 @@ class AbstractEventController < ApplicationController
     @new_child = session.delete(:pending_member) || children_model.new
 
     unless @current_parent
-      flash[:warning] = "Please select a #{parent_model.to_s.titleize}"
+      flash[:warning] = "Please select a #{parent_model.to_s.titleize}."
     end
 
     render './event_editor.html.erb'
@@ -29,9 +29,9 @@ class AbstractEventController < ApplicationController
     @member = children_model.new(final_params)
 
     if @member.save
-      flash[:success] = 'Sucessfully created record'
+      flash[:success] = 'Sucessfully created a new record.'
     else
-      flash[:warning] = "Could not create record: #{@member.errors.messages}"
+      flash[:warning] = "Could not create record: #{@member.errors.messages}."
       session[:pending_member] = @member
     end
 
@@ -47,9 +47,9 @@ class AbstractEventController < ApplicationController
     end
 
     if @member.update(final_params)
-      flash[:success] = 'Sucessfully updated record'
+      flash[:success] = 'Sucessfully updated record.'
     else
-      flash[:warning] = "Could not update record: #{@member.errors.messages}"
+      flash[:warning] = "Could not update record: #{@member.errors.messages}."
     end
 
     flash.keep
@@ -64,9 +64,9 @@ class AbstractEventController < ApplicationController
     end
 
     if @member.destroy
-      flash[:success] = 'Sucessfully deleted record'
+      flash[:success] = 'Sucessfully deleted record.'
     else
-      flash[:warning] = "Could not delete record: #{@member.errors.messages}"
+      flash[:warning] = "Could not delete record: #{@member.errors.messages}."
     end
 
     flash.keep
@@ -87,7 +87,7 @@ class AbstractEventController < ApplicationController
     service = Kribi::Exporter::Performer.new(:all)
     service.perform
 
-    flash[:success] = 'Sucessfully updated selected records'
+    flash[:success] = 'Sucessfully updated selected records.'
     flash.keep
     redirect_to request.referrer
   end
@@ -113,12 +113,12 @@ class AbstractEventController < ApplicationController
       if @member.update(status: intended_status)
         service = Kribi::Exporter::Performer.new(:all)
         service.perform
-        flash[:success] = "Sucessfully updated intended_status to #{intended_status.downcase} on selected record."
+        flash[:success] = "Sucessfully updated status to #{intended_status.downcase} on selected record."
       else
-        flash[:warning] = 'Error while updating status on selected resource'
+        flash[:warning] = 'Error while updating status on selected resource.'
       end
     else
-      flash[:warning] = "Selected record has not passed all validations: #{@member.errors.messages}"
+      flash[:warning] = "Selected record has not passed all validations: #{@member.errors.messages}."
     end
 
     flash.keep
