@@ -161,6 +161,12 @@
               <%= fields_for "#{association_name(children_model, :plural)}[#{child.id}]", child do |child_form| %>
                 <% children_attributes.each do |options| %>
                   <td class='<%= 'active_attribute' if previous_day_children.exclude?(child) && !(options[:class] =~ /reset-toggleable/) %>'>
+                    <% messages = child.errors.messages[options[:attribute]] %>
+
+                    <% if messages %>
+                      <a href="#" data-toggle="tooltip" title ="<%= messages.join(', ') %>">
+                    <% end %>
+
                     <% options[:disabled] = previous_day_children.include?(child) || child.APPROVED? || (options[:editable] == false) %>
                     <% case options[:builder] %>
                     <% when :text_field %>
@@ -169,6 +175,10 @@
                       <%= child_form.send(options.delete(:builder), options.delete(:attribute), options.delete(:possible_values), {}, options) %>
                     <% else %>
                       <% raise StandardError.new('Builder type for form not implemented') %>
+                    <% end %>
+
+                    <% if messages %>
+                      </a>
                     <% end %>
                   </td>
                 <% end %>
