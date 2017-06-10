@@ -3,7 +3,7 @@
     <div class='col-md-2 col-md-offset-5'>
       <h2>Please select an initial day</h2>
       <form
-        action="<%= self.send("batch_show_#{children_model.table_name}_batch_index_path") %>"
+        action="<%= self.send("#{children_model.table_name}_show_path") %>"
         method="GET"
       >
         <br />
@@ -144,8 +144,6 @@
 
               <%# child element picking %>
               <% compatible_children = combined_children.select{|child| (child.parent_record == parent) && (child.target_datetime == target_datetime)} %>
-              <%# <% raise StandardError.new('Should have found a child') if compatible_children.length != 1 %>
-              <% binding.pry if compatible_children.length != 1 %>
               <% child = compatible_children[0] %>
 
               <%# previous day child test %>
@@ -153,7 +151,7 @@
 
               <%# form element start %>
               <% if children.any? && child.id == children.min.id %>
-                <form action="<%= self.send("batch_update_#{children_model.table_name}_batch_index_path") %>" method="POST" >
+                <form action="<%= self.send("#{children_model.table_name}_update_path") %>" method="POST" >
                   <input type="hidden" name="target_day" value="<%= target_day.utc.strftime("%d/%m/%Y") %>">
                   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
               <% end %>
@@ -207,7 +205,7 @@
     <%= submit_tag('Update') %>
     </form>
     |
-    <form action="<%= self.send("batch_elevate_#{children_model.table_name}_batch_index_path") %>" method="POST" >
+    <form action="<%= self.send("#{children_model.table_name}_elevate_path") %>" method="POST" >
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
       <input type="hidden" name="target_day" value="<%= target_day.utc.strftime("%d/%m/%Y") %>">
       <select name='intended_status'>

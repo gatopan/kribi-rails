@@ -66,7 +66,7 @@ class AbstractBatchController < ApplicationController
 
     @target_datetimes = target_datetimes
     @parents = parents
-    
+
     # Redirects to first pending batch there exist several pending batches due
     # to previous regression
     if (children_model.PENDING.count > batch_size) && (target_day != first_pending_batch_target_datetime)
@@ -120,7 +120,7 @@ class AbstractBatchController < ApplicationController
     unless normal_validation_result && extra_validation_result
       flash[:warning] = 'Some records have not yet passed validations.'
       flash.keep
-      return redirect_to self.send("batch_show_#{controller_name}_index_url")
+      return redirect_to self.send("#{children_model.table_name}_show_path")
     end
 
     ActiveRecord::Base.transaction do

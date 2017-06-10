@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
       .map do |model|
         {
           resource_name: model.custom_name,
-          resource_path: self.send("batch_show_#{model.table_name}_batch_index_path"),
+          resource_path: self.send("#{model.table_name}_show_path"),
           route_name: model.table_name,
           model: model
         }
@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
     end.map do |model|
       {
         resource_name: model.custom_name,
-        resource_path: self.send("#{model.table_name}_path") + '/editor',
+        resource_path: '', # self.send("#{model.table_name}_path") + '/editor',
         route_name: model.table_name,
         model: model
       }
