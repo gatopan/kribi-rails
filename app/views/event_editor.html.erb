@@ -11,7 +11,7 @@
   <% if @current_parent %>
     <h3>Create new record</h3>
     <!-- CREATE -->
-    <form action="<%= self.send("editor_create_#{@children_model.table_name}_path") %>" method="POST" >
+    <form action="<%= self.send("#{@children_model.table_name}_create_path") %>" method="POST" >
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
       <table class="table table-striped">
         <thead>
@@ -181,7 +181,7 @@
         <% @children.each do |previous_child| %>
           <tr>
             <!-- UPDATE -->
-            <form action="<%= self.send("editor_update_#{@children_model.table_name}_path") %>" method="POST" >
+            <form action="<%= self.send("#{@children_model.table_name}_update_path") %>" method="POST" >
               <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
               <input type="hidden" name="id" value="<%= previous_child.id %>">
               <td>
@@ -311,7 +311,7 @@
             </form>
 
             <!-- ELEVATE -->
-            <form action="<%= self.send("editor_elevate_#{@children_model.table_name}_path") %>" method="POST" >
+            <form action="<%= self.send("#{@children_model.table_name}_elevate_path") %>" method="POST" >
               <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
               <input type="hidden" name="id" value="<%= previous_child.id %>">
               <td>
@@ -330,7 +330,7 @@
             </form>
 
             <!-- DELETE -->
-            <form action="<%= self.send("editor_destroy_#{@children_model.table_name}_path") %>" method="POST" >
+            <form action="<%= self.send("#{@children_model.table_name}_destroy_path") %>" method="POST" >
               <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
               <input type="hidden" name="id" value="<%= previous_child.id %>">
               <td><button>Delete</button></td>
@@ -341,7 +341,7 @@
     </table>
     <div class='col-md-6'>
       Collection actions:
-      <form id='collection_elevate' action="<%= self.send("editor_collection_elevate_#{@children_model.table_name}_path") %>" method="POST" >
+      <form id='collection_elevate' action="<%= self.send("#{@children_model.table_name}_collection_elevate_path") %>" method="POST" >
         <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
         <input id="ids" type="hidden" name="ids" value="">
         <select name="intended_status">

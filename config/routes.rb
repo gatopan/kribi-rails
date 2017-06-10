@@ -43,11 +43,17 @@ Kribi::Application.routes.draw do
       target = target.gsub('_', '-')
 
       # /events/engine_trip
-      # scope "/#{type}" do
-      #   resources target
-      # end
+      scope "/#{type}" do
+        get  target, to: "#{model.table_name}#editor", as: "#{model.table_name}_show"
+        post "#{target}/create", to: "#{model.table_name}#editor_create", as: "#{model.table_name}_create"
+        post "#{target}/update", to: "#{model.table_name}#editor_update", as: "#{model.table_name}_update"
+        post "#{target}/destroy", to: "#{model.table_name}#editor_destroy", as: "#{model.table_name}_destroy"
+        post "#{target}/elevate", to: "#{model.table_name}#editor_elevate", as: "#{model.table_name}_elevate"
+        post "#{target}/collection_elevate", to: "#{model.table_name}#editor_collection_elevate", as: "#{model.table_name}_collection_elevate"
+      end
     when /readings/
       type = :readings
+
       target = model.table_name.sub('_readings', '')
 
       case target
@@ -85,9 +91,6 @@ Kribi::Application.routes.draw do
   #     end
   #   end
   # end
-
-
-  # TODO: Prettify urls
   # AbstractEventModel.descendants.each do |model|
   #   resources model.table_name do
   #     collection do
