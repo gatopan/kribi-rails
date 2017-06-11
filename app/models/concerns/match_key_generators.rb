@@ -79,9 +79,26 @@ module MatchKeyGenerators
       @match_key_month_number ||= "%02d" % match_key_date.month
     end
 
+    def match_key_customer_year_number
+      if match_key_date.month == 12 && match_key_date.day >= 26
+        customer_year = match_key_date.year + 1
+      else
+        customer_year = match_key_date.year
+      end
+
+      @match_key_customer_year_number ||= customer_year.to_s
+    end
+
     def match_key_customer_month_number
-      # TODO Implement
-      # @match_key_customer_month_number ||= "%02d" % match_key_date.month
+      if match_key_date.day >= 26 && match_key_date.month < 12
+        customer_month = match_key_date.month + 1
+      elsif match_key_date.day >= 26 && match_key_date.month == 12
+        customer_month = 1
+      else
+        customer_month = match_key_date.month
+      end
+
+      @match_key_customer_month_number ||= "%02d" % customer_month
     end
 
     def match_key_day_number
@@ -117,8 +134,7 @@ module MatchKeyGenerators
     end
 
     def calculate_match_key_date_fragment_customer_monthly
-      # TODO
-      "#{match_key_year_number}C#{match_key_customer_month_number}"
+      "#{match_key_customer_year_number}C#{match_key_customer_month_number}"
     end
   end
 end
