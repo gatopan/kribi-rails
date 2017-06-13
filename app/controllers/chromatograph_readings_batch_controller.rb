@@ -119,30 +119,34 @@ class ChromatographReadingsBatchController < AbstractBatchController
         class: 'form-control',
         custom_name: 'C2 - Ethane (% mol)'
       },
-      # {
-      #   builder: :text_field,
-      #   attribute: :grouped_pentane,
-      #   type: :numeric,
-      #   class: 'form-control'
-      # },
-      # {
-      #   builder: :text_field,
-      #   attribute: :grouped_butane,
-      #   type: :numeric,
-      #   class: 'form-control'
-      # },
-      # {
-      #   builder: :text_field,
-      #   attribute: :corrected_methane,
-      #   type: :numeric,
-      #   class: 'form-control'
-      # },
-      # {
-      #   builder: :text_field,
-      #   attribute: :corrected_butane,
-      #   type: :numeric,
-      #   class: 'form-control'
-      # },
+      {
+        builder: :text_field,
+        attribute: :grouped_pentane,
+        type: :numeric,
+        class: 'form-control',
+        editable: false
+      },
+      {
+        builder: :text_field,
+        attribute: :grouped_butane,
+        type: :numeric,
+        class: 'form-control',
+        editable: false
+      },
+      {
+        builder: :text_field,
+        attribute: :corrected_methane,
+        type: :numeric,
+        class: 'form-control',
+        editable: false
+      },
+      {
+        builder: :text_field,
+        attribute: :corrected_butane,
+        type: :numeric,
+        class: 'form-control',
+        editable: false
+      },
       {
         builder: :text_field,
         attribute: :methane_number,
