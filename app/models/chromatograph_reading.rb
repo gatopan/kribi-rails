@@ -136,147 +136,147 @@ class ChromatographReading < AbstractIntervalModel
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
   validates :higher_heating_value, {
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
   validates :lower_heating_value, {
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
   validates :specific_gravity, {
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
   validates :compressibility, {
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
   validates :propane, {
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
   validates :isobutane, {
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
   validates :normal_butane, {
     presence: true,
   #   format: {
   #     with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-  #     message: 'must contain up to three decimal places'
+  #     message: 'must contain up to three decimal places'
   #   }
   }
   validates :neopentane, {
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
   validates :isopentane, {
     presence: true,
   #   format: {
   #     with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-  #     message: 'must contain up to three decimal places'
+  #     message: 'must contain up to three decimal places'
   #   }
   }
   validates :normal_pentane, {
     presence: true,
   #   format: {
   #     with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-  #     message: 'must contain up to three decimal places'
+  #     message: 'must contain up to three decimal places'
   #   }
   }
   validates :hexane_and_more, {
     presence: true,
   #   format: {
   #     with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-  #     message: 'must contain up to three decimal places'
+  #     message: 'must contain up to three decimal places'
   #   }
   }
   validates :nitrogen, {
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
   validates :methane, {
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
   validates :carbon_dioxide, {
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
   validates :ethane, {
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
   validates :grouped_pentane, {
     presence: :true
   #   format: {
   #     with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-  #     message: 'must contain up to three decimal places'
+  #     message: 'must contain up to three decimal places'
   #   }
   }
   validates :grouped_butane, {
     presence: :true
   #   format: {
   #     with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-  #     message: 'must contain up to three decimal places'
+  #     message: 'must contain up to three decimal places'
   #   }
   }
   validates :corrected_methane, {
     presence: true,
   #   format: {
   #     with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-  #     message: 'must contain up to three decimal places'
+  #     message: 'must contain up to three decimal places'
   #   }
   }
   validates :corrected_butane, {
     presence: true,
   #   format: {
   #     with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-  #     message: 'must contain up to three decimal places'
+  #     message: 'must contain up to three decimal places'
   #   }
   }
   validates :methane_number, {
     presence: true,
     format: {
       with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
+      message: 'must contain up to three decimal places'
     }
   }
 
