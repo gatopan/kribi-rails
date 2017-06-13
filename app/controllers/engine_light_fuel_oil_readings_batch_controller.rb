@@ -48,7 +48,14 @@ class EngineLightFuelOilReadingsBatchController < AbstractBatchController
         class: 'form-control reset-toggleable',
         type: :numeric,
         editable: false,
-      }
+      },
+      {
+        builder: :text_field,
+        attribute: :consumption,
+        type: :numeric,
+        class: 'form-control',
+        editable: false
+      },
     ]
   end
 end

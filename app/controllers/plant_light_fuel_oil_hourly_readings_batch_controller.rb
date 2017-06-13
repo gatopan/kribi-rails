@@ -68,7 +68,14 @@ class PlantLightFuelOilHourlyReadingsBatchController < AbstractBatchController
         class: 'form-control reset-toggleable',
         type: :numeric,
         editable: false
-      }
+      },
+      {
+        builder: :text_field,
+        attribute: :consumption_liters,
+        type: :numeric,
+        class: 'form-control',
+        editable: false
+      },
     ]
   end
 end
