@@ -133,7 +133,7 @@ class AbstractBatchController < ApplicationController
     service.perform
 
     if intended_status == "APPROVED"
-      flash[:success] = "Sucessfully updated status to #{intended_status.downcase} on all records.<br>You are now ready to input data from next day."
+      flash[:success] = "Sucessfully updated status to #{intended_status.downcase} on all records.<br>You are up to date!"
     else
       flash[:success] = "Sucessfully updated status to #{intended_status.downcase} on all records."
     end
