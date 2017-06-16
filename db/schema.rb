@@ -459,7 +459,6 @@ ActiveRecord::Schema.define(version: 20161119224711) do
     t.integer  "engine_id"
     t.datetime "target_datetime"
     t.float    "duration_in_hours"
-    t.integer  "type",                       default: 0
     t.integer  "engine_mode",                default: 0
     t.integer  "derating_mode",              default: 0
     t.float    "load_limitation",            default: 0.0
@@ -476,18 +475,17 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   end
 
   add_index "engine_status_change_events", ["engine_id"], name: "index_engine_status_change_events_on_engine_id", using: :btree
-  add_index "engine_status_change_events", ["match_key_customer_monthly"], name: "index_engine_status_change_events_on_match_key_customer_monthly", using: :btree
-  add_index "engine_status_change_events", ["match_key_standard_daily"], name: "index_engine_status_change_events_on_match_key_standard_daily", using: :btree
-  add_index "engine_status_change_events", ["match_key_standard_monthly"], name: "index_engine_status_change_events_on_match_key_standard_monthly", using: :btree
-  add_index "engine_status_change_events", ["match_key_standard_quarter"], name: "index_engine_status_change_events_on_match_key_standard_quarter", using: :btree
-  add_index "engine_status_change_events", ["match_key_standard_weekly"], name: "index_engine_status_change_events_on_match_key_standard_weekly", using: :btree
-  add_index "engine_status_change_events", ["match_key_standard_yearly"], name: "index_engine_status_change_events_on_match_key_standard_yearly", using: :btree
+  add_index "engine_status_change_events", ["match_key_customer_monthly"], name: "index_18b8046be2c0d01e1315b17505_in_616f7243843d82c3a74b64a061", using: :btree
+  add_index "engine_status_change_events", ["match_key_standard_daily"], name: "index_18b8046be2c0d01e1315b17505_in_779a6901c31df79c3bf55687f6", using: :btree
+  add_index "engine_status_change_events", ["match_key_standard_monthly"], name: "index_18b8046be2c0d01e1315b17505_in_3bc6e6d395cde11b555bc478fc", using: :btree
+  add_index "engine_status_change_events", ["match_key_standard_quarter"], name: "index_18b8046be2c0d01e1315b17505_in_4a51978869deb3180e78dabcbe", using: :btree
+  add_index "engine_status_change_events", ["match_key_standard_weekly"], name: "index_18b8046be2c0d01e1315b17505_in_dea340e5b463fa21e8cb939498", using: :btree
+  add_index "engine_status_change_events", ["match_key_standard_yearly"], name: "index_18b8046be2c0d01e1315b17505_in_4ed0f540897767e0886152da37", using: :btree
 
   create_table "engine_status_change_export_events", force: :cascade do |t|
     t.integer  "engine_id"
     t.datetime "target_datetime"
     t.float    "duration_in_hours"
-    t.integer  "type",                       default: 0
     t.integer  "engine_mode",                default: 0
     t.integer  "derating_mode",              default: 0
     t.float    "load_limitation",            default: 0.0
@@ -504,12 +502,12 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   end
 
   add_index "engine_status_change_export_events", ["engine_id"], name: "index_engine_status_change_export_events_on_engine_id", using: :btree
-  add_index "engine_status_change_export_events", ["match_key_customer_monthly"], name: "index_engine_stat_chng_evnt_mk_customer_monthly", using: :btree
-  add_index "engine_status_change_export_events", ["match_key_standard_daily"], name: "index_engine_stat_chng_evnt_mk_standard_daily", using: :btree
-  add_index "engine_status_change_export_events", ["match_key_standard_monthly"], name: "index_engine_stat_chng_evnt_mk_standard_monthly", using: :btree
-  add_index "engine_status_change_export_events", ["match_key_standard_quarter"], name: "index_engine_stat_chng_evnt_mk_standard_quarter", using: :btree
-  add_index "engine_status_change_export_events", ["match_key_standard_weekly"], name: "index_engine_stat_chng_evnt_mk_standard_weekly", using: :btree
-  add_index "engine_status_change_export_events", ["match_key_standard_yearly"], name: "index_engine_stat_chng_evnt_mk_standard_yearly", using: :btree
+  add_index "engine_status_change_export_events", ["match_key_customer_monthly"], name: "index_e11db9caa47e60408908c647f4_in_616f7243843d82c3a74b64a061", using: :btree
+  add_index "engine_status_change_export_events", ["match_key_standard_daily"], name: "index_e11db9caa47e60408908c647f4_in_779a6901c31df79c3bf55687f6", using: :btree
+  add_index "engine_status_change_export_events", ["match_key_standard_monthly"], name: "index_e11db9caa47e60408908c647f4_in_3bc6e6d395cde11b555bc478fc", using: :btree
+  add_index "engine_status_change_export_events", ["match_key_standard_quarter"], name: "index_e11db9caa47e60408908c647f4_in_4a51978869deb3180e78dabcbe", using: :btree
+  add_index "engine_status_change_export_events", ["match_key_standard_weekly"], name: "index_e11db9caa47e60408908c647f4_in_dea340e5b463fa21e8cb939498", using: :btree
+  add_index "engine_status_change_export_events", ["match_key_standard_yearly"], name: "index_e11db9caa47e60408908c647f4_in_4ed0f540897767e0886152da37", using: :btree
 
   create_table "engines", force: :cascade do |t|
     t.datetime "created_at", null: false

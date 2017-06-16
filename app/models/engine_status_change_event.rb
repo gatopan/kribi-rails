@@ -1,5 +1,4 @@
 class EngineStatusChangeEvent < AbstractEventModel
-  self.inheritance_column = nil
   PARENT_MODEL = Engine
   CUSTOM_NAME = nil
   EXPORTER_CONFIG = {
@@ -23,12 +22,6 @@ class EngineStatusChangeEvent < AbstractEventModel
   ]
   abstract_bootloader()
 
-  enum type: {
-    INTERNAL: 0,
-    DECLARED: 1,
-    FORECASTED: 2
-  }
-
   enum engine_mode: {
     IN_SERVICE: 0, # NO_DERATING, PLANNED_DERATING, FORCED_DERATING
     RESERVED: 1, # NO_DERATING
@@ -42,7 +35,6 @@ class EngineStatusChangeEvent < AbstractEventModel
     FORCED_DERATING: 3
   }
 
-  validates :type, presence: true
   validates :engine_mode, presence: true
   validates :derating_mode, presence: true
   validates :load_limitation, {
