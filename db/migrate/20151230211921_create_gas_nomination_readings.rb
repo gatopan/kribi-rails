@@ -4,8 +4,8 @@ class CreateGasNominationReadings < Kribi::Migration
       t.references :gas_pressure_reducing_station, index: false, foreign_key: true
       t.datetime :target_datetime
       t.float :nomination, default: 0.0
-      t.float :delivery_on_specification, default: 0.0
-      t.float :delivery_off_specification, default: 0.0
+      t.float :delivery, default: 0.0
+      t.string :quality, default: 0.0
       t.float :high_heating_value, default: 0.0
       t.float :contractual_methane_number, default: 60.0
       t.integer :status, default: 0

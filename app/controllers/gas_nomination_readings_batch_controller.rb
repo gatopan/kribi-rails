@@ -18,17 +18,10 @@ class GasNominationReadingsBatchController < AbstractBatchController
       },
       {
         builder: :text_field,
-        attribute: :delivery_on_specification,
+        attribute: :delivery,
         type: :numeric,
         class: 'form-control',
-        custom_name: 'Delivery on-spec (MSCF)'
-      },
-      {
-        builder: :text_field,
-        attribute: :delivery_off_specification,
-        type: :numeric,
-        class: 'form-control',
-        custom_name: 'Delivery off-spec (MSCF)'
+        custom_name: 'Delivery (MSCF)'
       },
       {
         builder: :text_field,
@@ -43,6 +36,13 @@ class GasNominationReadingsBatchController < AbstractBatchController
         type: :numeric,
         class: 'form-control',
         custom_name: nil
+      },
+      {
+        builder: :text_field,
+        attribute: :quality,
+        type: :numeric,
+        class: 'form-control',
+        editable: false
       }
     ]
   end

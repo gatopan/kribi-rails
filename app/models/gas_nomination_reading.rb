@@ -7,11 +7,7 @@ class GasNominationReading < AbstractIntervalModel
      type: :absolute,
     },
     {
-     name: :delivery_on_specification,
-     type: :absolute,
-    },
-    {
-     name: :delivery_off_specification,
+     name: :delivery,
      type: :absolute,
     },
     {
@@ -33,8 +29,7 @@ class GasNominationReading < AbstractIntervalModel
         query: {
           type: :aggregate,
           fragment: 'sum(nomination) as nomination_sum,'\
-                    'sum(delivery_on_specification) as delivery_on_specification_sum,'\
-                    'sum(delivery_off_specification) as delivery_off_specification_sum,'\
+                    'sum(delivery) as delivery,'\
                     'sum(high_heating_value) as high_heating_value_sum,'\
                     'avg(contractual_methane_number) as contractual_methane_number_average'
         },
@@ -61,6 +56,10 @@ class GasNominationReading < AbstractIntervalModel
 
   abstract_bootloader()
 
+  before_validation do
+    self.quality = calculated_quality
+  end
+
   validates :nomination, {
     presence: true,
     numericality: {
@@ -72,18 +71,7 @@ class GasNominationReading < AbstractIntervalModel
       message: 'must contain up to three decimal places'
     }
   }
-  validates :delivery_on_specification, {
-    presence: true,
-    numericality: {
-      greater_than_or_equal_to: 0,
-      less_than_or_equal_to: 45000
-    },
-    format: {
-      with: /\A[0-9]+\.[0-9]{1,3}\Z/,
-      message: 'must contain up to three decimal places'
-    }
-  }
-  validates :delivery_off_specification, {
+  validates :delivery, {
     presence: true,
     numericality: {
       greater_than_or_equal_to: 0,
@@ -116,4 +104,14 @@ class GasNominationReading < AbstractIntervalModel
       message: 'must contain up to three decimal places'
     }
   }
+
+  def calculated_quality
+    return unless delivery
+
+    if delivery >= 1000 && delivery <= 1185
+      'ON-SPEC'
+    else
+      'OFF-SPEC'
+    end
+  end
 end
