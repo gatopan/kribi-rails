@@ -37,7 +37,7 @@ class EngineCoolingWaterDispensingEvent < AbstractEventModel
     presence: true,
     numericality: {
       greater_than_or_equal_to: 0,
-      less_than_or_equal_to: 9000
+      less_than_or_equal_to: 10000
     },
     on: :congruence
   }
