@@ -2,7 +2,7 @@ class CreateEngineStatusChangeEvents < Kribi::Migration
   def change
     create_table :engine_status_change_events do |t|
       t.references :engine, index: true, foreign_key: true
-      t.datetime :target_datetime
+      t.datetime :target_datetime, index: true
       t.float :duration_in_hours
       t.integer :engine_mode, default: 0
       t.integer :derating_mode, default: 0

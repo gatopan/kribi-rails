@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "chromatograph_readings", ["match_key_standard_quarter"], name: "index_chromatograph_readings_on_match_key_standard_quarter", using: :btree
   add_index "chromatograph_readings", ["match_key_standard_weekly"], name: "index_chromatograph_readings_on_match_key_standard_weekly", using: :btree
   add_index "chromatograph_readings", ["match_key_standard_yearly"], name: "index_chromatograph_readings_on_match_key_standard_yearly", using: :btree
+  add_index "chromatograph_readings", ["target_datetime"], name: "index_chromatograph_readings_on_target_datetime", using: :btree
 
   create_table "chromatographs", force: :cascade do |t|
     t.string   "name"
@@ -87,6 +88,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_cooling_water_dispensing_events", ["match_key_standard_quarter"], name: "index_engine_water_disp_event_mk_standard_quarter", using: :btree
   add_index "engine_cooling_water_dispensing_events", ["match_key_standard_weekly"], name: "index_engine_water_disp_event_mk_standard_weekly", using: :btree
   add_index "engine_cooling_water_dispensing_events", ["match_key_standard_yearly"], name: "index_engine_water_disp_event_mk_standard_yearly", using: :btree
+  add_index "engine_cooling_water_dispensing_events", ["target_datetime"], name: "index_engine_cooling_water_dispensing_events_on_target_datetime", using: :btree
 
   create_table "engine_emission_dioxygen_daily_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -111,6 +113,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_emission_dioxygen_daily_readings", ["match_key_standard_quarter"], name: "index_48a090bfcf986a7be56280739b_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "engine_emission_dioxygen_daily_readings", ["match_key_standard_weekly"], name: "index_48a090bfcf986a7be56280739b_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_emission_dioxygen_daily_readings", ["match_key_standard_yearly"], name: "index_48a090bfcf986a7be56280739b_in_4ed0f540897767e0886152da37", using: :btree
+  add_index "engine_emission_dioxygen_daily_readings", ["target_datetime"], name: "56ad736b-3e76-47c3-9fc9-f1cb73dc9be6", using: :btree
 
   create_table "engine_emission_dioxygen_hourly_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -135,6 +138,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_emission_dioxygen_hourly_readings", ["match_key_standard_quarter"], name: "index_f461f982a2f70452abae87a22c_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "engine_emission_dioxygen_hourly_readings", ["match_key_standard_weekly"], name: "index_f461f982a2f70452abae87a22c_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_emission_dioxygen_hourly_readings", ["match_key_standard_yearly"], name: "index_f461f982a2f70452abae87a22c_in_4ed0f540897767e0886152da37", using: :btree
+  add_index "engine_emission_dioxygen_hourly_readings", ["target_datetime"], name: "b3b53436-f2df-4e66-a6e0-fa2b4dc440ce", using: :btree
 
   create_table "engine_emission_nitrous_oxides_in_gas_mode_daily_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -159,6 +163,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_emission_nitrous_oxides_in_gas_mode_daily_readings", ["match_key_standard_quarter"], name: "index_feb4b83e8477ddb31c75e3d429_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "engine_emission_nitrous_oxides_in_gas_mode_daily_readings", ["match_key_standard_weekly"], name: "index_feb4b83e8477ddb31c75e3d429_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_emission_nitrous_oxides_in_gas_mode_daily_readings", ["match_key_standard_yearly"], name: "index_feb4b83e8477ddb31c75e3d429_in_4ed0f540897767e0886152da37", using: :btree
+  add_index "engine_emission_nitrous_oxides_in_gas_mode_daily_readings", ["target_datetime"], name: "b693336e-f2fb-4dbe-86a6-5b63ccba8c53", using: :btree
 
   create_table "engine_emission_nitrous_oxides_in_gas_mode_hourly_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -183,6 +188,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_emission_nitrous_oxides_in_gas_mode_hourly_readings", ["match_key_standard_quarter"], name: "index_8aa786a92059a2e02f2a399df3_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "engine_emission_nitrous_oxides_in_gas_mode_hourly_readings", ["match_key_standard_weekly"], name: "index_8aa786a92059a2e02f2a399df3_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_emission_nitrous_oxides_in_gas_mode_hourly_readings", ["match_key_standard_yearly"], name: "index_8aa786a92059a2e02f2a399df3_in_4ed0f540897767e0886152da37", using: :btree
+  add_index "engine_emission_nitrous_oxides_in_gas_mode_hourly_readings", ["target_datetime"], name: "6d2ae5f7-e5ea-4754-8be0-6612c017b20d", using: :btree
 
   create_table "engine_emission_nitrous_oxides_in_light_fuel_oil_mode_daily_rea", force: :cascade do |t|
     t.integer  "engine_id"
@@ -207,6 +213,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_emission_nitrous_oxides_in_light_fuel_oil_mode_daily_rea", ["match_key_standard_quarter"], name: "index_613a49c4d6c031aa33f262fd72_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "engine_emission_nitrous_oxides_in_light_fuel_oil_mode_daily_rea", ["match_key_standard_weekly"], name: "index_613a49c4d6c031aa33f262fd72_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_emission_nitrous_oxides_in_light_fuel_oil_mode_daily_rea", ["match_key_standard_yearly"], name: "index_613a49c4d6c031aa33f262fd72_in_4ed0f540897767e0886152da37", using: :btree
+  add_index "engine_emission_nitrous_oxides_in_light_fuel_oil_mode_daily_rea", ["target_datetime"], name: "2f33b31b-e327-4f02-bb88-a6989cec43fb", using: :btree
 
   create_table "engine_emission_nitrous_oxides_in_light_fuel_oil_mode_hourly_re", force: :cascade do |t|
     t.integer  "engine_id"
@@ -231,6 +238,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_emission_nitrous_oxides_in_light_fuel_oil_mode_hourly_re", ["match_key_standard_quarter"], name: "index_4d26691f840195b8cc5362cef7_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "engine_emission_nitrous_oxides_in_light_fuel_oil_mode_hourly_re", ["match_key_standard_weekly"], name: "index_4d26691f840195b8cc5362cef7_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_emission_nitrous_oxides_in_light_fuel_oil_mode_hourly_re", ["match_key_standard_yearly"], name: "index_4d26691f840195b8cc5362cef7_in_4ed0f540897767e0886152da37", using: :btree
+  add_index "engine_emission_nitrous_oxides_in_light_fuel_oil_mode_hourly_re", ["target_datetime"], name: "fcf09de3-e0b0-46a2-b9fb-7853cce5f130", using: :btree
 
   create_table "engine_energy_daily_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -291,6 +299,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_energy_hourly_readings", ["match_key_standard_weekly"], name: "index_dff437b38dda366087bbc357cc_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_energy_hourly_readings", ["match_key_standard_yearly"], name: "index_dff437b38dda366087bbc357cc_in_4ed0f540897767e0886152da37", using: :btree
   add_index "engine_energy_hourly_readings", ["real_value"], name: "index_dff437b38dda366087bbc357cc_1b8f140023d2b2bc0ace41fc7c", using: :btree
+  add_index "engine_energy_hourly_readings", ["target_datetime"], name: "index_engine_energy_hourly_readings_on_target_datetime", using: :btree
 
   create_table "engine_gas_daily_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -349,6 +358,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_gas_hourly_readings", ["match_key_standard_weekly"], name: "index_9e3166474e528d2dc03afc7981_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_gas_hourly_readings", ["match_key_standard_yearly"], name: "index_9e3166474e528d2dc03afc7981_in_4ed0f540897767e0886152da37", using: :btree
   add_index "engine_gas_hourly_readings", ["real_value"], name: "index_9e3166474e528d2dc03afc7981_1b8f140023d2b2bc0ace41fc7c", using: :btree
+  add_index "engine_gas_hourly_readings", ["target_datetime"], name: "index_engine_gas_hourly_readings_on_target_datetime", using: :btree
 
   create_table "engine_light_fuel_oil_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -386,6 +396,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_light_fuel_oil_readings", ["outlet_counter_offset"], name: "index_36483bb456fbf85c68faf0bb6d_fb98f4a95ddbc95545ab33cc7c", using: :btree
   add_index "engine_light_fuel_oil_readings", ["outlet_counter_value"], name: "index_36483bb456fbf85c68faf0bb6d_7a07d5f52b66d3bce1dfb83399", using: :btree
   add_index "engine_light_fuel_oil_readings", ["outlet_real_value"], name: "index_36483bb456fbf85c68faf0bb6d_c74e00df2096feb792587f397f", using: :btree
+  add_index "engine_light_fuel_oil_readings", ["target_datetime"], name: "index_engine_light_fuel_oil_readings_on_target_datetime", using: :btree
 
   create_table "engine_operation_events", force: :cascade do |t|
     t.integer  "engine_id"
@@ -425,6 +436,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_operation_events", ["match_key_standard_quarter"], name: "index_engine_operation_events_on_match_key_standard_quarter", using: :btree
   add_index "engine_operation_events", ["match_key_standard_weekly"], name: "index_engine_operation_events_on_match_key_standard_weekly", using: :btree
   add_index "engine_operation_events", ["match_key_standard_yearly"], name: "index_engine_operation_events_on_match_key_standard_yearly", using: :btree
+  add_index "engine_operation_events", ["target_datetime"], name: "index_engine_operation_events_on_target_datetime", using: :btree
 
   create_table "engine_running_time_readings", force: :cascade do |t|
     t.integer  "engine_id"
@@ -454,6 +466,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_running_time_readings", ["match_key_standard_weekly"], name: "index_engine_running_time_readings_mk_standard_weekly", using: :btree
   add_index "engine_running_time_readings", ["match_key_standard_yearly"], name: "index_engine_running_time_readings_mk_standard_yearly", using: :btree
   add_index "engine_running_time_readings", ["real_value"], name: "index_8064fdffd9a496a883762a9941_1b8f140023d2b2bc0ace41fc7c", using: :btree
+  add_index "engine_running_time_readings", ["target_datetime"], name: "index_engine_running_time_readings_on_target_datetime", using: :btree
 
   create_table "engine_status_change_events", force: :cascade do |t|
     t.integer  "engine_id"
@@ -481,6 +494,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_status_change_events", ["match_key_standard_quarter"], name: "index_18b8046be2c0d01e1315b17505_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "engine_status_change_events", ["match_key_standard_weekly"], name: "index_18b8046be2c0d01e1315b17505_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_status_change_events", ["match_key_standard_yearly"], name: "index_18b8046be2c0d01e1315b17505_in_4ed0f540897767e0886152da37", using: :btree
+  add_index "engine_status_change_events", ["target_datetime"], name: "index_engine_status_change_events_on_target_datetime", using: :btree
 
   create_table "engine_status_change_export_events", force: :cascade do |t|
     t.integer  "engine_id"
@@ -508,6 +522,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "engine_status_change_export_events", ["match_key_standard_quarter"], name: "index_e11db9caa47e60408908c647f4_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "engine_status_change_export_events", ["match_key_standard_weekly"], name: "index_e11db9caa47e60408908c647f4_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "engine_status_change_export_events", ["match_key_standard_yearly"], name: "index_e11db9caa47e60408908c647f4_in_4ed0f540897767e0886152da37", using: :btree
+  add_index "engine_status_change_export_events", ["target_datetime"], name: "index_engine_status_change_export_events_on_target_datetime", using: :btree
 
   create_table "engines", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -546,6 +561,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "feeder_readings", ["receiving_counter_offset"], name: "index_8d93ce244865938093f6f9dcec_41aa307d8431fe7fe1e1c328c0", using: :btree
   add_index "feeder_readings", ["receiving_counter_value"], name: "index_8d93ce244865938093f6f9dcec_7569527b06357a6361104a6918", using: :btree
   add_index "feeder_readings", ["receiving_real_value"], name: "index_8d93ce244865938093f6f9dcec_b40496f71628bce49abf187b6a", using: :btree
+  add_index "feeder_readings", ["target_datetime"], name: "index_feeder_readings_on_target_datetime", using: :btree
   add_index "feeder_readings", ["transmitting_counter_offset"], name: "index_8d93ce244865938093f6f9dcec_c3a133313cb4da2361e97c3026", using: :btree
   add_index "feeder_readings", ["transmitting_counter_value"], name: "index_8d93ce244865938093f6f9dcec_3a5625092474ab940d699e4e38", using: :btree
   add_index "feeder_readings", ["transmitting_real_value"], name: "index_8d93ce244865938093f6f9dcec_f72e98479ae160e11601cb8e79", using: :btree
@@ -581,6 +597,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "gas_nomination_readings", ["match_key_standard_quarter"], name: "index_4ebab052d39307a19fcbec70bc_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "gas_nomination_readings", ["match_key_standard_weekly"], name: "index_4ebab052d39307a19fcbec70bc_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "gas_nomination_readings", ["match_key_standard_yearly"], name: "index_4ebab052d39307a19fcbec70bc_in_4ed0f540897767e0886152da37", using: :btree
+  add_index "gas_nomination_readings", ["target_datetime"], name: "index_gas_nomination_readings_on_target_datetime", using: :btree
 
   create_table "gas_pressure_reducing_station_daily_readings", force: :cascade do |t|
     t.integer  "gas_pressure_reducing_station_id"
@@ -610,6 +627,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "gas_pressure_reducing_station_daily_readings", ["match_key_standard_weekly"], name: "index_ff65f1ab3f88e4eea9eec8b49e_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "gas_pressure_reducing_station_daily_readings", ["match_key_standard_yearly"], name: "index_ff65f1ab3f88e4eea9eec8b49e_in_4ed0f540897767e0886152da37", using: :btree
   add_index "gas_pressure_reducing_station_daily_readings", ["real_value"], name: "index_ff65f1ab3f88e4eea9eec8b49e_1b8f140023d2b2bc0ace41fc7c", using: :btree
+  add_index "gas_pressure_reducing_station_daily_readings", ["target_datetime"], name: "c35eaa6e-5a26-4ee5-9a9f-4582ed43ef08", using: :btree
 
   create_table "gas_pressure_reducing_station_hourly_readings", force: :cascade do |t|
     t.integer  "gas_pressure_reducing_station_id"
@@ -668,6 +686,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "grid_demand_instruction_events", ["match_key_standard_quarter"], name: "index_88abcb74eef843e739557b7f17_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "grid_demand_instruction_events", ["match_key_standard_weekly"], name: "index_88abcb74eef843e739557b7f17_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "grid_demand_instruction_events", ["match_key_standard_yearly"], name: "index_88abcb74eef843e739557b7f17_in_4ed0f540897767e0886152da37", using: :btree
+  add_index "grid_demand_instruction_events", ["target_datetime"], name: "index_grid_demand_instruction_events_on_target_datetime", using: :btree
 
   create_table "grids", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -698,6 +717,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "new_oil_tank_dispensing_events", ["match_key_standard_weekly"], name: "index_new_oil_tank_disp_event_mk_standard_weekly", using: :btree
   add_index "new_oil_tank_dispensing_events", ["match_key_standard_yearly"], name: "index_new_oil_tank_disp_event_mk_standard_yearly", using: :btree
   add_index "new_oil_tank_dispensing_events", ["new_oil_tank_id"], name: "index_new_oil_tank_dispensing_events_on_new_oil_tank_id", using: :btree
+  add_index "new_oil_tank_dispensing_events", ["target_datetime"], name: "index_new_oil_tank_dispensing_events_on_target_datetime", using: :btree
 
   create_table "new_oil_tank_receiving_events", force: :cascade do |t|
     t.integer  "new_oil_tank_id"
@@ -721,6 +741,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "new_oil_tank_receiving_events", ["match_key_standard_weekly"], name: "index_new_oil_tank_rece_event_mk_standard_weekly", using: :btree
   add_index "new_oil_tank_receiving_events", ["match_key_standard_yearly"], name: "index_new_oil_tank_rece_event_mk_standard_yearly", using: :btree
   add_index "new_oil_tank_receiving_events", ["new_oil_tank_id"], name: "index_new_oil_tank_receiving_events_on_new_oil_tank_id", using: :btree
+  add_index "new_oil_tank_receiving_events", ["target_datetime"], name: "index_new_oil_tank_receiving_events_on_target_datetime", using: :btree
 
   create_table "new_oil_tanks", force: :cascade do |t|
     t.string   "name"
@@ -773,6 +794,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "plant_declared_capacity_readings", ["match_key_standard_weekly"], name: "index_0c45b4860c52a80533f694b6bd_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "plant_declared_capacity_readings", ["match_key_standard_yearly"], name: "index_0c45b4860c52a80533f694b6bd_in_4ed0f540897767e0886152da37", using: :btree
   add_index "plant_declared_capacity_readings", ["plant_id"], name: "index_plant_declared_capacity_readings_on_plant_id", using: :btree
+  add_index "plant_declared_capacity_readings", ["target_datetime"], name: "index_plant_declared_capacity_readings_on_target_datetime", using: :btree
 
   create_table "plant_gross_capacity_readings", force: :cascade do |t|
     t.integer  "plant_id"
@@ -796,6 +818,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "plant_gross_capacity_readings", ["match_key_standard_weekly"], name: "index_plant_gross_capacity_mk_standard_weekly", using: :btree
   add_index "plant_gross_capacity_readings", ["match_key_standard_yearly"], name: "index_plant_gross_capacity_mk_standard_yearly", using: :btree
   add_index "plant_gross_capacity_readings", ["plant_id"], name: "index_plant_gross_capacity_readings_on_plant_id", using: :btree
+  add_index "plant_gross_capacity_readings", ["target_datetime"], name: "index_plant_gross_capacity_readings_on_target_datetime", using: :btree
 
   create_table "plant_light_fuel_oil_daily_readings", force: :cascade do |t|
     t.integer  "plant_id"
@@ -840,6 +863,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "plant_light_fuel_oil_daily_readings", ["outlet_counter_value"], name: "index_56c27b799678b547a14f6c262c_7a07d5f52b66d3bce1dfb83399", using: :btree
   add_index "plant_light_fuel_oil_daily_readings", ["outlet_real_value"], name: "index_56c27b799678b547a14f6c262c_c74e00df2096feb792587f397f", using: :btree
   add_index "plant_light_fuel_oil_daily_readings", ["plant_id"], name: "index_plant_light_fuel_oil_daily_readings_on_plant_id", using: :btree
+  add_index "plant_light_fuel_oil_daily_readings", ["target_datetime"], name: "index_plant_light_fuel_oil_daily_readings_on_target_datetime", using: :btree
 
   create_table "plant_light_fuel_oil_hourly_readings", force: :cascade do |t|
     t.integer  "plant_id"
@@ -907,6 +931,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "plant_reference_condition_readings", ["match_key_standard_weekly"], name: "index_plant_reference_condition_mk_standard_weekly", using: :btree
   add_index "plant_reference_condition_readings", ["match_key_standard_yearly"], name: "index_plant_reference_condition_mk_standard_yearly", using: :btree
   add_index "plant_reference_condition_readings", ["plant_id"], name: "index_plant_reference_condition_readings_on_plant_id", using: :btree
+  add_index "plant_reference_condition_readings", ["target_datetime"], name: "index_plant_reference_condition_readings_on_target_datetime", using: :btree
 
   create_table "plants", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -937,6 +962,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "service_oil_tank_dispensing_events", ["match_key_standard_weekly"], name: "index_service_oil_tank_disp_event_mk_standard_weekly", using: :btree
   add_index "service_oil_tank_dispensing_events", ["match_key_standard_yearly"], name: "index_service_oil_tank_disp_event_mk_standard_yearly", using: :btree
   add_index "service_oil_tank_dispensing_events", ["service_oil_tank_id"], name: "index_service_oil_tank_dispensing_events_on_service_oil_tank_id", using: :btree
+  add_index "service_oil_tank_dispensing_events", ["target_datetime"], name: "index_service_oil_tank_dispensing_events_on_target_datetime", using: :btree
 
   create_table "service_oil_tank_receiving_events", force: :cascade do |t|
     t.integer  "engine_id"
@@ -960,6 +986,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "service_oil_tank_receiving_events", ["match_key_standard_quarter"], name: "index_b7db33deaa0f9a2872a7419024_in_4a51978869deb3180e78dabcbe", using: :btree
   add_index "service_oil_tank_receiving_events", ["match_key_standard_weekly"], name: "index_b7db33deaa0f9a2872a7419024_in_dea340e5b463fa21e8cb939498", using: :btree
   add_index "service_oil_tank_receiving_events", ["match_key_standard_yearly"], name: "index_b7db33deaa0f9a2872a7419024_in_4ed0f540897767e0886152da37", using: :btree
+  add_index "service_oil_tank_receiving_events", ["target_datetime"], name: "index_service_oil_tank_receiving_events_on_target_datetime", using: :btree
 
   create_table "service_oil_tanks", force: :cascade do |t|
     t.string   "name"
@@ -1006,6 +1033,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "substation_readings", ["match_key_standard_yearly"], name: "index_substation_readings_on_match_key_standard_yearly", using: :btree
   add_index "substation_readings", ["real_value"], name: "index_12a51dd80b5b9de4d293474fa3_1b8f140023d2b2bc0ace41fc7c", using: :btree
   add_index "substation_readings", ["substation_id"], name: "index_substation_readings_on_substation_id", using: :btree
+  add_index "substation_readings", ["target_datetime"], name: "index_substation_readings_on_target_datetime", using: :btree
 
   create_table "substations", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -1055,6 +1083,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "transformer_readings", ["receiving_counter_offset"], name: "index_715db9c72ef7eda8e1246406d2_41aa307d8431fe7fe1e1c328c0", using: :btree
   add_index "transformer_readings", ["receiving_counter_value"], name: "index_715db9c72ef7eda8e1246406d2_7569527b06357a6361104a6918", using: :btree
   add_index "transformer_readings", ["receiving_real_value"], name: "index_715db9c72ef7eda8e1246406d2_b40496f71628bce49abf187b6a", using: :btree
+  add_index "transformer_readings", ["target_datetime"], name: "index_transformer_readings_on_target_datetime", using: :btree
   add_index "transformer_readings", ["transformer_id"], name: "index_transformer_readings_on_transformer_id", using: :btree
   add_index "transformer_readings", ["transmitting_counter_offset"], name: "index_715db9c72ef7eda8e1246406d2_c3a133313cb4da2361e97c3026", using: :btree
   add_index "transformer_readings", ["transmitting_counter_value"], name: "index_715db9c72ef7eda8e1246406d2_3a5625092474ab940d699e4e38", using: :btree
@@ -1088,6 +1117,7 @@ ActiveRecord::Schema.define(version: 20161119224711) do
   add_index "weather_readings", ["match_key_standard_quarter"], name: "index_weather_readings_on_match_key_standard_quarter", using: :btree
   add_index "weather_readings", ["match_key_standard_weekly"], name: "index_weather_readings_on_match_key_standard_weekly", using: :btree
   add_index "weather_readings", ["match_key_standard_yearly"], name: "index_weather_readings_on_match_key_standard_yearly", using: :btree
+  add_index "weather_readings", ["target_datetime"], name: "index_weather_readings_on_target_datetime", using: :btree
   add_index "weather_readings", ["weather_station_id"], name: "index_weather_readings_on_weather_station_id", using: :btree
 
   create_table "weather_stations", force: :cascade do |t|

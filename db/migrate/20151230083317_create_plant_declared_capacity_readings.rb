@@ -2,7 +2,7 @@ class CreatePlantDeclaredCapacityReadings < Kribi::Migration
   def change
     create_table :plant_declared_capacity_readings do |t|
       t.references :plant, index: true, foreign_key: true
-      t.datetime :target_datetime
+      t.datetime :target_datetime, index: true
       t.float :capacity_at_actual_site_conditions, default: 0.0
       t.float :capacity_at_reference_site_conditions, default: 0.0
       t.integer :status, default: 0

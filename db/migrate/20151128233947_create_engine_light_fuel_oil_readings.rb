@@ -2,7 +2,7 @@ class CreateEngineLightFuelOilReadings < Kribi::Migration
   def change
     create_table :engine_light_fuel_oil_readings do |t|
       t.references :engine, index: true, foreign_key: true
-      t.datetime :target_datetime
+      t.datetime :target_datetime, index: true
       create_relative_counter_value_columns(t, :inlet_counter_value)
       t.float :inlet_volume
       create_relative_counter_value_columns(t, :outlet_counter_value)

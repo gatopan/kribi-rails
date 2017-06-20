@@ -2,7 +2,7 @@ class CreateGasNominationReadings < Kribi::Migration
   def change
     create_table :gas_nomination_readings do |t|
       t.references :gas_pressure_reducing_station, index: false, foreign_key: true
-      t.datetime :target_datetime
+      t.datetime :target_datetime, index: true
       t.float :nomination, default: 0.0
       t.float :delivery, default: 0.0
       t.string :quality, default: 0.0

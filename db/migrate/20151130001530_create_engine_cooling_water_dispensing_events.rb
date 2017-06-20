@@ -2,7 +2,7 @@ class CreateEngineCoolingWaterDispensingEvents < Kribi::Migration
   def change
     create_table :engine_cooling_water_dispensing_events do |t|
       t.references :engine, index: true, foreign_key: true
-      t.datetime :target_datetime
+      t.datetime :target_datetime, index: true
       t.integer :quantity_in_liters, default: 0.0
       t.integer :status, default: 0
       [

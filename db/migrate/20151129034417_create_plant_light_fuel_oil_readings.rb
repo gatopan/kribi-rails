@@ -2,7 +2,7 @@ class CreatePlantLightFuelOilReadings < Kribi::Migration
   def change
     create_table :plant_light_fuel_oil_daily_readings do |t|
       t.references :plant, index: true, foreign_key: true
-      t.datetime :target_datetime
+      t.datetime :target_datetime, index: true
       create_relative_counter_value_columns(t, :inlet_hall_a_counter_value)
       t.float :inlet_hall_a_liters
       create_relative_counter_value_columns(t, :inlet_hall_b_counter_value)

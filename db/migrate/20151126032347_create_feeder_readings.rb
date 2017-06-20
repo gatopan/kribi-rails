@@ -2,7 +2,7 @@ class CreateFeederReadings < Kribi::Migration
   def change
     create_table :feeder_readings do |t|
       t.references :feeder, index: true, foreign_key: true
-      t.datetime :target_datetime
+      t.datetime :target_datetime, index: true
       create_relative_counter_value_columns(t, :transmitting_counter_value)
       create_relative_counter_value_columns(t, :receiving_counter_value)
       t.float :transmitting_energy_volume

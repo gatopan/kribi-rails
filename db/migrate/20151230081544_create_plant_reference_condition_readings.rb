@@ -2,7 +2,7 @@ class CreatePlantReferenceConditionReadings < Kribi::Migration
   def change
     create_table :plant_reference_condition_readings do |t|
       t.references :plant, index: true, foreign_key: true
-      t.datetime :target_datetime
+      t.datetime :target_datetime, index: true
       t.float :methane_number_at_actual_site_condition, default: 60.0
       t.integer :status, default: 0
       [

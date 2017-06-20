@@ -2,7 +2,7 @@ class CreateSubstationReadings < Kribi::Migration
   def change
     create_table :substation_readings do |t|
       t.references :substation, index: true, foreign_key: true
-      t.datetime :target_datetime
+      t.datetime :target_datetime, index: true
       create_relative_counter_value_columns(t, :counter_value)
       t.float :energy_volume
       t.integer :status, default: 0

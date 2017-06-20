@@ -2,7 +2,7 @@ class CreateEngineRunningTimeReadings < Kribi::Migration
   def change
     create_table :engine_running_time_readings do |t|
       t.references :engine, index: true, foreign_key: true
-      t.datetime :target_datetime
+      t.datetime :target_datetime, index: true
       create_relative_counter_value_columns(t, :counter_value)
       t.integer :elapsed_hours
       t.integer :status, default: 0

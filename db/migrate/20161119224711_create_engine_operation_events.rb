@@ -2,7 +2,7 @@ class CreateEngineOperationEvents < Kribi::Migration
   def change
     create_table :engine_operation_events do |t|
       t.belongs_to :engine, index: true, foreign_key: true
-      t.datetime :target_datetime
+      t.datetime :target_datetime, index: true
       t.integer :type
       t.integer :subtype
       t.integer :bank

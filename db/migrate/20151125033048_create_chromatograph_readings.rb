@@ -2,7 +2,7 @@ class CreateChromatographReadings < Kribi::Migration
   def change
     create_table :chromatograph_readings do |t|
       t.references :chromatograph, index: true, foreign_key: true
-      t.datetime :target_datetime
+      t.datetime :target_datetime, index: true
       t.float :un_norm_total, default: 0.001
       t.float :higher_heating_value, default: 0.001
       t.float :lower_heating_value, default: 0.001
