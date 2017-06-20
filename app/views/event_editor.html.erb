@@ -98,8 +98,13 @@
                     </span>
                     <script type="text/javascript">
                       $(function () {
+                        var datestring = "<%= @new_child.send(attribute.fetch(:name)) ? @new_child.send(attribute.fetch(:name)).utc.iso8601 : DateTime.now.utc.iso8601 %>";
+                        var defaultDate= new Date(datestring);
+                        defaultDate = defaultDate.setHours(defaultDate.getHours()+7) // fixes bug where clock goes backwards
+
                         $('<%= "#datetime-picker-#{datetime_picker_id}" %>').datetimepicker({
-                          defaultDate: "<%= @new_child.send(attribute.fetch(:name)) ? @new_child.send(attribute.fetch(:name)).utc.strftime("%d/%m/%Y") : nil %>"
+                          sideBySide: true,
+                          defaultDate: defaultDate
                         });
                       });
                     </script>
