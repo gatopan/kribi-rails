@@ -128,6 +128,15 @@ class StaticPagesController < ApplicationController
     send_file(file)
   end
 
+  def generate_dumps
+    service = Kribi::Exporter::Performer.new(:all)
+    service.perform
+
+    flash[:success] = 'Sucessfully generated dumps.'
+    flash.keep
+    redirect_to request.referrer
+  end
+
   def readme
     render 'readme'
   end

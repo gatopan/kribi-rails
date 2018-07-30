@@ -1,4 +1,10 @@
 <div class='export'>
+  <h2>Manual generation</h2>
+  <form action="/generate_dumps" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="submit" value="Generate">
+  </form>
+
   <h2>Aggregates and Dumps</h2>
   <table class="table table-hover">
     <thead>
