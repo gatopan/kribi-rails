@@ -1,4 +1,4 @@
-class Feeder < ActiveRecord::Base
+class Feeder < ApplicationRecord
   has_many :feeder_readings
 
   validate :only_five_check

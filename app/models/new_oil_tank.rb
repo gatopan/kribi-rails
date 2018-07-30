@@ -1,4 +1,4 @@
-class NewOilTank < ActiveRecord::Base
+class NewOilTank < ApplicationRecord
   has_many :new_oil_tank_dispensing_events
   has_many :new_oil_tank_receiving_events
 

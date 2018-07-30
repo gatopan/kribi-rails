@@ -1,4 +1,4 @@
-class Person < ActiveRecord::Base
+class Person < ApplicationRecord
   has_secure_password validations: false
   mount_uploader(:avatar, AvatarUploader)
 

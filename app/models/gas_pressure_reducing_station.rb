@@ -1,4 +1,4 @@
-class GasPressureReducingStation < ActiveRecord::Base
+class GasPressureReducingStation < ApplicationRecord
   has_many :gas_pressure_reducing_station_readings
   has_many :gas_nomination_readings
 

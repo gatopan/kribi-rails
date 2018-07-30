@@ -1,4 +1,4 @@
-class Token < ActiveRecord::Base
+class Token < ApplicationRecord
   self.inheritance_column = nil
 
   enum reedemed: {

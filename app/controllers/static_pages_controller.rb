@@ -1,12 +1,12 @@
 class StaticPagesController < ApplicationController
-  skip_before_filter :prevent_guest_acesss, only: [
+  skip_before_action :prevent_guest_acesss, only: [
     :home,
     :register_web,
     :login_web,
     # :register_json,
     # :login_json
   ]
-  # skip_before_filter :verify_authenticity_token, only: [
+  # skip_before_action :verify_authenticity_token, only: [
   #   :register_json,
   #   :login_json
   # ]

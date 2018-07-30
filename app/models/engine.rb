@@ -1,4 +1,4 @@
-class Engine < ActiveRecord::Base
+class Engine < ApplicationRecord
   has_many :engine_gas_readings
   has_many :engine_light_fuel_oil_readings
   has_many :engine_energy_readings

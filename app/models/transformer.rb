@@ -1,4 +1,4 @@
-class Transformer < ActiveRecord::Base
+class Transformer < ApplicationRecord
   has_many :transformer_readings
 
   validate :only_five_check

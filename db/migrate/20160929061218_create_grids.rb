@@ -1,4 +1,4 @@
-class CreateGrids < ActiveRecord::Migration
+class CreateGrids < Kribi::Migration
   def change
     create_table :grids do |t|
 

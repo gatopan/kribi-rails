@@ -1,4 +1,4 @@
-class Plant < ActiveRecord::Base
+class Plant < ApplicationRecord
   has_many :plant_light_fuel_oil_readings
   has_many :plant_gross_capacity_readings
   has_many :plant_reference_condition_readings

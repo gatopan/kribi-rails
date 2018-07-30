@@ -1,4 +1,4 @@
-class AbstractModel < ActiveRecord::Base
+class AbstractModel < ApplicationRecord
   self.abstract_class = true
 
   DATETIME_COLUMN = :target_datetime

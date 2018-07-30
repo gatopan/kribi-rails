@@ -1,4 +1,4 @@
-class CreateTokens < ActiveRecord::Migration
+class CreateTokens < Kribi::Migration
   def change
     create_table :tokens do |t|
       t.integer :reedemed, index: true

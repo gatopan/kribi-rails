@@ -1,4 +1,4 @@
-class Substation < ActiveRecord::Base
+class Substation < ApplicationRecord
   has_many :substation_readings
   validate :only_1_check
 

@@ -27,7 +27,7 @@ class AbstractBatchController < ApplicationController
       affected_records = children_model.where("id >= (?)", starting_id)
 
       # perform update
-      ActiveRecord::Base.transaction do
+      ApplicationRecord.transaction do
         affected_records.each do |record|
           record.update!(status: intented_status)
         end
@@ -123,7 +123,7 @@ class AbstractBatchController < ApplicationController
       return redirect_to self.send("#{children_model.table_name}_show_path")
     end
 
-    ActiveRecord::Base.transaction do
+    ApplicationRecord.transaction do
       children.each do |child|
         child.update!(status: intended_status)
       end
@@ -247,7 +247,7 @@ class AbstractBatchController < ApplicationController
       child.send(association_name(parent_model, :singular))
     end
 
-    ActiveRecord::Base.transaction do
+    ApplicationRecord.transaction do
       parent_children_grouping.each do |parent, children|
         children.each do |child|
           attributes = collection_params[child.id.to_s] # TODO: use a more natural data structure for params

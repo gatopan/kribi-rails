@@ -1,4 +1,4 @@
-class Chromatograph < ActiveRecord::Base
+class Chromatograph < ApplicationRecord
   has_many :chromatograph_readings
 
   validate :only_one_check

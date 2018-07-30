@@ -256,6 +256,9 @@
       $(".reset-toggleable").toggle();
     });
 
+    $("input, select").on("click", {}, function(event){
+      event.preventDefault();
+    })
     // Disable enter key on forms
     $("input, select").keypress(function(event) {
       if (event.keyCode == 13) {

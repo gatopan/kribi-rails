@@ -1,4 +1,4 @@
-class WeatherStation < ActiveRecord::Base
+class WeatherStation < ApplicationRecord
   has_many :weather_readings
 
   validate :only_one_check

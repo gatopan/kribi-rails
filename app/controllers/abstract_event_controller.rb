@@ -78,7 +78,7 @@ class AbstractEventController < ApplicationController
     @members = children_model.where(id: ids)
     intended_status = params[:intended_status]
 
-    ActiveRecord::Base.transaction do
+    ApplicationRecord.transaction do
       @members.each do |member|
         member.update!(status: intended_status)
       end

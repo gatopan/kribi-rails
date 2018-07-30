@@ -1,7 +1,7 @@
 require 'digest/sha1'
 
 module Kribi
-  class Migration < ActiveRecord::Migration
+  class Migration < ActiveRecord::Migration[5.1]
     MATCH_KEY_COLUMN_NAMES = [
       :standard_daily,
       :standard_weekly,

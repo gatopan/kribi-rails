@@ -1,4 +1,4 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 require 'rails/all'
 require './lib/kribi' #TODO: Figure out why `Kribi` module was not autoloaded, 
 
@@ -6,10 +6,10 @@ Bundler.require(*Rails.groups)
 
 module Kribi
   class Application < Rails::Application
+    config.load_defaults 5.1
     config.autoload_paths << Rails.root.join('lib')
-    config.active_record.raise_in_transactional_callbacks = true
     config.time_zone = 'UTC'
-    config.middleware.use Rack::Cors do
+    config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
         resource '*',
